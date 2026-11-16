@@ -42,6 +42,10 @@ input.gap:focus{outline:2px solid var(--acc);outline-offset:1px}
 input.gap.ok{border-color:var(--ok);background:var(--okbg);color:var(--ok)}
 input.gap.bad{border-color:var(--bad);background:var(--badbg);color:var(--bad)}
 input.gap.rev{border-color:var(--amb);background:var(--ambbg);color:var(--amb)}
+input.gap::placeholder{color:#7a8aa0;letter-spacing:.14em;font-weight:400;font-size:15px}input.gap.drop{outline:2px dashed var(--acc);background:#cfe7f0}
+.bank{background:#fff;border:1px solid var(--line);border-radius:12px;padding:8px 10px;margin-bottom:8px;max-height:30vh;overflow:auto;box-shadow:0 -4px 14px rgba(0,0,0,.08)}
+.chip{display:inline-block;margin:4px 4px 4px 0;padding:6px 12px;border:1.5px solid var(--acc);background:var(--accbg);color:var(--navy);border-radius:99px;font-weight:600;font-size:15px;cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none}
+.chip.used{opacity:.35;cursor:default}.chip.ghost{position:fixed;z-index:50;pointer-events:none;transform:translate(-50%,-130%);box-shadow:0 6px 16px rgba(0,0,0,.25)}
 .msg{border-radius:10px;padding:10px 12px;margin-top:12px;font-size:15px}
 .msg.ok{background:var(--okbg);color:var(--ok)}.msg.rev{background:var(--ambbg);color:var(--amb)}.msg.hint{background:var(--soft);color:var(--mut)}
 .opt{display:block;width:100%;text-align:left;margin:8px 0;background:#fff;color:var(--ink);border:1.5px solid var(--line);font-weight:500;font-size:17px;padding:13px 14px}
@@ -182,13 +186,13 @@ const UNITS=[
   "quizQs": [
    {
     "c": 0,
-    "t": "we",
-    "i": 0,
+    "t": "so",
+    "i": 1,
     "k": 0,
     "d": [
-     "silent",
-     "smart",
-     "early"
+     "kindness",
+     "ambition",
+     "courtesy"
     ]
    },
    {
@@ -203,25 +207,36 @@ const UNITS=[
     ]
    },
    {
-    "c": 2,
-    "t": "we",
-    "i": 0,
+    "c": 1,
+    "t": "so",
+    "i": 2,
     "k": 0,
     "d": [
-     "silence",
-     "humour",
-     "laughter"
+     "quickly",
+     "alone",
+     "privately"
+    ]
+   },
+   {
+    "c": 2,
+    "t": "so",
+    "i": 1,
+    "k": 0,
+    "d": [
+     "repetition",
+     "interruption",
+     "silence"
     ]
    },
    {
     "c": 3,
-    "t": "we",
-    "i": 0,
+    "t": "so",
+    "i": 2,
     "k": 0,
     "d": [
-     "aggressive",
-     "repeated",
-     "verbal"
+     "cost",
+     "purpose",
+     "tone"
     ]
    },
    {
@@ -248,46 +263,35 @@ const UNITS=[
    },
    {
     "c": 6,
-    "t": "we",
-    "i": 0,
-    "k": 0,
-    "d": [
-     "energy",
-     "hot",
-     "flavoured"
-    ]
-   },
-   {
-    "c": 7,
-    "t": "we",
-    "i": 0,
-    "k": 0,
-    "d": [
-     "advice",
-     "a pass",
-     "a reason"
-    ]
-   },
-   {
-    "c": 8,
-    "t": "we",
-    "i": 0,
-    "k": 0,
-    "d": [
-     "basics",
-     "list",
-     "bag"
-    ]
-   },
-   {
-    "c": 1,
     "t": "so",
     "i": 2,
     "k": 0,
     "d": [
-     "quickly",
-     "alone",
-     "privately"
+     "plastic",
+     "branded",
+     "insulated"
+    ]
+   },
+   {
+    "c": 7,
+    "t": "so",
+    "i": 2,
+    "k": 0,
+    "d": [
+     "ownership",
+     "oversight",
+     "pride"
+    ]
+   },
+   {
+    "c": 8,
+    "t": "so",
+    "i": 2,
+    "k": 0,
+    "d": [
+     "gaps",
+     "absences",
+     "delays"
     ]
    }
   ]
@@ -378,68 +382,68 @@ const UNITS=[
   "quizQs": [
    {
     "c": 0,
-    "t": "we",
-    "i": 0,
+    "t": "so",
+    "i": 1,
     "k": 0,
     "d": [
-     "privately",
-     "quietly",
-     "occasionally"
+     "purpose",
+     "competition",
+     "ambition"
     ]
    },
    {
     "c": 1,
-    "t": "we",
+    "t": "so",
     "i": 0,
     "k": 0,
     "d": [
-     "routines",
-     "standards",
-     "habits"
+     "occasionally",
+     "informally",
+     "quickly"
     ]
    },
    {
     "c": 2,
-    "t": "we",
-    "i": 0,
+    "t": "so",
+    "i": 1,
     "k": 0,
     "d": [
-     "obedience",
-     "humility",
-     "formality"
+     "leadership",
+     "technical",
+     "digital"
     ]
    },
    {
     "c": 3,
-    "t": "we",
+    "t": "so",
     "i": 0,
     "k": 0,
     "d": [
-     "motto",
-     "pledge",
-     "greeting"
+     "discipline",
+     "excellence",
+     "kindness"
     ]
    },
    {
     "c": 3,
-    "t": "we",
-    "i": 0,
-    "k": 1,
+    "t": "so",
+    "i": 2,
+    "k": 0,
     "d": [
-     "open",
-     "quiet",
-     "positive"
+     "waiting",
+     "registration",
+     "lunch"
     ]
    },
    {
     "c": 4,
-    "t": "we",
-    "i": 0,
+    "t": "so",
+    "i": 2,
     "k": 0,
     "d": [
-     "corridor",
-     "assembly hall",
-     "front gate"
+     "sanctions",
+     "rewards",
+     "announcements"
     ]
    },
    {
@@ -455,13 +459,13 @@ const UNITS=[
    },
    {
     "c": 5,
-    "t": "we",
+    "t": "so",
     "i": 0,
     "k": 0,
     "d": [
-     "serious",
-     "repeated",
-     "public"
+     "more likely",
+     "impossible",
+     "inevitable"
     ]
    },
    {
@@ -477,13 +481,13 @@ const UNITS=[
    },
    {
     "c": 6,
-    "t": "we",
-    "i": 0,
+    "t": "so",
+    "i": 1,
     "k": 0,
     "d": [
-     "strictly",
-     "firmly",
-     "publicly"
+     "kindness",
+     "honesty",
+     "loyalty"
     ]
    }
   ]
@@ -573,17 +577,6 @@ const UNITS=[
   "quizQs": [
    {
     "c": 0,
-    "t": "we",
-    "i": 0,
-    "k": 0,
-    "d": [
-     "immediate",
-     "proportionate",
-     "predictable"
-    ]
-   },
-   {
-    "c": 0,
     "t": "so",
     "i": 0,
     "k": 0,
@@ -594,14 +587,25 @@ const UNITS=[
     ]
    },
    {
+    "c": 0,
+    "t": "so",
+    "i": 2,
+    "k": 0,
+    "d": [
+     "interest",
+     "distance",
+     "curiosity"
+    ]
+   },
+   {
     "c": 1,
-    "t": "we",
+    "t": "so",
     "i": 0,
     "k": 0,
     "d": [
-     "record",
-     "report",
-     "address"
+     "extended",
+     "recorded",
+     "reduced"
     ]
    },
    {
@@ -617,35 +621,35 @@ const UNITS=[
    },
    {
     "c": 2,
-    "t": "we",
-    "i": 0,
-    "k": 2,
+    "t": "so",
+    "i": 2,
+    "k": 0,
     "d": [
-     "Ofsted",
-     "NASUWT",
-     "Trust"
+     "privacy",
+     "confidence",
+     "equality"
     ]
    },
    {
     "c": 3,
-    "t": "we",
+    "t": "so",
     "i": 0,
     "k": 0,
     "d": [
-     "warmth",
-     "humour",
-     "standards"
+     "role models",
+     "witnesses",
+     "advisers"
     ]
    },
    {
     "c": 4,
-    "t": "we",
-    "i": 0,
+    "t": "so",
+    "i": 1,
     "k": 0,
     "d": [
-     "discussion",
-     "delegation",
-     "reflection"
+     "conflict",
+     "noise",
+     "workload"
     ]
    },
    {
@@ -661,24 +665,24 @@ const UNITS=[
    },
    {
     "c": 5,
-    "t": "we",
+    "t": "so",
     "i": 0,
     "k": 0,
     "d": [
-     "personal",
-     "detailed",
-     "honest"
+     "name",
+     "case",
+     "record"
     ]
    },
    {
     "c": 6,
-    "t": "we",
-    "i": 0,
+    "t": "so",
+    "i": 3,
     "k": 0,
     "d": [
-     "email",
-     "phone call",
-     "portal"
+     "daily",
+     "digital",
+     "permanent"
     ]
    }
   ]
@@ -809,24 +813,24 @@ const UNITS=[
    },
    {
     "c": 1,
-    "t": "we",
+    "t": "so",
     "i": 0,
     "k": 0,
     "d": [
-     "jewellery",
-     "keys",
-     "wallets"
+     "bullying",
+     "noise",
+     "boredom"
     ]
    },
    {
     "c": 2,
-    "t": "we",
+    "t": "so",
     "i": 0,
     "k": 0,
     "d": [
-     "park",
-     "high street",
-     "bus station"
+     "qualified",
+     "named",
+     "senior"
     ]
    },
    {
@@ -875,35 +879,35 @@ const UNITS=[
    },
    {
     "c": 7,
-    "t": "we",
+    "t": "so",
     "i": 0,
     "k": 0,
     "d": [
-     "missed homework",
-     "detention time",
-     "the lesson"
+     "recorded",
+     "excused",
+     "reduced"
     ]
    },
    {
     "c": 8,
-    "t": "we",
+    "t": "so",
     "i": 0,
     "k": 0,
     "d": [
-     "a note from parents",
-     "a school nurse report",
-     "a pass from the Head of Year"
+     "agreed",
+     "recorded",
+     "requested"
     ]
    },
    {
     "c": 9,
-    "t": "we",
-    "i": 0,
-    "k": 1,
+    "t": "so",
+    "i": 2,
+    "k": 0,
     "d": [
-     "register",
-     "log book",
-     "behaviour system"
+     "quickly",
+     "publicly",
+     "formally"
     ]
    }
   ]
@@ -1024,24 +1028,24 @@ const UNITS=[
   "quizQs": [
    {
     "c": 0,
-    "t": "we",
+    "t": "so",
     "i": 0,
     "k": 0,
     "d": [
-     "removals",
-     "suspensions",
-     "phone calls"
+     "loyalty",
+     "curiosity",
+     "kindness"
     ]
    },
    {
     "c": 1,
-    "t": "we",
+    "t": "so",
     "i": 0,
     "k": 0,
     "d": [
-     "a single length",
-     "fixed lengths",
-     "equal lengths"
+     "harsh",
+     "private",
+     "delayed"
     ]
    },
    {
@@ -1068,24 +1072,24 @@ const UNITS=[
    },
    {
     "c": 4,
-    "t": "we",
-    "i": 0,
+    "t": "so",
+    "i": 3,
     "k": 0,
     "d": [
-     "Friday evenings",
-     "Sunday evenings",
-     "school holidays"
+     "referrals",
+     "removals",
+     "detentions"
     ]
    },
    {
     "c": 5,
-    "t": "we",
-    "i": 0,
+    "t": "so",
+    "i": 1,
     "k": 0,
     "d": [
-     "bad weather",
-     "summer heat",
-     "cold mornings"
+     "delegate",
+     "postpone",
+     "negotiate"
     ]
    },
    {
@@ -1101,24 +1105,24 @@ const UNITS=[
    },
    {
     "c": 7,
-    "t": "we",
-    "i": 0,
+    "t": "so",
+    "i": 1,
     "k": 0,
     "d": [
-     "tutoring",
-     "letters",
-     "reports"
+     "excuse",
+     "reason",
+     "risk"
     ]
    },
    {
     "c": 8,
-    "t": "we",
-    "i": 0,
+    "t": "so",
+    "i": 1,
     "k": 0,
     "d": [
-     "planners",
-     "books",
-     "bags"
+     "minor",
+     "unplanned",
+     "repeated"
     ]
    },
    {
@@ -1220,13 +1224,13 @@ const UNITS=[
   "quizQs": [
    {
     "c": 0,
-    "t": "we",
+    "t": "so",
     "i": 0,
     "k": 0,
     "d": [
-     "occasional",
-     "minor",
-     "isolated"
+     "extended",
+     "recorded",
+     "delayed"
     ]
    },
    {
@@ -1242,35 +1246,24 @@ const UNITS=[
    },
    {
     "c": 1,
-    "t": "we",
+    "t": "so",
     "i": 0,
     "k": 0,
     "d": [
-     "permanently",
-     "immediately",
-     "publicly"
+     "immediate",
+     "short-term",
+     "academic"
     ]
    },
    {
     "c": 2,
-    "t": "we",
-    "i": 0,
+    "t": "so",
+    "i": 2,
     "k": 0,
     "d": [
-     "equipment or homework",
-     "lateness or absence",
-     "language or conduct"
-    ]
-   },
-   {
-    "c": 3,
-    "t": "we",
-    "i": 0,
-    "k": 1,
-    "d": [
-     "Reflection Room",
-     "Inclusion Base",
-     "Pastoral Hub"
+     "caution",
+     "discipline",
+     "loyalty"
     ]
    },
    {
@@ -1286,24 +1279,24 @@ const UNITS=[
    },
    {
     "c": 4,
-    "t": "we",
+    "t": "so",
     "i": 0,
     "k": 0,
     "d": [
-     "punishment",
-     "reward",
-     "discussion"
+     "explain",
+     "defend",
+     "record"
     ]
    },
    {
-    "c": 5,
-    "t": "we",
-    "i": 0,
+    "c": 4,
+    "t": "so",
+    "i": 2,
     "k": 0,
     "d": [
-     "informal",
-     "written",
-     "formal"
+     "self-esteem",
+     "self-belief",
+     "self-reliance"
     ]
    },
    {
@@ -1318,14 +1311,25 @@ const UNITS=[
     ]
    },
    {
+    "c": 5,
+    "t": "so",
+    "i": 1,
+    "k": 0,
+    "d": [
+     "cost",
+     "purpose",
+     "tone"
+    ]
+   },
+   {
     "c": 6,
-    "t": "we",
+    "t": "so",
     "i": 0,
     "k": 0,
     "d": [
-     "phone call",
-     "written apology",
-     "home visit"
+     "separately",
+     "quickly",
+     "daily"
     ]
    }
   ]
@@ -1425,57 +1429,46 @@ const UNITS=[
   "quizQs": [
    {
     "c": 0,
-    "t": "we",
+    "t": "so",
     "i": 0,
     "k": 0,
     "d": [
-     "last resort",
-     "routine response",
-     "formal warning"
+     "origin",
+     "length",
+     "source"
     ]
    },
    {
     "c": 1,
-    "t": "we",
+    "t": "so",
     "i": 0,
-    "k": 1,
+    "k": 0,
     "d": [
-     "longer",
-     "fixed",
-     "first"
+     "additional",
+     "heavy",
+     "daily"
     ]
    },
    {
     "c": 2,
-    "t": "we",
-    "i": 0,
+    "t": "so",
+    "i": 1,
     "k": 0,
     "d": [
-     "online lessons",
-     "a tutor",
-     "extra homework"
+     "quality",
+     "access",
+     "progress"
     ]
    },
    {
     "c": 3,
-    "t": "we",
-    "i": 0,
+    "t": "so",
+    "i": 2,
     "k": 0,
     "d": [
-     "restorative conversation",
-     "review panel",
-     "home visit"
-    ]
-   },
-   {
-    "c": 4,
-    "t": "we",
-    "i": 0,
-    "k": 0,
-    "d": [
-     "automatically",
-     "directly",
-     "early"
+     "confidence",
+     "ambition",
+     "humility"
     ]
    },
    {
@@ -1490,14 +1483,14 @@ const UNITS=[
     ]
    },
    {
-    "c": 5,
-    "t": "we",
-    "i": 0,
+    "c": 4,
+    "t": "so",
+    "i": 2,
     "k": 0,
     "d": [
-     "laptops",
-     "headphones",
-     "calculators"
+     "reporting",
+     "detection",
+     "discussion"
     ]
    },
    {
@@ -1513,24 +1506,35 @@ const UNITS=[
    },
    {
     "c": 6,
-    "t": "we",
+    "t": "so",
+    "i": 1,
+    "k": 0,
+    "d": [
+     "demand",
+     "spending",
+     "interest"
+    ]
+   },
+   {
+    "c": 6,
+    "t": "so",
     "i": 0,
     "k": 0,
     "d": [
-     "lunchtimes",
-     "trips",
-     "clubs"
+     "bullying",
+     "boredom",
+     "injury"
     ]
    },
    {
     "c": 7,
-    "t": "we",
-    "i": 0,
+    "t": "so",
+    "i": 3,
     "k": 0,
     "d": [
-     "single day",
-     "full term",
-     "week"
+     "self-esteem",
+     "self-belief",
+     "self-reliance"
     ]
    }
   ]
@@ -1633,7 +1637,8 @@ function signin(edit){const u=S.user||{name:'',team:''};return`<div class="cente
   <div class="btns"><button id="go">${edit?'Save':'Start'}</button>${edit?'<a class="btn ghost" href="#home">Cancel</a>':''}</div><p class="muted" id="er"></p></div>`}
 
 /* ----- Flashcards (missing words) ----- */
-function stmtHTML(text,cid,pre){let k=0;return text.split(/(\{\{.+?\}\})/).map(p=>{const m=p.match(/^\{\{(.+)\}\}$/);if(!m)return esc(p);const a=m[1];return`<input class="gap" data-a="${esc(a)}" data-f="${cid}:${pre}:${k++}" style="width:${Math.max(4,a.length+1.6)}ch" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="Missing word">`}).join('')}
+const pat=a=>a.replace(/[A-Za-z0-9]/g,'_').replace(/ /g,'   ');
+function stmtHTML(text,cid,pre){let k=0;return text.split(/(\{\{.+?\}\})/).map(p=>{const m=p.match(/^\{\{(.+)\}\}$/);if(!m)return esc(p);const a=m[1],f=cid+':'+pre+':'+k++,pt=pat(a);return`<input class="gap" data-a="${esc(a)}" data-f="${f}" placeholder="${esc(pt)}" style="width:${Math.max(5,pt.length*1.15+2)}ch" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="Missing word">`}).join('')}
 function startDrill(id){const u=unitById(id);if(!u||!drillOpen(u)){location.hash='home';return}S.drill={u,queue:shuffle(u.cards.map((c,i)=>i)),i:0,rev:false,again:0,xp:0,mastered:0,done:false,cardDone:false,reqd:{}}}
 function drill(){
   const D=S.drill,u=D.u;
@@ -1641,44 +1646,60 @@ function drill(){
   const ci=D.queue[D.i],c=u.cards[ci],n=D.queue.length;
   return`<main><a class="lnk" href="#home">Home</a><h1>${esc(u.title)}</h1><div class="muted">Card ${D.i+1} of ${n}${D.i>=u.cards.length?' (coming back)':''} · ${esc(c.sub)}, page ${c.p}</div><div class="bar"><i style="width:${Math.round(D.i/n*100)}%"></i></div>
   <div class="card" id="card"><div class="stmt"><span class="we">We</span> ${stmtHTML(c.we,ci,'w')}</div><span class="sol">so that</span><ul class="so">${c.so.map((s,j)=>`<li>${stmtHTML(s,ci,'s'+j)}</li>`).join('')}</ul><div id="fb"></div></div>
-  <div class="sticky"><div class="btns" id="acts">${D.cardDone?`<button id="nxt">${D.i+1>=n?'Finish':'Next card'}</button>`:`<button id="chk">Check</button><button class="ghost" id="hnt">Hint</button><button class="ghost" id="shw">Show me</button>`}</div></div></main>`;
+  <div class="sticky"><div id="bank"></div><div class="btns" id="acts">${D.cardDone?`<button id="nxt">${D.i+1>=n?'Finish':'Next card'}</button>`:`<button id="chk">Check</button><button class="ghost" id="opt">Show options</button><button class="ghost" id="shw">Show me</button>`}</div></div></main>`;
 }
 function bindDrill(){
   const D=S.drill;if(!D||D.done)return;
   const inputs=[...document.querySelectorAll('input.gap')];
+  D.usedBank=false;
   const fb=m=>{$('#fb').innerHTML=m};
-  const p0=()=>prog();
-  function award(inp){const p=p0(),k=inp.dataset.f,d=dayKey();p.daily=p.daily||{};if(p.daily[k]!==d){p.daily[k]=d;p.xp+=CONFIG.xpPerBlank;D.xp+=CONFIG.xpPerBlank;saveProg(p)}}
+  function award(inp){const p=prog(),k=D.u.id+':'+inp.dataset.f,d=dayKey(),x=D.usedBank?1:CONFIG.xpPerBlank;p.daily=p.daily||{};if(p.daily[k]!==d){p.daily[k]=d;p.xp+=x;D.xp+=x;saveProg(p)}}
   function finish(clean){
-    D.cardDone=true;const ci=D.queue[D.i],id=D.u.id+':'+ci,p=p0();
-    if(clean){if(!p.known[id]){p.known[id]=1;p.xp+=CONFIG.xpPerCard;D.xp+=CONFIG.xpPerCard}D.mastered++;saveProg(p);fb('<div class="msg ok">All correct. Card known.</div>')}
-    else{delete p.known[id];saveProg(p);if(!D.reqd[ci]){D.reqd[ci]=1;D.queue.push(ci)}fb('<div class="msg rev">Read it through once more. This card will come back at the end.</div>')}
+    D.cardDone=true;const ci=D.queue[D.i],id=D.u.id+':'+ci,p=prog();$('#bank').innerHTML='';
+    if(clean&&!D.usedBank){if(!p.known[id]){p.known[id]=1;p.xp+=CONFIG.xpPerCard;D.xp+=CONFIG.xpPerCard}D.mastered++;saveProg(p);fb('<div class="msg ok">All correct. Card known.</div>')}
+    else{if(D.rev){delete p.known[id];saveProg(p)}if(!D.reqd[ci]){D.reqd[ci]=1;D.queue.push(ci)}fb(D.rev?'<div class="msg rev">Read it through once more. This card will come back at the end.</div>':'<div class="msg rev">All correct, but you used the options, so this card is not marked as known yet. It will come back at the end to try without them.</div>')}
     $('#acts').innerHTML=`<button id="nxt">${D.i+1>=D.queue.length?'Finish':'Next card'}</button>`;bind2();
   }
   function check(){
-    let all=true,any=false;
-    inputs.forEach(inp=>{if(inp.readOnly)return;const v=inp.value.trim();if(!v){all=false;inp.classList.remove('bad');return}any=true;if(right(v,inp.dataset.a)){inp.classList.remove('bad');inp.classList.add('ok');inp.value=inp.dataset.a;inp.readOnly=true;award(inp)}else{all=false;inp.classList.remove('ok');inp.classList.add('bad');void inp.offsetWidth}});
+    let any=false;
+    inputs.forEach(inp=>{if(inp.readOnly)return;const v=inp.value.trim();if(!v){inp.classList.remove('bad');return}any=true;if(right(v,inp.dataset.a)){inp.classList.remove('bad');inp.classList.add('ok');inp.value=inp.dataset.a;inp.readOnly=true;award(inp)}else{inp.classList.remove('ok');inp.classList.add('bad');void inp.offsetWidth}});
+    sync();
     const left=inputs.filter(i=>!i.readOnly).length;
     if(left===0){finish(!D.rev);return}
-    fb(`<div class="msg hint">${left} still to get. Fix the red ones, fill any empty gaps, or tap Show me.</div>`);
+    fb(`<div class="msg hint">${left} still to get. Fix the red ones, fill any empty gaps, or tap Show options or Show me.</div>`);
     const f=inputs.find(i=>!i.readOnly&&(i.classList.contains('bad')||!i.value.trim()));if(f&&!any)f.focus();
   }
-  function hint(){D.rev=D.rev;inputs.forEach(i=>{if(!i.readOnly&&!i.value)i.placeholder=i.dataset.a[0]+'…'});fb('<div class="msg hint">First letters added.</div>')}
   function show(){D.rev=true;inputs.forEach(i=>{if(!i.readOnly){i.value=i.dataset.a;i.readOnly=true;i.classList.remove('bad');i.classList.add('rev')}});finish(false)}
   function bind2(){const n=$('#nxt');if(n)n.onclick=()=>{D.i++;D.cardDone=false;D.rev=false;if(D.i>=D.queue.length)D.done=true;render()}}
+  /* word bank: drag a word into a gap, or tap a word then it fills the gap you are on */
+  function bankWords(){const ans=inputs.map(i=>i.dataset.a),mine=new Set(ans.map(norm)),pool=[];
+    D.u.cards.forEach(c=>blanks(c.we).concat(...c.so.map(blanks)).forEach(w=>{if(!mine.has(norm(w))&&!pool.some(p=>norm(p)===norm(w)))pool.push(w)}));
+    return shuffle(ans.concat(shuffle(pool).slice(0,2)))}
+  function sync(){const chips=[...document.querySelectorAll('.chip')];chips.forEach(c=>c.classList.remove('used'));
+    inputs.forEach(i=>{const v=norm(i.value);if(!v)return;const c=chips.find(c=>!c.classList.contains('used')&&norm(c.dataset.w)===v);if(c)c.classList.add('used')})}
+  function place(inp,w){if(!inp||inp.readOnly)return;inp.value=w;inp.classList.remove('bad');sync();inp.focus({preventScroll:true})}
+  function tapPlace(w){const a=document.activeElement,t=(a&&a.classList&&a.classList.contains('gap')&&!a.readOnly&&!a.value)?a:inputs.find(i=>!i.readOnly&&!i.value);place(t,w)}
+  function wire(){document.querySelectorAll('.chip').forEach(ch=>ch.addEventListener('pointerdown',e=>{
+    if(ch.classList.contains('used'))return;e.preventDefault();const sx=e.clientX,sy=e.clientY;let g=null,over=null;
+    const under=ev=>{const el=document.elementFromPoint(ev.clientX,ev.clientY);const t=el&&el.closest&&el.closest('input.gap');return t&&!t.readOnly?t:null};
+    const mv=ev=>{if(!g&&Math.hypot(ev.clientX-sx,ev.clientY-sy)>6){g=ch.cloneNode(true);g.classList.add('ghost');document.body.appendChild(g)}
+      if(g){g.style.left=ev.clientX+'px';g.style.top=ev.clientY+'px';const u=under(ev);if(over&&over!==u)over.classList.remove('drop');over=u;if(u)u.classList.add('drop')}};
+    const up=ev=>{window.removeEventListener('pointermove',mv);window.removeEventListener('pointerup',up);window.removeEventListener('pointercancel',up);
+      if(over)over.classList.remove('drop');if(g){g.remove();place(under(ev),ch.dataset.w)}else tapPlace(ch.dataset.w)};
+    window.addEventListener('pointermove',mv);window.addEventListener('pointerup',up);window.addEventListener('pointercancel',up)}))}
+  function options(){D.usedBank=true;$('#opt').hidden=true;
+    $('#bank').innerHTML='<div class="bank"><div class="muted">Drag a word into a gap, or tap a word to fill the gap you are on. Two of these words do not belong on this card.</div>'+bankWords().map(w=>`<span class="chip" data-w="${esc(w)}">${esc(w)}</span>`).join('')+'</div>';wire();sync()}
   D.rev=false;
-  const c=$('#chk');if(c)c.onclick=check;const h=$('#hnt');if(h)h.onclick=hint;const s=$('#shw');if(s)s.onclick=show;bind2();
-  inputs.forEach((inp,k)=>inp.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();const nx=inputs.slice(k+1).find(i=>!i.readOnly);if(nx)nx.focus();else check()}}));
+  const c=$('#chk');if(c)c.onclick=check;const o=$('#opt');if(o)o.onclick=options;const s=$('#shw');if(s)s.onclick=show;bind2();
+  inputs.forEach((inp,k)=>{inp.addEventListener('input',sync);inp.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();const nx=inputs.slice(k+1).find(i=>!i.readOnly);if(nx)nx.focus();else check()}})});
   const first=inputs.find(i=>!i.readOnly);if(first&&!D.cardDone)first.focus({preventScroll:true});
   const ag=$('#again');if(ag)ag.onclick=()=>{startDrill(D.u.id);render()};
 }
 
 /* ----- Quiz ----- */
-function quizItems(u){return u.quizQs.map(q=>{const c=u.cards[q.c],txt=q.t==='we'?c.we:c.so[q.i],bl=blanks(txt),ans=bl[q.k];
+function quizItems(u){return u.quizQs.map(q=>{const c=u.cards[q.c],txt=c.so[q.i],bl=blanks(txt),ans=bl[q.k];
   let k=0;const stem=txt.split(/(\{\{.+?\}\})/).map(p=>{const m=p.match(/^\{\{(.+)\}\}$/);if(!m)return esc(p);return(k++===q.k)?'<span class="blank">'+'x'.repeat(Math.max(5,ans.length))+'</span>':esc(m[1])}).join('');
-  const ctx=q.t==='we'?'':'<p class="ctx"><b>We</b> '+esc(plain(c.we))+'</p>';
-  const lead=q.t==='we'?'<b>We</b> ':'<b>so that</b> ';
-  return{ctx,html:lead+stem,full:(q.t==='we'?'We ':'so that ')+plain(txt),ans,opts:shuffle([ans].concat(q.d))}})}
+  return{ctx:'',html:'<b>We</b> '+esc(plain(c.we))+'<br><b>so that</b> '+stem,full:'We '+plain(c.we)+', so that '+plain(txt),ans,opts:shuffle([ans].concat(q.d))}})}
 function startQuiz(id){const u=unitById(id);if(!u||(qStatus(u)==='upcoming')){location.hash='home';return}S.quiz={u,items:quizItems(u),i:0,picked:null,right:0,done:false,saved:null}}
 function quiz(){
   const Z=S.quiz,u=Z.u,n=Z.items.length;
