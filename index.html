@@ -88,8 +88,10 @@ label{display:block;font-weight:600;margin:14px 0 4px}input.t,select{font:inheri
 @keyframes pop{0%{transform:scale(1)}40%{transform:scale(1.06)}100%{transform:scale(1)}}
 @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-6px)}80%{transform:translateX(6px)}}
 .stars{font-size:38px;letter-spacing:6px;color:#f5c542;text-align:center;margin:6px 0}.stars i{font-style:normal;color:#4a5b7d}
-.rbig{font-size:46px;font-weight:800;text-align:center;line-height:1.1}.rgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:12px 0}
+.rbig{margin-top:14px;font-size:56px;font-weight:800;text-align:center;line-height:1.1}.rgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:12px 0}
 .rstat{background:#1c3763;border-radius:10px;padding:10px;text-align:center}.rstat b{display:block;font-size:20px}.rstat span{font-size:12px;color:#b9c8e6}
+.slot.glow{animation:glow 1s ease-in-out infinite;border-color:var(--navy)}
+@keyframes glow{0%,100%{box-shadow:0 0 0 0 rgba(31,111,139,.0);background:var(--accbg)}50%{box-shadow:0 0 0 5px rgba(31,111,139,.35);background:#cfe7f0}}
 </style>
 </head>
 <body>
@@ -1726,7 +1728,7 @@ function bindDrill(){
   function sync(){const chips=[...document.querySelectorAll('.chip')];chips.forEach(c=>c.classList.remove('used'));
     fields.forEach(i=>{const v=norm(val(i));if(!v)return;const c=chips.find(c=>!c.classList.contains('used')&&norm(c.dataset.w)===v);if(c)c.classList.add('used')})}
   let selChip=null,selSlot=null;
-  const clearSel=()=>{if(selChip)selChip.classList.remove('sel');if(selSlot)selSlot.classList.remove('sel');selChip=selSlot=null};
+  const clearSel=()=>{document.querySelectorAll('.glow').forEach(x=>x.classList.remove('glow'));if(selChip)selChip.classList.remove('sel');if(selSlot)selSlot.classList.remove('sel');selChip=selSlot=null};
   let pend=false;
   function after(){if(pend)return;if(fields.every(f=>locked(f)||val(f).trim())){pend=true;setTimeout(()=>{pend=false;if(document.body.contains(fields[0]))check()},tap?300:200)}}
   function tryLock(e){if(locked(e))return;const v=val(e).trim(),a=e.dataset.a;if(!v)return;if(norm(v)===norm(a)||(norm(v).length>=norm(a).length&&right(v,a))){e.classList.remove('bad');e.classList.add('ok');setv(e,a);lock(e);award(e);sync();if(fields.every(locked))after()}}
@@ -1734,7 +1736,9 @@ function bindDrill(){
   function tapChip(ch){
     if(!tap){const a=document.activeElement,t=(a&&a.classList&&a.classList.contains('gap')&&!locked(a)&&!val(a))?a:fields.find(i=>!locked(i)&&!val(i));place(t,ch.dataset.w);return}
     if(selSlot){place(selSlot,ch.dataset.w);clearSel();return}
-    if(selChip===ch){clearSel();return}clearSel();selChip=ch;ch.classList.add('sel')}
+    const empties=fields.filter(f=>!locked(f)&&!val(f).trim());
+    if(empties.length===1){place(empties[0],ch.dataset.w);clearSel();return}
+    if(selChip===ch){clearSel();return}clearSel();selChip=ch;ch.classList.add('sel');empties.forEach(f=>f.classList.add('glow'))}
   function tapSlot(f){
     if(locked(f))return;
     if(selChip){place(f,selChip.dataset.w);clearSel();return}
@@ -1805,11 +1809,11 @@ function startRush(){const pool=rushPool();if(pool.length<1||knownCount()<RUSH.u
 function stopRush(){if(S.rush&&S.rush.tid){clearInterval(S.rush.tid);S.rush.tid=null}}
 const rushMult=c=>1+Math.min(3,Math.floor(c/3));
 function rushView(){const R=S.rush;if(!R)return'';
-  if(R.phase==='end'){const p=prog().rush||{},st=R.correct>=20?3:R.correct>=14?2:R.correct>=8?1:0;
-    return`<main><a class="lnk" href="#home">Home</a><div class="arena"><div class="rtag" style="background:#2d4572;color:#cfe0ff">ROUND OVER</div><div class="stars">${'★'.repeat(st)}<i>${'★'.repeat(3-st)}</i></div><div class="rbig">${R.score}</div><div style="text-align:center;color:#b9c8e6;margin-top:2px">${R.newBest?'New personal best':'Personal best '+(p.best||0)}</div>
+  if(R.phase==='end'){const p=prog().rush||{};
+    return`<main><a class="lnk" href="#home">Home</a><div class="arena"><div class="rtag" style="background:#2d4572;color:#cfe0ff">ROUND OVER</div><div class="rbig">${R.score}</div><div style="text-align:center;color:#b9c8e6;margin-top:2px">${R.newBest?'New high score':'High score '+(p.best||0)}</div>
     <div class="rgrid"><div class="rstat"><b>${R.correct}</b><span>Right</span></div><div class="rstat"><b>x${rushMult(R.bestCombo)}</b><span>Best multiplier</span></div><div class="rstat"><b>${R.bestCombo}</b><span>Longest streak</span></div><div class="rstat"><b>+${R.xp}</b><span>XP earned</span></div></div>
     ${R.capped?'<div class="rfoot" style="justify-content:center">You have reached today\'s '+RUSH.dailyXp+' XP limit. You can still play for score.</div>':''}
-    <div class="btns"><button id="again" style="background:#fff;color:var(--navy)">Play again</button><a class="btn" href="#home" style="background:transparent;color:#fff;border:2px solid #fff">Home</a></div><div class="rfoot" style="justify-content:center">1 star for 8 right, 2 for 14, 3 for 20</div></div></main>`}
+    <div class="btns"><button id="again" style="background:#fff;color:var(--navy)">Play again</button><a class="btn" href="#home" style="background:transparent;color:#fff;border:2px solid #fff">Home</a></div></div></main>`}
   const it=R.items[R.qi],m=rushMult(R.combo),secs=Math.ceil(R.t/1000);
   return`<main><a class="lnk" href="#home">Home</a><div class="arena"><div class="rtop"><div class="hearts" id="rh">${'♥'.repeat(R.lives)}<i>${'♥'.repeat(RUSH.lives-R.lives)}</i></div><span class="combo m${m}" id="rc">${R.combo>=3?'Streak '+R.combo+' · x'+m:'x1'}</span><div class="rscore" id="rs">${R.score}</div></div>
   <div class="rtime ${secs<=10?'low':''}" id="rtm"><i id="rtb" style="width:${Math.max(0,R.t/(RUSH.secs*10))}%"></i></div><div class="rtsec" id="rts">${secs}s</div>
@@ -1824,14 +1828,14 @@ function bindRush(){const R=S.rush;if(!R)return;
   const f=$('#r50');if(f)f.onclick=()=>{if(!R.fifty||R.phase!=='q')return;const it=R.items[R.qi],wrong=R.opts.map((o,k)=>k).filter(k=>norm(R.opts[k])!==norm(it.a));R.fifty=false;R.hide=shuffle(wrong).slice(0,2);render()}}
 function endRush(){const R=S.rush;if(!R||R.phase==='end')return;stopRush();R.phase='end';const p=prog();p.rush=p.rush||{};if(R.score>(p.rush.best||0)){if(p.rush.best)R.newBest=true;p.rush.best=R.score}saveProg(p);render()}
 function answer(k){const R=S.rush;if(!R||R.phase!=='q')return;const it=R.items[R.qi],ok=norm(R.opts[k])===norm(it.a);R.picked=k;R.phase='fb';
-  if(ok){R.correct++;R.combo++;R.bestCombo=Math.max(R.bestCombo,R.combo);const m=rushMult(R.combo);R.score+=10*m;if(R.combo%5===0)R.t+=3000;
+  if(ok){R.correct++;R.combo++;R.bestCombo=Math.max(R.bestCombo,R.combo);const m=rushMult(R.combo);R.score+=10*m;R.t=Math.min(RUSH.secs*1000,R.t+3000);
     const p=prog();p.rush=p.rush||{};const d=dayKey();if(p.rush.d!==d){p.rush.d=d;p.rush.xp=0}const room=Math.max(0,RUSH.dailyXp-(p.rush.xp||0)),g=Math.min(m,room);if(g<m)R.capped=true;if(g>0){p.rush.xp=(p.rush.xp||0)+g;p.xp+=g;R.xp+=g}saveProg(p)}
   else{R.wrong++;R.combo=0;R.lives--}
   render();const q=$('#rq');if(q)q.classList.add(ok?'pop':'shake');
   setTimeout(()=>{if(S.rush!==R||R.phase==='end')return;if(R.lives<=0||R.t<=0){endRush();return}R.qi++;R.phase='q';R.picked=null;R.hide=[];R.opts=rushOpts(R.items[R.qi],R.all);render()},ok?550:1100)}
 function rushCard(){const n=knownCount(),p=prog().rush||{},today=p.d===dayKey()?(p.xp||0):0;
   if(n<RUSH.unlock)return`<div class="rushcard lock"><div class="rtag" style="background:#dde1e8;color:var(--mut)">LOCKED</div><h2>Recall Rush</h2><p>Mark ${RUSH.unlock} flashcards as known to unlock a 60 second speed round. You have ${n} so far.</p><div class="bar"><i style="width:${Math.round(n/RUSH.unlock*100)}%"></i></div></div>`;
-  return`<div class="rushcard"><div class="rtag">SPEED ROUND</div><h2>Recall Rush</h2><p>60 seconds on the cards you already know. Build a streak, lift your multiplier, and keep your three lives.</p><p style="margin-bottom:12px">${n} card${n===1?'':'s'} in play · Best ${p.best||0} · XP today ${Math.min(today,RUSH.dailyXp)} of ${RUSH.dailyXp}</p><a class="btn" href="#rush">Play now</a></div>`}
+  return`<div class="rushcard"><div class="rtag">SPEED ROUND</div><h2>Recall Rush</h2><p>60 seconds on the cards you already know. Each right answer wins 3 seconds back. Build a streak, lift your multiplier, and keep your three lives.</p><p style="margin-bottom:12px">${n} card${n===1?'':'s'} in play · High score ${p.best||0} · XP today ${Math.min(today,RUSH.dailyXp)} of ${RUSH.dailyXp}</p><a class="btn" href="#rush">Play now</a></div>`}
 
 /* ===== Router ===== */
 function render(){
