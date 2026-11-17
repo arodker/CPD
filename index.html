@@ -1655,7 +1655,7 @@ function drill(){
   return`<main><a class="lnk" href="#home">Home</a><h1>${esc(u.title)}</h1><div class="muted">Card ${D.i+1} of ${n}${D.i>=u.cards.length?' (coming back)':''} · ${esc(c.sub)}, page ${c.p} · Part ${st+1} of ${last+1}</div><div class="bar"><i style="width:${Math.round(D.i/n*100)}%"></i></div>
   ${D.cardDone?'':`<div class="pillw"><div class="pill" id="mode" role="group" aria-label="Answer mode"><button data-m="tap" class="${MODE()==='tap'?'on':''}">Match</button><button data-m="type" class="${MODE()==='tap'?'':'on'}">Type</button></div></div>`}
   <div class="card" id="card"><div class="stmt"><span class="we">We</span> ${st===0?stmtHTML(c.we,ci,'w'):doneHTML(c.we)}</div>${st>=1?`<span class="sol">so that</span><ul class="so">${c.so.slice(0,st).map((s,j)=>`<li>${(j===st-1&&!D.cardDone)?stmtHTML(s,ci,'s'+j):doneHTML(s)}</li>`).join('')}</ul>`:''}<div id="fb"></div></div>
-  <div class="sticky"><div id="bank"></div><div class="btns" id="acts">${D.cardDone?`<button id="nxt">${D.i+1>=n?'Finish':'Next card'}</button>`:`<button id="chk">Check</button>${MODE()==='tap'?'':'<button class="ghost" id="opt">Show options</button>'}<button class="ghost" id="shw">Show me</button>`}</div></div></main>`;
+  <div class="sticky"><div id="bank"></div><div class="btns" id="acts">${D.cardDone?`<button id="nxt">${D.i+1>=n?'Finish':'Next card'}</button>`:`${MODE()==='tap'?'':'<button id="chk">Check</button><button class="ghost" id="opt">Show options</button>'}<button class="ghost" id="shw">Show me</button>`}</div></div></main>`;
 }
 function bindDrill(){
   const D=S.drill;if(!D||D.done)return;
@@ -1686,14 +1686,24 @@ function bindDrill(){
   function advance(){if((D.stage||0)<lastSt){D.stage=(D.stage||0)+1;D.msg='<div class="msg ok">Correct. Now the next "so that".</div>';render()}else finish(!D.rev)}
   function show(){D.rev=true;fields.forEach(f=>{if(!locked(f)){setv(f,f.dataset.a);lock(f);f.classList.remove('bad','sel');f.classList.add('rev')}});if((D.stage||0)<lastSt){fb('<div class="msg rev">Here they are. This card will come back at the end.</div>');$('#bank').innerHTML='';$('#acts').innerHTML='<button id="cont">Next part</button>';$('#cont').onclick=()=>{D.stage=(D.stage||0)+1;D.msg='';render()};const m=$('#mode');if(m)m.parentNode.remove();const ci=D.queue[D.i];if(!D.reqd[ci]){D.reqd[ci]=1;D.queue.push(ci)}const p=prog();delete p.known[D.u.id+':'+ci];saveProg(p)}else finish(false)}
   function bind2(){const n=$('#nxt');if(n)n.onclick=()=>{D.i++;D.cardDone=false;D.rev=false;D.stage=0;D.usedBank=false;D.msg='';if(D.i>=D.queue.length)D.done=true;render()}}
-  function bankWords(){const ans=fields.map(i=>i.dataset.a),mine=new Set(ans.map(norm)),pool=[];
-    D.u.cards.forEach(c=>blanks(c.we).concat(...c.so.map(blanks)).forEach(w=>{if(!mine.has(norm(w))&&!pool.some(p=>norm(p)===norm(w)))pool.push(w)}));
-    return shuffle(ans.concat(shuffle(pool).slice(0,2)))}
+  function bankWords(){const ans=fields.map(i=>i.dataset.a),mine=new Set(ans.map(norm)),cd=D.u.cards[D.queue[D.i]];
+    const uniq=a=>a.filter((w,k)=>!mine.has(norm(w))&&a.findIndex(x=>norm(x)===norm(w))===k);
+    const same=uniq(blanks(cd.we).concat(...cd.so.map(blanks)));
+    const suf=w=>norm(w).slice(-2),len=w=>norm(w).length;
+    const all=uniq([].concat(...D.u.cards.map(c=>blanks(c.we).concat(...c.so.map(blanks))))).filter(w=>!same.some(s=>norm(s)===norm(w)));
+    const score=w=>Math.max(...ans.map(a=>(suf(a)===suf(w)?2:0)+(Math.abs(len(a)-len(w))<=2?1:0)))+Math.random()*.9;
+    const out=[];const s1=shuffle(same.slice());if(s1.length)out.push(s1[0]);
+    const sim=all.slice().sort((x,y)=>score(y)-score(x));
+    while(out.length<2&&sim.length)out.push(sim.shift());
+    return shuffle(ans.concat(out))}
   function sync(){const chips=[...document.querySelectorAll('.chip')];chips.forEach(c=>c.classList.remove('used'));
     fields.forEach(i=>{const v=norm(val(i));if(!v)return;const c=chips.find(c=>!c.classList.contains('used')&&norm(c.dataset.w)===v);if(c)c.classList.add('used')})}
   let selChip=null,selSlot=null;
   const clearSel=()=>{if(selChip)selChip.classList.remove('sel');if(selSlot)selSlot.classList.remove('sel');selChip=selSlot=null};
-  function place(f,w){if(!f||locked(f))return;setv(f,w);f.classList.remove('bad','sel');sync();if(isIn(f))f.focus({preventScroll:true})}
+  let pend=false;
+  function after(){if(pend)return;if(fields.every(f=>locked(f)||val(f).trim())){pend=true;setTimeout(()=>{pend=false;if(document.body.contains(fields[0]))check()},tap?300:200)}}
+  function tryLock(e){if(locked(e))return;const v=val(e).trim(),a=e.dataset.a;if(!v)return;if(norm(v)===norm(a)||(norm(v).length>=norm(a).length&&right(v,a))){e.classList.remove('bad');e.classList.add('ok');setv(e,a);lock(e);award(e);sync();if(fields.every(locked))after()}}
+  function place(f,w){if(!f||locked(f))return;setv(f,w);f.classList.remove('bad','sel');sync();if(isIn(f)){f.focus({preventScroll:true});tryLock(f)}else after()}
   function tapChip(ch){
     if(!tap){const a=document.activeElement,t=(a&&a.classList&&a.classList.contains('gap')&&!locked(a)&&!val(a))?a:fields.find(i=>!locked(i)&&!val(i));place(t,ch.dataset.w);return}
     if(selSlot){place(selSlot,ch.dataset.w);clearSel();return}
@@ -1717,7 +1727,7 @@ function bindDrill(){
   const c=$('#chk');if(c)c.onclick=check;const o=$('#opt');if(o)o.onclick=options;const s=$('#shw');if(s)s.onclick=show;bind2();
   if(!tap&&D.usedBank&&!D.cardDone&&$('#opt')){$('#opt').hidden=true;bank()}
   if(tap){fields.forEach(f=>f.addEventListener('click',()=>tapSlot(f)));if(!D.cardDone)bank()}
-  else{fields.forEach((inp,k)=>{inp.addEventListener('input',sync);inp.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();const nx=fields.slice(k+1).find(i=>!locked(i));if(nx)nx.focus();else check()}})});
+  else{fields.forEach((inp,k)=>{inp.addEventListener('input',()=>{sync();tryLock(inp)});inp.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();const nx=fields.slice(k+1).find(i=>!locked(i));if(nx)nx.focus();else check()}})});
     const first=fields.find(i=>!locked(i));if(first&&!D.cardDone)first.focus({preventScroll:true})}
   const ag=$('#again');if(ag)ag.onclick=()=>{startDrill(D.u.id);render()};
 }
