@@ -64,6 +64,32 @@ tr.me td{background:var(--accbg);font-weight:700}
 label{display:block;font-weight:600;margin:14px 0 4px}input.t,select{font:inherit;width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;background:#fff}
 .sticky{position:sticky;bottom:0;background:linear-gradient(transparent,var(--bg) 30%);padding:14px 0 6px}
 @keyframes shake{25%{transform:translateX(-3px)}75%{transform:translateX(3px)}}input.gap.bad{animation:shake .25s}
+.rushcard{background:linear-gradient(135deg,#14284b,#1f6f8b);color:#fff;border:0;border-radius:14px;padding:16px;margin:0 0 14px}
+.rushcard h2{color:#fff;margin:0 0 4px;font-size:20px}.rushcard p{margin:0 0 10px;color:#d7e6ee;font-size:14px}
+.rushcard .btn{background:#fff;color:var(--navy);display:inline-block}
+.rushcard.lock{background:var(--soft);color:var(--ink)}.rushcard.lock h2{color:var(--navy)}.rushcard.lock p{color:var(--mut)}
+.rtag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.06em;background:rgba(255,255,255,.18);border-radius:99px;padding:3px 10px;margin-bottom:8px}
+.arena{background:#14284b;color:#fff;border-radius:16px;padding:14px;margin-top:8px}
+.rtop{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.hearts{font-size:20px;letter-spacing:3px;color:#ff6b6b}.hearts i{font-style:normal;color:#4a5b7d}
+.rscore{font-weight:700;font-size:18px}
+.combo{display:inline-block;border-radius:99px;padding:3px 12px;font-weight:700;font-size:14px;background:#2d4572;color:#cfe0ff;transition:all .2s}
+.combo.m2{background:#e0a100;color:#2b1d00}.combo.m3{background:#f26b21;color:#fff}.combo.m4{background:#d6246e;color:#fff;transform:scale(1.08)}
+.rtime{height:10px;background:#2d4572;border-radius:8px;overflow:hidden;margin:10px 0 4px}.rtime i{display:block;height:100%;background:#5ad1a0;border-radius:8px;transition:width .1s linear}.rtime.low i{background:#ff6b6b}
+.rtsec{text-align:right;font-size:12px;color:#b9c8e6}
+.rq{background:#fff;color:var(--ink);border-radius:12px;padding:14px;margin:8px 0 12px;font-size:16px;line-height:1.7}
+.rq .rw{color:var(--mut);font-size:14px}.rgap{display:inline-block;min-width:7ch;border-bottom:2px solid var(--acc);background:var(--accbg);border-radius:6px 6px 0 0;text-align:center;color:#7a8aa0}
+.ropts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.ropt{min-height:56px;border-radius:12px;border:2px solid #3f5a8c;background:#1c3763;color:#fff;font-size:16px;font-weight:600;padding:8px;cursor:pointer;transition:transform .1s}
+.ropt:active{transform:scale(.97)}.ropt.ok{background:#1f8a54;border-color:#5ad1a0}.ropt.bad{background:#a42b2b;border-color:#ff8f8f}.ropt.off{opacity:.3}
+.rfoot{display:flex;justify-content:space-between;align-items:center;margin-top:12px;font-size:13px;color:#b9c8e6;min-height:36px}
+.r5050{background:transparent;color:#fff;border:2px solid #5ad1a0;border-radius:99px;padding:6px 14px;font-weight:700;cursor:pointer}.r5050[disabled]{opacity:.35}
+.pop{animation:pop .35s}.shake{animation:shake .4s}
+@keyframes pop{0%{transform:scale(1)}40%{transform:scale(1.06)}100%{transform:scale(1)}}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-6px)}80%{transform:translateX(6px)}}
+.stars{font-size:38px;letter-spacing:6px;color:#f5c542;text-align:center;margin:6px 0}.stars i{font-style:normal;color:#4a5b7d}
+.rbig{font-size:46px;font-weight:800;text-align:center;line-height:1.1}.rgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:12px 0}
+.rstat{background:#1c3763;border-radius:10px;padding:10px;text-align:center}.rstat b{display:block;font-size:20px}.rstat span{font-size:12px;color:#b9c8e6}
 </style>
 </head>
 <body>
@@ -79,7 +105,7 @@ const CONFIG={
   xpPerBlank:2,                // flashcards: XP for each word typed correctly (once per word per day)
   xpPerCard:10,                // flashcards: bonus the first time a whole card is right with no Show me
   teams:['English','Maths','Science','MFL','Humanities','Art & Tech','Performing Arts','PE','CSD','Support Staff','TAs'],
-  levels:[[0,'Getting started'],[150,'Learning the ropes'],[400,'Confident'],[800,'Secure'],[1300,'Expert'],[1900,'Champion']]
+  levels:[[0,'Getting started'],[150,'Learning the ropes'],[400,'Confident'],[800,'Secure'],[1300,'Expert'],[1500,'Champion']]
 };
 /* ===== Units: one per fortnight. Words in {{double braces}} are the missing words. Text is taken word for word from The Why 2026 V9 ===== */
 const UNITS=[
@@ -1627,6 +1653,7 @@ function home(){
   const later=PREVIEW?[]:sorted.filter(u=>dt(u.drill)>dt(cur.drill));
   const earlier=sorted.filter(u=>!later.includes(u)&&u!==cur);
   return`<main>${banner()}<h1>Hello ${esc(S.user.name.split(' ')[0])}</h1><p class="lead">Learn the words that make our expectations work. Five minutes of flashcards one week, a short quiz the next.</p>
+  ${rushCard()}
   ${PREVIEW?'':'<h2 style="margin-top:8px">This fortnight</h2>'}${unitCard(cur)}${PREVIEW?earlier.map(unitCard).join(''):''}${xpCard()}
   ${(!PREVIEW&&earlier.length)?`<h2>Earlier units</h2>${earlier.map(unitCard).join('')}`:''}
   ${later.length?`<h2>Coming up</h2>${later.map(unitRow).join('')}`:''}
@@ -1686,6 +1713,7 @@ function bindDrill(){
     if(!tap){const f=fields.find(i=>!locked(i)&&(i.classList.contains('bad')||!val(i).trim()));if(f&&!any)f.focus()}
   }
   function advance(){if((D.stage||0)<lastSt){D.stage=(D.stage||0)+1;D.msg='<div class="msg ok">Correct. Now the next "so that".</div>';render()}else finish(!D.rev)}
+  if(!D.cardDone&&!fields.length)setTimeout(()=>{if(S.drill===D&&!D.cardDone&&!document.querySelector('.gap'))advance()},700);
   function show(){D.rev=true;fields.forEach(f=>{if(!locked(f)){setv(f,f.dataset.a);lock(f);f.classList.remove('bad','sel');f.classList.add('rev')}});if((D.stage||0)<lastSt){fb('<div class="msg rev">Here they are. This card will come back at the end.</div>');$('#bank').innerHTML='';$('#acts').innerHTML='<button id="cont">Next part</button>';$('#cont').onclick=()=>{D.stage=(D.stage||0)+1;D.msg='';render()};const m=$('#mode');if(m)m.parentNode.remove();const ci=D.queue[D.i];if(!D.reqd[ci]){D.reqd[ci]=1;D.queue.push(ci)}const p=prog();delete p.known[D.u.id+':'+ci];saveProg(p)}else finish(false)}
   function bind2(){const n=$('#nxt');if(n)n.onclick=()=>{D.i++;D.cardDone=false;D.rev=false;D.stage=0;D.usedBank=false;D.msg='';if(D.i>=D.queue.length)D.done=true;render()}}
   function bankWords(){const ans=fields.map(i=>i.dataset.a),mine=new Set(ans.map(norm)),cd=D.u.cards[D.queue[D.i]];
@@ -1760,19 +1788,65 @@ function bindQuiz(){
   const rt=$('#retry');if(rt)rt.onclick=()=>{startQuiz(Z.u.id);render()};
 }
 
+/* ===== Recall Rush ===== */
+const RUSH={secs:60,lives:3,dailyXp:50,unlock:3};
+const knownCount=()=>Object.keys(prog().known||{}).filter(k=>unitById(k.split(':')[0])).length;
+function rushPool(){const p=prog(),out=[];Object.keys(p.known||{}).forEach(k=>{const [uid,ci]=k.split(':'),u=unitById(uid);if(!u)return;const c=u.cards[+ci];if(!c)return;const plain=x=>x.replace(/\{\{(.+?)\}\}/g,'$1');c.so.forEach(s=>{blanks(s).forEach((a,b)=>out.push({we:plain(c.we),so:s,a,b,uid,ci:+ci}))})});return out}
+function rushLine(s,b){let n=0;return s.split(/(\{\{.+?\}\})/).map(p=>{const m=p.match(/^\{\{(.+)\}\}$/);if(!m)return esc(p);return n++===b?'<span class="rgap">______</span>':esc(m[1])}).join('')}
+function rushOpts(it,all){const ans=it.a,u=unitById(it.uid),c=u.cards[it.ci],cap=w=>/^[A-Z]/.test(ans)?w.charAt(0).toUpperCase()+w.slice(1):w;
+  const out=[];const add=w=>{if(w&&norm(w)!==norm(ans)&&!out.some(o=>norm(o)===norm(w)))out.push(w)};
+  shuffle((DEC[norm(ans)]||[]).slice()).forEach(w=>add(cap(w)));
+  shuffle(blanks(c.we).concat(...c.so.map(blanks))).forEach(add);
+  shuffle(all.map(x=>x.a)).forEach(add);
+  return shuffle([ans].concat(out.slice(0,3)))}
+function startRush(){const pool=rushPool();if(pool.length<1||knownCount()<RUSH.unlock){location.hash='home';return}
+  const items=shuffle(pool.slice());let q=items.slice();while(q.length<60)q=q.concat(shuffle(pool.slice()));
+  S.rush={items:q,all:pool,qi:0,t:RUSH.secs*1000,lives:RUSH.lives,combo:0,bestCombo:0,correct:0,wrong:0,score:0,xp:0,fifty:true,hide:[],phase:'q',picked:null,newBest:false,capped:false,tid:null};S.rush.opts=rushOpts(q[0],pool)}
+function stopRush(){if(S.rush&&S.rush.tid){clearInterval(S.rush.tid);S.rush.tid=null}}
+const rushMult=c=>1+Math.min(3,Math.floor(c/3));
+function rushView(){const R=S.rush;if(!R)return'';
+  if(R.phase==='end'){const p=prog().rush||{},st=R.correct>=20?3:R.correct>=14?2:R.correct>=8?1:0;
+    return`<main><a class="lnk" href="#home">Home</a><div class="arena"><div class="rtag" style="background:#2d4572;color:#cfe0ff">ROUND OVER</div><div class="stars">${'★'.repeat(st)}<i>${'★'.repeat(3-st)}</i></div><div class="rbig">${R.score}</div><div style="text-align:center;color:#b9c8e6;margin-top:2px">${R.newBest?'New personal best':'Personal best '+(p.best||0)}</div>
+    <div class="rgrid"><div class="rstat"><b>${R.correct}</b><span>Right</span></div><div class="rstat"><b>x${rushMult(R.bestCombo)}</b><span>Best multiplier</span></div><div class="rstat"><b>${R.bestCombo}</b><span>Longest streak</span></div><div class="rstat"><b>+${R.xp}</b><span>XP earned</span></div></div>
+    ${R.capped?'<div class="rfoot" style="justify-content:center">You have reached today\'s '+RUSH.dailyXp+' XP limit. You can still play for score.</div>':''}
+    <div class="btns"><button id="again" style="background:#fff;color:var(--navy)">Play again</button><a class="btn" href="#home" style="background:transparent;color:#fff;border:2px solid #fff">Home</a></div><div class="rfoot" style="justify-content:center">1 star for 8 right, 2 for 14, 3 for 20</div></div></main>`}
+  const it=R.items[R.qi],m=rushMult(R.combo),secs=Math.ceil(R.t/1000);
+  return`<main><a class="lnk" href="#home">Home</a><div class="arena"><div class="rtop"><div class="hearts" id="rh">${'♥'.repeat(R.lives)}<i>${'♥'.repeat(RUSH.lives-R.lives)}</i></div><span class="combo m${m}" id="rc">${R.combo>=3?'Streak '+R.combo+' · x'+m:'x1'}</span><div class="rscore" id="rs">${R.score}</div></div>
+  <div class="rtime ${secs<=10?'low':''}" id="rtm"><i id="rtb" style="width:${Math.max(0,R.t/(RUSH.secs*10))}%"></i></div><div class="rtsec" id="rts">${secs}s</div>
+  <div class="rq" id="rq"><div class="rw"><b>We</b> ${esc(it.we)}</div><div class="rw" style="margin:6px 0 2px;letter-spacing:.08em;font-size:12px;font-weight:700;color:var(--acc)">SO THAT</div>${rushLine(it.so,it.b)}</div>
+  <div class="ropts">${R.opts.map((o,k)=>{let cl='ropt';if(R.hide.includes(k))cl+=' off';if(R.phase==='fb'){if(norm(o)===norm(it.a))cl+=' ok';else if(R.picked===k)cl+=' bad'}return`<button class="${cl}" data-k="${k}" ${(R.phase==='fb'||R.hide.includes(k))?'disabled':''}>${esc(o)}</button>`}).join('')}</div>
+  <div class="rfoot"><button class="r5050" id="r50" ${(!R.fifty||R.phase==='fb')?'disabled':''}>50:50</button><span id="rm">${R.phase==='fb'?(R.picked!==null&&norm(R.opts[R.picked])===norm(it.a)?'Right':'Not quite'):'Tap the missing word'}</span></div></div></main>`}
+function bindRush(){const R=S.rush;if(!R)return;
+  const again=$('#again');if(again)again.onclick=()=>{startRush();render()};
+  if(R.phase==='end')return;
+  if(!R.tid){R.tid=setInterval(()=>{if(!S.rush||S.rush!==R||R.phase==='end'){clearInterval(R.tid);return}R.t-=100;const s=Math.ceil(Math.max(0,R.t)/1000),b=$('#rtb'),t=$('#rts'),m=$('#rtm');if(b)b.style.width=Math.max(0,R.t/(RUSH.secs*10))+'%';if(t)t.textContent=s+'s';if(m)m.classList.toggle('low',s<=10);if(R.t<=0)endRush()},100)}
+  document.querySelectorAll('.ropt').forEach(b=>b.onclick=()=>answer(+b.dataset.k));
+  const f=$('#r50');if(f)f.onclick=()=>{if(!R.fifty||R.phase!=='q')return;const it=R.items[R.qi],wrong=R.opts.map((o,k)=>k).filter(k=>norm(R.opts[k])!==norm(it.a));R.fifty=false;R.hide=shuffle(wrong).slice(0,2);render()}}
+function endRush(){const R=S.rush;if(!R||R.phase==='end')return;stopRush();R.phase='end';const p=prog();p.rush=p.rush||{};if(R.score>(p.rush.best||0)){if(p.rush.best)R.newBest=true;p.rush.best=R.score}saveProg(p);render()}
+function answer(k){const R=S.rush;if(!R||R.phase!=='q')return;const it=R.items[R.qi],ok=norm(R.opts[k])===norm(it.a);R.picked=k;R.phase='fb';
+  if(ok){R.correct++;R.combo++;R.bestCombo=Math.max(R.bestCombo,R.combo);const m=rushMult(R.combo);R.score+=10*m;if(R.combo%5===0)R.t+=3000;
+    const p=prog();p.rush=p.rush||{};const d=dayKey();if(p.rush.d!==d){p.rush.d=d;p.rush.xp=0}const room=Math.max(0,RUSH.dailyXp-(p.rush.xp||0)),g=Math.min(m,room);if(g<m)R.capped=true;if(g>0){p.rush.xp=(p.rush.xp||0)+g;p.xp+=g;R.xp+=g}saveProg(p)}
+  else{R.wrong++;R.combo=0;R.lives--}
+  render();const q=$('#rq');if(q)q.classList.add(ok?'pop':'shake');
+  setTimeout(()=>{if(S.rush!==R||R.phase==='end')return;if(R.lives<=0||R.t<=0){endRush();return}R.qi++;R.phase='q';R.picked=null;R.hide=[];R.opts=rushOpts(R.items[R.qi],R.all);render()},ok?550:1100)}
+function rushCard(){const n=knownCount(),p=prog().rush||{},today=p.d===dayKey()?(p.xp||0):0;
+  if(n<RUSH.unlock)return`<div class="rushcard lock"><div class="rtag" style="background:#dde1e8;color:var(--mut)">LOCKED</div><h2>Recall Rush</h2><p>Mark ${RUSH.unlock} flashcards as known to unlock a 60 second speed round. You have ${n} so far.</p><div class="bar"><i style="width:${Math.round(n/RUSH.unlock*100)}%"></i></div></div>`;
+  return`<div class="rushcard"><div class="rtag">SPEED ROUND</div><h2>Recall Rush</h2><p>60 seconds on the cards you already know. Build a streak, lift your multiplier, and keep your three lives.</p><p style="margin-bottom:12px">${n} card${n===1?'':'s'} in play · Best ${p.best||0} · XP today ${Math.min(today,RUSH.dailyXp)} of ${RUSH.dailyXp}</p><a class="btn" href="#rush">Play now</a></div>`}
+
 /* ===== Router ===== */
 function render(){
   const v=(location.hash||'#home').slice(1).split('/')[0];
   if(!S.user||v==='profile'){$('#app').innerHTML=head()+signin(!!S.user);const nm=$('#nm');if(nm&&!S.user)nm.focus();
     $('#go').onclick=()=>{const n=$('#nm').value.trim();if(n.length<2){$('#er').textContent='Please type your name.';return}S.user={name:n,team:$('#tm').value};ls.set('cpdUser',S.user);location.hash='#home';load()};return}
   let body='';
-  if(v==='drill'&&S.drill){body=drill()}else if(v==='quiz'&&S.quiz){body=quiz()}else if(v==='board'){body=board()}else body=home();
+  if(v==='rush'&&S.rush){body=rushView()}else if(v==='drill'&&S.drill){body=drill()}else if(v==='quiz'&&S.quiz){body=quiz()}else if(v==='board'){body=board()}else body=home();
   $('#app').innerHTML=head()+nav(v==='board'?'board':'home')+body;
-  if(v==='drill')bindDrill();if(v==='quiz')bindQuiz();
+  if(v==='drill')bindDrill();if(v==='quiz')bindQuiz();if(v==='rush')bindRush();
 }
 function route(){
   const h=(location.hash||'#home').slice(1).split('/');
-  if(S.user){if(h[0]==='drill'&&(!S.drill||S.drill.u.id!==h[1]||S.drill.done))startDrill(h[1]);if(h[0]==='quiz'&&(!S.quiz||S.quiz.u.id!==h[1]))startQuiz(h[1])}
+  if(S.user){if(h[0]==='drill'&&(!S.drill||S.drill.u.id!==h[1]||S.drill.done))startDrill(h[1]);if(h[0]==='quiz'&&(!S.quiz||S.quiz.u.id!==h[1]))startQuiz(h[1]);if(h[0]==='rush'&&!S.rush)startRush()}
+  if(h[0]!=='rush'){stopRush();S.rush=null}
   if(h[0]!=='drill')S.drill=null;if(h[0]!=='quiz')S.quiz=null;
   render();window.scrollTo(0,0);
 }
