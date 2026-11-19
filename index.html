@@ -92,6 +92,11 @@ label{display:block;font-weight:600;margin:14px 0 4px}input.t,select{font:inheri
 .rstat{background:#1c3763;border-radius:10px;padding:10px;text-align:center}.rstat b{display:block;font-size:20px}.rstat span{font-size:12px;color:#b9c8e6}
 .slot.glow{animation:glow 1s ease-in-out infinite;border-color:var(--navy)}
 @keyframes glow{0%,100%{box-shadow:0 0 0 0 rgba(31,111,139,.0);background:var(--accbg)}50%{box-shadow:0 0 0 5px rgba(31,111,139,.35);background:#cfe7f0}}
+.fopts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px}.fopts .opt{margin:0;text-align:center;font-size:15px;padding:12px 8px;font-weight:600}
+.ff-blank{display:inline-block;min-width:4.5em;border-bottom:3px solid var(--acc);background:var(--accbg);border-radius:6px 6px 0 0;color:transparent;vertical-align:baseline;margin:0 2px;user-select:none}
+.ff-blank.cur{animation:ffp 1.2s ease-in-out infinite}@keyframes ffp{50%{opacity:.35}}
+.ff-wrong{background:var(--badbg);color:var(--bad);text-decoration:line-through;padding:0 .25em;border-radius:4px;margin-right:.25em}
+@media (prefers-reduced-motion:reduce){.ff-blank.cur{animation:none}}
 </style>
 </head>
 <body>
@@ -130,7 +135,7 @@ function lev(a,b){const m=[];for(let i=0;i<=a.length;i++){m[i]=[i];}for(let j=1;
 const right=(v,ans)=>{const a=norm(v),b=norm(ans);if(!a)return false;return a===b||(b.length>=5&&a.length>=4&&lev(a,b)<=1)};
 const plain=t=>t.replace(/\{\{(.+?)\}\}/g,'$1');
 const blanks=t=>[...t.matchAll(/\{\{(.+?)\}\}/g)].map(m=>m[1]);
-const MODE=()=>ls.get('cpdMode')||'tap';
+const MODE=()=>'tap';
 const unitById=id=>UNITS.find(u=>u.id===id);
 
 /* ===== State, personal progress ===== */
@@ -214,89 +219,44 @@ const doneHTML=x=>x.split(/(\{\{.+?\}\})/).map(p=>{const m=p.match(/^\{\{(.+)\}\
 const pat1=a=>{let d=0;return a.replace(/[A-Za-z0-9]/g,c=>d++?'_':c).replace(/ /g,'   ')};
 const pat=a=>a.replace(/[A-Za-z0-9]/g,'_').replace(/ /g,'   ');
 function stmtHTML(text,cid,pre){let k=0;const tap=MODE()==='tap';return text.split(/(\{\{.+?\}\})/).map(p=>{const m=p.match(/^\{\{(.+)\}\}$/);if(!m)return esc(p);const a=m[1],f=cid+':'+pre+':'+k++,pt=pat(a);return tap?`<span class="gap slot" role="button" tabindex="0" data-a="${esc(a)}" data-f="${f}" data-p="______" style="min-width:8ch">______</span>`:`<input class="gap" data-a="${esc(a)}" data-f="${f}" placeholder="${esc(pat1(a))}" style="width:${Math.max(5,pt.length*1.15+2)}ch" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="Missing word">`}).join('')}
-function startDrill(id){const u=unitById(id);if(!u||!drillOpen(u)){location.hash='home';return}S.drill={u,queue:shuffle(u.cards.map((c,i)=>i)),i:0,rev:false,again:0,xp:0,mastered:0,done:false,cardDone:false,reqd:{},stage:0,usedBank:false,msg:''}}
+const gapsOf=c=>{const out=[];[c.we].concat(c.so).forEach((t,l)=>blanks(t).forEach((a,k)=>out.push({l,k,a})));return out};
+function startDrill(id){const u=unitById(id);if(!u||!drillOpen(u)){location.hash='home';return}S.drill={u,queue:shuffle(u.cards.map((c,i)=>i)),i:0,again:0,xp:0,mastered:0,done:false,cardDone:false,reqd:{},gi:0,res:[],pick:null,lock:false,opts:null,tok:0};setOpts()}
+function setOpts(){const D=S.drill,u=D.u,ci=D.queue[D.i],gs=gapsOf(u.cards[ci]);D.gi=0;D.res=[];D.pick=null;D.lock=false;D.cardDone=false;D.tok++;D.opts=gs.length?gapOpts(u,ci,gs[0].a):null}
+function gapOpts(u,ci,ans){const pool=[].concat(...u.cards.map((c,k)=>gapsOf(c).map(g=>({a:g.a,uid:u.id,ci:k}))));return rushOpts({a:ans,uid:u.id,ci},pool)}
+function lineHTML(text,l,D,gs){let k=0;return text.split(/(\{\{.+?\}\})/).map(p=>{const m=p.match(/^\{\{(.+)\}\}$/);if(!m)return esc(p);const gi=gs.findIndex(g=>g.l===l&&g.k===k);k++;const r=D.res[gi];
+  if(r||D.cardDone)return(r&&!r.ok&&r.pick?'<span class="ff-wrong">'+esc(r.pick)+'</span>':'')+'<b class="dn">'+esc(m[1])+'</b>';
+  return'<span class="ff-blank'+(gi===D.gi?' cur':'')+'">'+'&nbsp;'.repeat(Math.min(Math.max(m[1].length,6),16))+'</span>'}).join('')}
 function drill(){
   const D=S.drill,u=D.u;
   if(D.done)return`<main><h1>Nice work</h1><div class="card"><div class="score">+${D.xp} XP</div><p class="muted">You mastered ${D.mastered} card${D.mastered===1?'':'s'} first time this session. ${mastery(u)} of ${u.cards.length} are now marked as known.</p></div><div class="btns"><a class="btn" href="#home">Back home</a><button class="ghost" id="again">Go again</button></div></main>`;
-  const ci=D.queue[D.i],c=u.cards[ci],n=D.queue.length,last=c.so.length,st=D.cardDone?last:(D.stage||0);
-  return`<main><a class="lnk" href="#home">Home</a><h1>${esc(u.title)}</h1><div class="muted">Card ${D.i+1} of ${n}${D.i>=u.cards.length?' (coming back)':''} · ${esc(c.sub)}, page ${c.p} · Part ${st+1} of ${last+1}</div><div class="bar"><i style="width:${Math.round(D.i/n*100)}%"></i></div>
-  ${D.cardDone?'':`<div class="pillw"><div class="pill" id="mode" role="group" aria-label="Answer mode"><button data-m="tap" class="${MODE()==='tap'?'on':''}">Match</button><button data-m="type" class="${MODE()==='tap'?'':'on'}">Type</button></div></div>`}
-  <div class="card" id="card"><div class="stmt"><span class="we">We</span> ${st===0?stmtHTML(c.we,ci,'w'):doneHTML(c.we)}</div>${st>=1?`<span class="sol">so that</span><ul class="so">${c.so.slice(0,st).map((s,j)=>`<li>${(j===st-1&&!D.cardDone)?stmtHTML(s,ci,'s'+j):doneHTML(s)}</li>`).join('')}</ul>`:''}<div id="fb"></div></div>
-  <div class="sticky"><div id="bank"></div><div class="btns" id="acts">${D.cardDone?`<button id="nxt">${D.i+1>=n?'Finish':'Next card'}</button>`:`${MODE()==='tap'?'':'<button id="chk">Check</button><button class="ghost" id="opt">Show options</button>'}<button class="ghost" id="shw">Show me</button>`}</div></div></main>`;
+  const ci=D.queue[D.i],c=u.cards[ci],n=D.queue.length,gs=gapsOf(c),g=gs[D.gi],cur=D.cardDone||!g?c.so.length:g.l,res=D.res[D.gi];
+  const opts=(!D.cardDone&&g)?`<div class="fopts">${D.opts.map((o,k)=>{let cl='opt';if(res){if(norm(o)===norm(g.a))cl+=' ok';else if(D.pick===k)cl+=' bad'}return`<button class="${cl}" data-k="${k}" ${res?'disabled':''}>${esc(o)}</button>`}).join('')}</div>`:'';
+  const after=D.cardDone?(D.allOk?'<div class="msg ok">All correct. Card known.</div>':'<div class="msg rev">Some missed. This card will come back at the end.</div>')+`<div class="btns"><button id="nxt">${D.i+1>=n?'Finish':'Next card'}</button></div>`:(res?(res.ok?'<div class="msg ok">Correct</div>':'<div class="btns"><button id="cont">Continue</button></div>'):'');
+  return`<main><a class="lnk" href="#home">Home</a><h1>${esc(u.title)}</h1><div class="muted">Card ${D.i+1} of ${n}${D.i>=u.cards.length?' (coming back)':''} · ${esc(c.sub)}, page ${c.p}</div><div class="bar"><i style="width:${Math.round(D.i/n*100)}%"></i></div>
+  <div class="card" id="card"><div class="stmt"><span class="we">We</span> ${lineHTML(c.we,0,D,gs)}</div>${cur>=1?`<span class="sol">so that</span><ul class="so">${c.so.slice(0,cur).map((s,j)=>`<li>${lineHTML(s,j+1,D,gs)}</li>`).join('')}</ul>`:''}</div>
+  ${opts}${after}</main>`;
 }
 function bindDrill(){
   const D=S.drill;if(!D||D.done)return;
-  const tap=MODE()==='tap';
-  const fields=[...document.querySelectorAll('.gap')];
-  const isIn=e=>e.tagName==='INPUT',val=e=>isIn(e)?e.value:(e.dataset.v||''),locked=e=>e.dataset.lock==='1';
-  const setv=(e,v)=>{if(isIn(e))e.value=v;else{e.dataset.v=v;e.textContent=v||e.dataset.p;e.classList.toggle('filled',!!v)}};
-  const lock=e=>{e.dataset.lock='1';if(isIn(e))e.readOnly=true};
-  document.querySelectorAll('#mode button').forEach(b=>b.onclick=()=>{if(b.dataset.m!==(tap?'tap':'type')){ls.set('cpdMode',b.dataset.m);render()}});
-  if(D.msg)$('#fb').innerHTML=D.msg;
-  const fb=m=>{$('#fb').innerHTML=m};const lastSt=D.u.cards[D.queue[D.i]].so.length;
-  function award(f){const p=prog(),k=D.u.id+':'+f.dataset.f,d=dayKey(),x=(tap||D.usedBank)?1:CONFIG.xpPerBlank;p.daily=p.daily||{};if(p.daily[k]!==d){p.daily[k]=d;p.xp+=x;D.xp+=x;saveProg(p)}}
-  function finish(clean){
-    D.cardDone=true;const ci=D.queue[D.i],id=D.u.id+':'+ci,p=prog(),assisted=!tap&&D.usedBank;$('#bank').innerHTML='';const mk2=$('#mode');if(mk2)mk2.parentNode.remove();
-    if(clean&&!assisted){if(!p.known[id]){p.known[id]=1;p.xp+=CONFIG.xpPerCard;D.xp+=CONFIG.xpPerCard}D.mastered++;saveProg(p);fb('<div class="msg ok">All correct. Card known.</div>')}
-    else{if(D.rev){delete p.known[id];saveProg(p)}if(!D.reqd[ci]){D.reqd[ci]=1;D.queue.push(ci)}fb(D.rev?'<div class="msg rev">Read it through once more. This card will come back at the end.</div>':'<div class="msg rev">All correct, but you used the options, so this card is not marked as known yet. It will come back at the end to try without them.</div>')}
-    $('#acts').innerHTML=`<button id="nxt">${D.i+1>=D.queue.length?'Finish':'Next card'}</button>`;bind2();
-  }
-  function check(){
-    let any=false;
-    fields.forEach(f=>{if(locked(f))return;const v=val(f).trim();if(!v){f.classList.remove('bad');return}any=true;if(right(v,f.dataset.a)){f.classList.remove('bad','sel');f.classList.add('ok');setv(f,f.dataset.a);lock(f);award(f)}else{f.classList.remove('ok');f.classList.add('bad');void f.offsetWidth}});
-    sync();
-    const left=fields.filter(f=>!locked(f)).length;
-    if(left===0){advance();return}
-    fb(tap?`<div class="msg hint">${left} still to get. Tap a red word to send it back, then pick another. Or tap Show me.</div>`:`<div class="msg hint">${left} still to get. Fix the red ones, fill any empty gaps, or tap Show options or Show me.</div>`);
-    if(!tap){const f=fields.find(i=>!locked(i)&&(i.classList.contains('bad')||!val(i).trim()));if(f&&!any)f.focus()}
-  }
-  function advance(){if((D.stage||0)<lastSt){D.stage=(D.stage||0)+1;D.msg='<div class="msg ok">Correct. Now the next "so that".</div>';render()}else finish(!D.rev)}
-  if(!D.cardDone&&!fields.length)setTimeout(()=>{if(S.drill===D&&!D.cardDone&&!document.querySelector('.gap'))advance()},700);
-  function show(){D.rev=true;fields.forEach(f=>{if(!locked(f)){setv(f,f.dataset.a);lock(f);f.classList.remove('bad','sel');f.classList.add('rev')}});if((D.stage||0)<lastSt){fb('<div class="msg rev">Here they are. This card will come back at the end.</div>');$('#bank').innerHTML='';$('#acts').innerHTML='<button id="cont">Next part</button>';$('#cont').onclick=()=>{D.stage=(D.stage||0)+1;D.msg='';render()};const m=$('#mode');if(m)m.parentNode.remove();const ci=D.queue[D.i];if(!D.reqd[ci]){D.reqd[ci]=1;D.queue.push(ci)}const p=prog();delete p.known[D.u.id+':'+ci];saveProg(p)}else finish(false)}
-  function bind2(){const n=$('#nxt');if(n)n.onclick=()=>{D.i++;D.cardDone=false;D.rev=false;D.stage=0;D.usedBank=false;D.msg='';if(D.i>=D.queue.length)D.done=true;render()}}
-  function bankWords(){const ans=fields.map(i=>i.dataset.a),mine=new Set(ans.map(norm)),cd=D.u.cards[D.queue[D.i]];
-    const uniq=a=>a.filter((w,k)=>!mine.has(norm(w))&&a.findIndex(x=>norm(x)===norm(w))===k);
-    const cap=(w,a)=>/^[A-Z]/.test(a)?w.charAt(0).toUpperCase()+w.slice(1):w;
-    const lists=ans.map(a=>shuffle((DEC[norm(a)]||[]).filter(w=>!mine.has(norm(w)))).map(w=>cap(w,a)));
-    const out=[];for(let r=0;r<2&&out.length<2;r++)lists.forEach(l=>{if(out.length<2&&l[r]&&!out.some(o=>norm(o)===norm(l[r])))out.push(l[r])});
-    if(out.length<2){const pool=shuffle(uniq([].concat(...D.u.cards.map(c=>blanks(c.we).concat(...c.so.map(blanks))))));while(out.length<2&&pool.length)out.push(pool.shift())}
-    return shuffle(ans.concat(out))}
-  function sync(){const chips=[...document.querySelectorAll('.chip')];chips.forEach(c=>c.classList.remove('used'));
-    fields.forEach(i=>{const v=norm(val(i));if(!v)return;const c=chips.find(c=>!c.classList.contains('used')&&norm(c.dataset.w)===v);if(c)c.classList.add('used')})}
-  let selChip=null,selSlot=null;
-  const clearSel=()=>{document.querySelectorAll('.glow').forEach(x=>x.classList.remove('glow'));if(selChip)selChip.classList.remove('sel');if(selSlot)selSlot.classList.remove('sel');selChip=selSlot=null};
-  let pend=false;
-  function after(){if(pend)return;if(fields.every(f=>locked(f)||val(f).trim())){pend=true;setTimeout(()=>{pend=false;if(document.body.contains(fields[0]))check()},tap?300:200)}}
-  function tryLock(e){if(locked(e))return;const v=val(e).trim(),a=e.dataset.a;if(!v)return;if(norm(v)===norm(a)||(norm(v).length>=norm(a).length&&right(v,a))){e.classList.remove('bad');e.classList.add('ok');setv(e,a);lock(e);award(e);sync();if(fields.every(locked))after()}}
-  function place(f,w){if(!f||locked(f))return;setv(f,w);f.classList.remove('bad','sel');sync();if(isIn(f)){f.focus({preventScroll:true});tryLock(f)}else after()}
-  function tapChip(ch){
-    if(!tap){const a=document.activeElement,t=(a&&a.classList&&a.classList.contains('gap')&&!locked(a)&&!val(a))?a:fields.find(i=>!locked(i)&&!val(i));place(t,ch.dataset.w);return}
-    if(selSlot){place(selSlot,ch.dataset.w);clearSel();return}
-    const empties=fields.filter(f=>!locked(f)&&!val(f).trim());
-    if(empties.length===1){place(empties[0],ch.dataset.w);clearSel();return}
-    if(selChip===ch){clearSel();return}clearSel();selChip=ch;ch.classList.add('sel');empties.forEach(f=>f.classList.add('glow'))}
-  function tapSlot(f){
-    if(locked(f))return;
-    if(selChip){place(f,selChip.dataset.w);clearSel();return}
-    if(val(f)){setv(f,'');f.classList.remove('bad');sync();return}
-    if(selSlot===f){clearSel();return}clearSel();selSlot=f;f.classList.add('sel')}
-  function wire(){document.querySelectorAll('.chip').forEach(ch=>ch.addEventListener('pointerdown',e=>{
-    if(ch.classList.contains('used'))return;e.preventDefault();const sx=e.clientX,sy=e.clientY;let g=null,over=null;
-    const under=ev=>{const el=document.elementFromPoint(ev.clientX,ev.clientY);const t=el&&el.closest&&el.closest('.gap');return t&&!locked(t)?t:null};
-    const mv=ev=>{if(!g&&Math.hypot(ev.clientX-sx,ev.clientY-sy)>8){g=ch.cloneNode(true);g.classList.add('ghost');document.body.appendChild(g);clearSel()}
-      if(g){g.style.left=ev.clientX+'px';g.style.top=ev.clientY+'px';const u=under(ev);if(over&&over!==u)over.classList.remove('drop');over=u;if(u)u.classList.add('drop')}};
-    const up=ev=>{window.removeEventListener('pointermove',mv);window.removeEventListener('pointerup',up);window.removeEventListener('pointercancel',up);
-      if(over)over.classList.remove('drop');if(g){g.remove();place(under(ev),ch.dataset.w)}else tapChip(ch)};
-    window.addEventListener('pointermove',mv);window.addEventListener('pointerup',up);window.addEventListener('pointercancel',up)}))}
-  function bank(){const cap=tap?'Tap a word, then tap the gap it belongs in (or tap a gap first). Tap a filled gap to take the word back. Two of these words do not belong on this card.':'Drag a word into a gap, or tap a word to fill the gap you are on. Two of these words do not belong on this card.';
-    $('#bank').innerHTML='<div class="bank"><div class="muted">'+cap+'</div>'+bankWords().map(w=>`<span class="chip" data-w="${esc(w)}">${esc(w)}</span>`).join('')+'</div>';wire();sync()}
-  function options(){D.usedBank=true;$('#opt').hidden=true;bank()}
-  const c=$('#chk');if(c)c.onclick=check;const o=$('#opt');if(o)o.onclick=options;const s=$('#shw');if(s)s.onclick=show;bind2();
-  if(!tap&&D.usedBank&&!D.cardDone&&$('#opt')){$('#opt').hidden=true;bank()}
-  if(tap){fields.forEach(f=>f.addEventListener('click',()=>tapSlot(f)));if(!D.cardDone)bank()}
-  else{fields.forEach((inp,k)=>{inp.addEventListener('input',()=>{sync();tryLock(inp)});inp.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();const nx=fields.slice(k+1).find(i=>!locked(i));if(nx)nx.focus();else check()}})});
-    const first=fields.find(i=>!locked(i));if(first&&!D.cardDone)first.focus({preventScroll:true})}
+  const ci=D.queue[D.i],c=D.u.cards[ci],gs=gapsOf(c);
+  document.querySelectorAll('.fopts .opt').forEach(b=>b.onclick=()=>pick(+b.dataset.k));
+  const ct=$('#cont');if(ct)ct.onclick=advance;
+  const nx=$('#nxt');if(nx)nx.onclick=()=>{D.i++;if(D.i>=D.queue.length)D.done=true;else setOpts();render()};
   const ag=$('#again');if(ag)ag.onclick=()=>{startDrill(D.u.id);render()};
+  if(!gs.length&&!D.cardDone){D.allOk=true;finishCard()}
+  function pick(k){
+    if(D.lock)return;const g=gs[D.gi],ok=norm(D.opts[k])===norm(g.a);D.lock=true;D.pick=k;D.res[D.gi]={ok,pick:D.opts[k]};
+    if(ok){const p=prog(),key2=D.u.id+':'+ci+':'+D.gi,d=dayKey();p.daily=p.daily||{};if(p.daily[key2]!==d){p.daily[key2]=d;p.xp+=1;D.xp+=1;saveProg(p)}}
+    const tok=D.tok;render();
+    if(ok)setTimeout(()=>{if(S.drill===D&&D.tok===tok&&D.lock)advance()},700)}
+  function advance(){D.gi++;D.lock=false;D.pick=null;D.tok++;
+    if(D.gi<gs.length){D.opts=gapOpts(D.u,ci,gs[D.gi].a);render();return}
+    D.allOk=D.res.every(r=>r.ok);finishCard()}
+  function finishCard(){
+    D.cardDone=true;const id=D.u.id+':'+ci,p=prog();
+    if(D.allOk){if(!p.known[id]){p.known[id]=1;p.xp+=CONFIG.xpPerCard;D.xp+=CONFIG.xpPerCard}D.mastered++;saveProg(p)}
+    else{delete p.known[id];saveProg(p);if(!D.reqd[ci]){D.reqd[ci]=1;D.queue.push(ci)}}
+    render()}
 }
 
 /* ----- Quiz ----- */
