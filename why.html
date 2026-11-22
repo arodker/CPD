@@ -6352,7 +6352,7 @@ window.hsInstall=function(){
 <script>
 /* ===== The Why: staff additions (sign-in, match the reason, scenarios, department tracker) ===== */
 const CPD = {
-  endpoint: '',                       // Apps Script web app address (see README). Empty = demo mode on this device only
+  endpoint: 'https://script.google.com/macros/s/AKfycbwIZDJsyVcJ-MY5EmA5TzB-f8IEPLqFHU06T4ZS-ptk8v7T-LQXupcqxo-4YkKkHxEk/exec',                       // Apps Script web app address (see README). Empty = demo mode on this device only
   teams: ['English','Maths','Science','MFL','Humanities','Art & Tech','Performing Arts','PE','CSD','Support Staff','TAs'],
   days: 14                            // length of the recent window on the tracker
 };
@@ -6499,7 +6499,7 @@ function cpdSeed() { const r = []; let k = 11; for (let i = 0; i < 6; i++) for (
 async function cpdLoad() {
   CPD_ERR = '';
   try {
-    if (!CPD_LIVE) { CPD_ROWS = cpdSeed(); const u = cpdUser(); cpdLogLoad().forEach(x => CPD_ROWS.push({p: 'me', team: u ? u.team : '', set: x.set, score: x.score, total: x.total, ts: x.ts})); }
+    if (!CPD_LIVE) { CPD_ROWS = []; const u = cpdUser(); cpdLogLoad().forEach(x => CPD_ROWS.push({p: 'me', team: u ? u.team : '', set: x.set, score: x.score, total: x.total, ts: x.ts})); }
     else { const r = await fetch(CPD.endpoint + (CPD.endpoint.indexOf('?') >= 0 ? '&' : '?') + 'tab=log'); if (!r.ok) throw 0; CPD_ROWS = (await r.json()).map(x => ({p: String(x.p || ''), team: String(x.team || ''), set: String(x.set || ''), score: +x.score || 0, total: +x.total || 0, ts: String(x.ts || '')})); }
   } catch (e) { CPD_ROWS = []; CPD_ERR = 'Could not load the league table. Check your connection and try again.'; }
 }
@@ -6517,7 +6517,7 @@ function cpdWin(w) { CPD_WIN = w; cpdRenderLeague(); }
 function cpdAgo(ts) { const d = Math.floor((Date.now() - Date.parse(ts)) / 864e5); return d <= 0 ? 'today' : d === 1 ? 'yesterday' : d + ' days ago'; }
 function cpdRenderLeague() {
   const u = cpdUser() || {}, L = cpdBoard();
-  let h = (CPD_ERR ? '<div style="color:#B3261E;margin-bottom:.6rem">' + CPD_ERR + '</div>' : '') + (!CPD_LIVE ? '<div class="cq-note">Sample data on this device. It becomes live once the Google Sheet is connected.</div>' : '') +
+  let h = (CPD_ERR ? '<div style="color:#B3261E;margin-bottom:.6rem">' + CPD_ERR + '</div>' : '') + 
     '<div style="display:flex;gap:8px;margin-bottom:.7rem"><button class="cq-pill' + (CPD_WIN === 'recent' ? ' on' : '') + '" onclick="cpdWin(\'recent\')">Last ' + CPD.days + ' days</button><button class="cq-pill' + (CPD_WIN === 'all' ? ' on' : '') + '" onclick="cpdWin(\'all\')">All time</button></div>';
   h += '<div class="cq-card">' + (L.length ? '<table style="width:100%;border-collapse:collapse;font-size:.92rem"><tr style="text-align:left;color:var(--muted)"><th></th><th>Department</th><th style="text-align:right">Average correct</th></tr>' +
     L.map(t => '<tr style="' + (t.name === u.team ? 'background:var(--subtle);font-weight:700' : '') + '"><td style="padding:7px 4px">' + t.rank + '</td><td>' + cpdEsc(t.name) + '</td><td style="text-align:right">' + t.avg + '%</td></tr>').join('') + '</table>' +
@@ -6576,9 +6576,16 @@ function cpdAdmin() {
   try { setMenuClose(); } catch (x) {}
   const code = 'RODKERADMIN', us = GUIDE.units || [];
   const o = document.createElement('div'); o.style.cssText = 'position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;padding:16px';
-  o.innerHTML = '<div style="background:var(--card,#fff);color:var(--text,#222);border-radius:16px;padding:1.2rem;max-width:340px;width:100%"><div style="font-weight:800;font-size:1.05rem;margin-bottom:.6rem">This week\'s focus</div><label style="font-size:.85rem">Focus unit</label><select id="ad-u" style="width:100%;box-sizing:border-box;margin:.4rem 0;padding:.6rem;border:1px solid var(--border,#ccc);border-radius:10px;font-size:1rem"><option value="">No focus</option>' + us.map(u => '<option value="' + cpdEsc(u.title) + '"' + (u.title === CPD_FOCUS ? ' selected' : '') + '>' + cpdEsc(u.emoji + ' ' + u.title) + '</option>').join('') + '</select><div class="cq-note" style="font-size:.75rem">' + (CPD_LIVE ? 'Staff will see this on their next visit.' : 'Saved on this device only until the Google Sheet is connected.') + '</div><div style="display:flex;gap:8px;margin-top:.6rem"><button id="ad-x" class="arc-btn sec" style="flex:1">Close</button><button id="ad-ok" class="arc-btn" style="flex:1">Save</button></div></div>';
+  o.innerHTML = '<div style="background:var(--card,#fff);color:var(--text,#222);border-radius:16px;padding:1.2rem;max-width:340px;width:100%"><div style="font-weight:800;font-size:1.05rem;margin-bottom:.6rem">This week\'s focus</div><label style="font-size:.85rem">Focus unit</label><select id="ad-u" style="width:100%;box-sizing:border-box;margin:.4rem 0;padding:.6rem;border:1px solid var(--border,#ccc);border-radius:10px;font-size:1rem"><option value="">No focus</option>' + us.map(u => '<option value="' + cpdEsc(u.title) + '"' + (u.title === CPD_FOCUS ? ' selected' : '') + '>' + cpdEsc(u.emoji + ' ' + u.title) + '</option>').join('') + '</select><div class="cq-note" style="font-size:.75rem">' + (CPD_LIVE ? 'Staff will see this on their next visit.' : 'Saved on this device only until the Google Sheet is connected.') + '</div><div style="display:flex;gap:8px;margin-top:.6rem"><button id="ad-x" class="arc-btn sec" style="flex:1">Close</button><button id="ad-ok" class="arc-btn" style="flex:1">Save</button></div><div style="border-top:1px solid var(--border,#ddd);margin-top:1rem;padding-top:.8rem"><div style="font-weight:700;font-size:.85rem;margin-bottom:.5rem">Other tools</div><button id="ad-lg" class="arc-btn sec" style="width:100%;margin-bottom:6px">Reset league table</button><button id="ad-me" class="arc-btn sec" style="width:100%">Clear scores on this device</button><div id="ad-m" class="cq-note" style="font-size:.78rem;margin-top:.5rem;min-height:1em"></div></div></div>';
   document.body.appendChild(o);
   const close = () => { o.remove(); if (!cpdUser()) cpdAsk(); }; document.getElementById('ad-x').onclick = close;
+  const msg = t => { document.getElementById('ad-m').textContent = t; };
+  const arm = (id, label, run) => { const b = document.getElementById(id), orig = b.textContent; let on = false; b.onclick = async () => { if (!on) { on = true; b.textContent = label; b.style.borderColor = '#B3261E'; setTimeout(() => { on = false; b.textContent = orig; b.style.borderColor = ''; }, 5000); return; } on = false; b.textContent = orig; b.style.borderColor = ''; await run(); }; };
+  arm('ad-lg', 'Press again to erase all scores', async () => {
+    if (!CPD_LIVE) { try { localStorage.removeItem('cpd_log'); } catch (x) {} cpdRings(); msg('League table reset on this device.'); return; }
+    try { const r = await fetch(CPD.endpoint, {method: 'POST', body: JSON.stringify({type: 'reset', code})}); const j = await r.json(); if (j && j.ok) { try { localStorage.removeItem('cpd_log'); } catch (x) {} cpdRings(); msg('League table reset. Old scores were kept on an Archive tab in the Sheet.'); } else msg('Not reset. Check the Apps Script has the latest version and is redeployed.'); } catch (x) { msg('Could not reach the Google Sheet.'); }
+  });
+  arm('ad-me', 'Press again to clear', async () => { try { localStorage.removeItem('cpd_log'); } catch (x) {} cpdRings(); msg('Cleared on this device.'); });
   document.getElementById('ad-ok').onclick = async () => {
     const v = document.getElementById('ad-u').value; cpdSetFocus(v);
     if (CPD_LIVE) { try { await fetch(CPD.endpoint, {method: 'POST', body: JSON.stringify({type: 'focus', unit: v, code})}); } catch (x) {} }
