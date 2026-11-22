@@ -1084,7 +1084,6 @@ select.sel-p3{background:#EAE9FC;color:#2B267E;border-color:#4F46E5}
 <canvas id="fd-confetti-canvas" style="display:none"></canvas>
 <div class="app">
 <div style="display:flex;justify-content:flex-end;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:.5rem">
-  <a href="index.html" id="hub-link" class="tb-btn" style="display:none!important" style="white-space:nowrap;flex-shrink:0">← Hub</a>
   <span id="cal-wrap" style="position:relative;margin-right:auto"><button id="cal-btn" class="tb-btn" onclick="calToggle(event)" title="Exam dates" aria-label="Exam dates" style="color:var(--text);padding:0 .6rem;font-size:1.05rem;white-space:nowrap"><span class="cal-ic">📅</span><span id="cal-dot" style="display:none"></span></button><div id="cal-panel" style="display:none;position:absolute;top:42px;left:0;z-index:60;min-width:min(290px,calc(100vw - 32px));width:max-content;background:var(--surface);border:1px solid var(--border2);border-radius:12px;padding:.6rem .8rem;box-shadow:0 6px 20px rgba(0,0,0,.15)"></div></span>
   <button id="print-btn" class="tb-btn" onclick="window.print()" style="display:none" title="Print">🖨️</button>
   <span id="set-wrap" style="position:relative"><button id="set-btn" class="tb-btn" onclick="setMenuToggle(event)" aria-label="Settings" aria-haspopup="true" aria-expanded="false" title="Settings">⚙️</button><div id="set-menu" role="menu" hidden></div></span>
@@ -1621,8 +1620,7 @@ function showScreen(id) {
   document.getElementById(id).classList.add('active');
   if (id !== 's-main') currentMode = null;
   bnRun = 0;
-  const hubLink = document.getElementById('hub-link');
-  if (hubLink) hubLink.style.display = id === 's-pick' ? 'inline-flex' : 'none';
+  
   // print btn handled by setMode; hide when leaving s-main
   if (id !== 's-main') {
     const printBtn = document.getElementById('print-btn');
@@ -2884,7 +2882,7 @@ Promise.all([
   g.chapters.forEach(ch => ch.cards.forEach(c => {
     const u = U[c.unit]; if (!u) return;
     no[u.k] = (no[u.k] || 0) + 1;
-    const o = {paper: u.k, unit: u.label, no: no[u.k], pn: u.k, front: 'We ' + low(c.we), k: 0, hints: [], kw: c.kw || [], sub: c.sub || c.unit};
+    const o = {paper: u.k, unit: u.label, no: no[u.k], pn: u.k, front: 'We ' + low(c.we), k: 0, hints: [], kw: c.kw || [], kwe: c.kwe || [], sub: c.sub || c.unit};
     c.so.forEach((l, i) => { o['p' + (i + 1)] = sent(l); });
     FD.push(o);
     KC.push({paper: u.k, unit: u.label, heading: 'We ' + low(c.we), summary: c.sub || c.unit, facts: c.so.map(sent), hints: []});
@@ -6496,7 +6494,7 @@ function cpdRead() {
   const cards = cpdCards().filter(x => x.c.unit === u.n);
   let h = '<button class="back-btn" onclick="showScreen(\'s-hub\')" style="margin-bottom:.6rem">← ' + cpdEsc(u.n) + '</button><h1 style="font-size:1.4rem;margin:.2rem 0 .2rem">' + u.e + ' ' + cpdEsc(u.n) + '</h1><div class="cq-sub" style="margin-bottom:.6rem">Read the why</div>';
   cards.forEach(x => {
-    h += '<div class="cq-card" style="margin-top:.6rem;border-left:4px solid ' + u.col + '"><div style="font-weight:700;line-height:1.4">' + cpdEsc(cpdWe(x.c.we)) + '</div>' + (x.c.so.length ? '<div class="cq-h">So that</div>' + cpdSoList(x.c) : '') + '</div>';
+    h += '<div class="cq-card" style="margin-top:.6rem;border-left:4px solid ' + u.col + '"><div style="font-weight:700;line-height:1.4">' + cpdBoldOnce(cpdEsc(cpdWe(x.c.we)), x.c.kwe || []) + '</div>' + (x.c.so.length ? '<div class="cq-h">So that</div>' + cpdSoList(x.c) : '') + '</div>';
   });
   document.getElementById('rd-body').innerHTML = h; showScreen('s-read'); window.scrollTo(0, 0);
 }
@@ -6619,12 +6617,12 @@ fdUpdateProgress = function () {
     const c = fdCurrent; if (!c) return;
     const kw = c.kw || [];
     const q = document.getElementById('fd-question');
-    let h = '<div class="fq-lbl">What is the why?</div><div class="fq-we">' + cpdEsc(c.front) + '</div>';
+    let h = '<div class="fq-lbl">What is the why?</div><div class="fq-we">' + cpdBoldOnce(cpdEsc(c.front), c.kwe || []) + '</div>';
     const rows = kw.map(function (k, i) { return k && k.length ? '<div class="fq-h"><span class="fq-n">' + (i + 1) + '</span>' + k.map(function (w) { return '<b>' + cpdEsc(w) + '</b>'; }).join('<i>·</i>') + '</div>' : ''; }).join('');
     if (rows) h += '<div class="fq-hs"><div class="fq-hl">So that…</div>' + rows + '</div>';
     q.innerHTML = h;
     let bw = document.getElementById('fd-back-we'); if (!bw) { bw = document.createElement('div'); bw.id = 'fd-back-we'; const tb = document.getElementById('fd-tag-back'); tb.parentNode.insertBefore(bw, tb.nextSibling); }
-    bw.innerHTML = '<div class="fq-lbl">What is the why?</div><div class="fq-we">' + cpdEsc(c.front) + '</div>';
+    bw.innerHTML = '<div class="fq-lbl">What is the why?</div><div class="fq-we">' + cpdBoldOnce(cpdEsc(c.front), c.kwe || []) + '</div>';
     document.querySelectorAll('#fd-points li').forEach(function (li, i) { li.innerHTML = boldHints(c['p' + (i + 1)] || '', kw[i] || []); });
   };
   const st = document.createElement('style');
@@ -6671,6 +6669,12 @@ goToSearchResult = function (paper, heading) {
 '.cq-sob .cq-so{font-size:.95rem!important;font-weight:600!important;line-height:1.45}.cq-ask{font-size:1rem!important;font-weight:700!important;margin:0 0 .6rem!important}.cq-lbl{font-size:.72rem!important}' +
 '.cq-opt{font-size:.9rem!important;line-height:1.4!important;padding:.65rem .8rem!important}.cq-top{font-size:.78rem!important}.cq-fb,.cq-card{font-size:.9rem}.cq-v{font-size:.92rem}.cq-score{font-size:2rem!important}.cq-fb div,#rd-body .cq-card li{font-size:.9rem}#rd-body .cq-card>div:first-child{font-size:.95rem}';
 document.head.appendChild(st);})();
+(function(){const st=document.createElement('style');st.textContent='.fq-we{font-weight:400!important}.fq-we strong{font-weight:800;color:#3b2fa0}#rd-body .cq-card>div:first-child{font-weight:400!important}#rd-body .cq-card>div:first-child strong{font-weight:800;color:#3b2fa0}';document.head.appendChild(st);})();
+function cpdBoldOnce(html, kws) {
+  let out = html;
+  (kws || []).forEach(k => { const re = new RegExp('(^|[^A-Za-z>])(' + k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')(?![A-Za-z])', 'i'); out = out.replace(re, '$1<strong>$2</strong>'); });
+  return out;
+}
 
 </script>
 </body>
