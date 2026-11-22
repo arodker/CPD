@@ -3530,9 +3530,9 @@ function fdFlip() {
     inner.classList.add('flipped');
     const items = document.querySelectorAll('#fd-points li');
     items.forEach((li, i) => {
-      setTimeout(() => li.classList.add('fd-pt-show'), 300 + i * 700);
+      setTimeout(() => li.classList.add('fd-pt-show'), 300 + i * 1700);
     });
-    const delay = 300 + items.length * 700 + 400;
+    const delay = 2000;
     setTimeout(() => {
       document.getElementById('fd-btn-row').style.display = 'grid';
     }, delay);
@@ -6438,13 +6438,13 @@ function cpdQuiz(title, items, back, again, rec) {
     if (q >= items.length) return end();
     const it = items[q];
     body.innerHTML = '<div class="cq-top"><span>' + cpdEsc(title) + '</span><span>' + (q + 1) + ' of ' + items.length + '</span></div><div class="cq-bar"><i style="width:' + ((q + 1) / items.length * 100) + '%"></i></div>' +
-      (it.we ? '<div class="cq-q"><span style="color:var(--muted);font-weight:600">We:</span> ' + cpdEsc(it.we) + '</div><div class="cq-h" style="margin:0 0 .5rem">So that:</div>' : '<div class="cq-q">' + cpdEsc(it.q) + '</div>') + '<div id="cq-opts"></div><div id="cq-fb"></div>';
+      (it.sos ? '<div class="cq-lbl">So that</div><div class="cq-sob">' + it.sos.map(s => '<div class="cq-so">' + cpdEsc(s) + '</div>').join('') + '</div><div class="cq-ask">Which ‘We…’ statement is this the why for?</div>' : '<div class="cq-q">' + cpdEsc(it.q) + '</div>') + '<div id="cq-opts"></div><div id="cq-fb"></div>';
     const o = document.getElementById('cq-opts');
     it.opts.forEach((t, k) => { const b = document.createElement('button'); b.className = 'cq-opt'; b.textContent = t; b.onclick = () => pick(k); o.appendChild(b); });
     function pick(k) {
       const ok = k === it.ans; if (ok) right++; else miss.push(it);
       o.querySelectorAll('.cq-opt').forEach((b, j) => { b.disabled = true; if (j === it.ans) b.classList.add('ok'); else if (j === k) b.classList.add('no'); });
-      document.getElementById('cq-fb').innerHTML = '<div style="margin-top:.8rem"><div class="cq-v ' + (ok ? 'ok' : 'no') + '" style="margin-bottom:.5rem">' + (ok ? 'Right' : 'Not quite. The reason is shown in green.') + '</div><button class="arc-btn" id="cq-nx" style="width:100%">' + (q + 1 >= items.length ? 'See results' : 'Next') + '</button></div>';
+      document.getElementById('cq-fb').innerHTML = '<div style="margin-top:.8rem"><div class="cq-v ' + (ok ? 'ok' : 'no') + '" style="margin-bottom:.5rem">' + (ok ? 'Right' : 'Not quite. The right one is in green.') + '</div><button class="arc-btn" id="cq-nx" style="width:100%">' + (q + 1 >= items.length ? 'See results' : 'Next') + '</button></div>';
       document.getElementById('cq-nx').onclick = () => { q++; show(); };
       document.getElementById('cq-nx').scrollIntoView({block: 'nearest', behavior: 'smooth'});
     }
@@ -6460,15 +6460,29 @@ function cpdQuiz(title, items, back, again, rec) {
   };
   show();
 }
+const CPD_SW = new Set('about their there which where would could should these those being have been while with from that this than then them they will into onto also more most such only other when what within across ensure ensuring ensures students student school staff learning learn every each both'.split(' '));
+function cpdStems(t) { const o = new Set(); String(t).toLowerCase().replace(/\([^)]*\)/g, ' ').split(/[^a-z]+/).forEach(w => { if (w.length >= 5 && !CPD_SW.has(w)) o.add(w.slice(0, 6)); }); return o; }
+function cpdJac(a, b) { let i = 0; a.forEach(x => { if (b.has(x)) i++; }); const u = a.size + b.size - i; return u ? i / u : 0; }
+function cpdClash(shown, right, d) {
+  const sh = shown.map(cpdStems), un = new Set(); sh.forEach(s => s.forEach(x => un.add(x)));
+  if (cpdJac(cpdStems(right.we), cpdStems(d.we)) >= 0.34) return true;
+  const dall = new Set(); cpdStems(d.we).forEach(x => dall.add(x));
+  for (const t of d.so) { const ts = cpdStems(t); ts.forEach(x => dall.add(x)); for (const s of sh) if (cpdJac(s, ts) >= 0.25) return true; }
+  let shared = 0; un.forEach(x => { if (dall.has(x)) shared++; });
+  return shared >= 3;
+}
 function cpdMatchItems(cards, n) {
   const all = cpdCards();
   return cpdShuf(cards).slice(0, n || 10).map(x => {
-    const c = x.c, mine = c.so.map(cpdSent), right = cpdSent(cpdShuf(c.so)[0]);
+    const c = x.c, rightT = cpdWe(c.we);
+    const shownRaw = cpdShuf(c.so).slice(0, c.so.length >= 3 ? 2 : 1), shown = shownRaw.map(cpdSent);
+    const ok = y => y.c !== c && cpdWe(y.c.we) !== rightT && !cpdClash(shownRaw, c, y.c);
+    const tiers = [all.filter(y => y.c.unit === c.unit && ok(y)), all.filter(y => y.ch === x.ch && y.c.unit !== c.unit && ok(y)), all.filter(y => y.ch !== x.ch && ok(y))];
     const d = [];
-    if (c.dx && c.dx.length >= 3) { cpdShuf(c.dx).forEach(s => { const t = cpdSent(s); if (d.length < 3 && mine.indexOf(t) < 0 && d.indexOf(t) < 0 && t !== right) d.push(t); }); }
-    else { let pool = all.filter(y => y.ch === x.ch && y.c !== c); if (pool.length < 6) pool = all.filter(y => y.c !== c); cpdShuf(pool).forEach(y => { if (d.length >= 3) return; const t = cpdSent(cpdShuf(y.c.so)[0]); if (mine.indexOf(t) > -1 || d.indexOf(t) > -1 || t === right) return; d.push(t); }); }
-    const opts = cpdShuf([right].concat(d));
-    return {q: 'We ' + cpdLow(c.we), we: cpdLow(c.we), opts, ans: opts.indexOf(right), card: c};
+    const rl = rightT.length, nearSort = t => t.map(y => [Math.abs(Math.log(cpdWe(y.c.we).length / rl)) + Math.random() * 0.35, y]).sort((p, q) => p[0] - q[0]).map(p => p[1]);
+    tiers.forEach(t => { nearSort(t).forEach(y => { const w = cpdWe(y.c.we); if (d.length < 3 && d.indexOf(w) < 0) d.push(w); }); });
+    const opts = cpdShuf([rightT].concat(d));
+    return {sos: shown, q: shown.join(' '), opts, ans: opts.indexOf(rightT), card: c};
   });
 }
 function cpdMatchUnit() {
@@ -6612,11 +6626,12 @@ function cpdRead() {
 }
 /* ---------- name and department at the top, featured unit and league ---------- */
 function cpdWho() {
-  const t = document.querySelector('#s-pick h1'); if (!t) return;
+  const sw = document.getElementById('set-wrap'); if (!sw) return;
+  const host = sw.parentNode;
   let w = document.getElementById('cpd-who');
-  if (!w) { w = document.createElement('button'); w.id = 'cpd-who'; w.onclick = () => cpdAsk(true); const host = t.parentNode; host.parentNode.insertBefore(w, host.nextSibling); }
+  if (!w) { w = document.createElement('button'); w.id = 'cpd-who'; w.onclick = () => cpdAsk(true); host.insertBefore(w, host.firstChild); host.style.display = 'flex'; host.style.alignItems = 'center'; host.style.gap = '8px'; }
   const u = cpdUser(); w.style.display = u ? 'inline-flex' : 'none';
-  if (u) w.innerHTML = '<span style="font-size:1.1rem">👤</span><b>' + cpdEsc(u.name) + '</b><span style="color:var(--muted)">' + cpdEsc(u.team) + '</span><span style="color:var(--muted);font-size:.75rem">Change</span>';
+  if (u) w.innerHTML = '<span style="font-size:1rem">👤</span><b>' + cpdEsc(u.name) + '</b><span style="color:var(--muted)">' + cpdEsc(u.team) + '</span><span class="who-ch" style="color:var(--muted);font-size:.72rem">Change</span>';
 }
 let CPD_LOADED = 0;
 async function cpdFeat() {
@@ -6625,7 +6640,7 @@ async function cpdFeat() {
   if (!f) { f = document.createElement('div'); f.id = 'cpd-feat'; grid.parentNode.insertBefore(f, grid); }
   const draw = () => {
     const un = UNITS.filter(x => x.n === CPD_FOCUS)[0], L = cpdBoard().slice(0, 5), me = (cpdUser() || {}).team;
-    const left = un ? '<div class="ft-unit" style="background:' + un.bg + ';border-color:' + un.col + ';color:' + un.tx + '"><div class="ft-top"><span class="ft-e">' + un.e + '</span><span class="ft-n">' + cpdEsc(un.n) + '</span></div><div class="ft-btns"><button class="ft-learn" onclick="openPaper(\'' + un.k + '\');cpdRead()" style="border-color:' + un.col + ';color:' + un.tx + '">📖 Learn</button><button class="ft-quiz" onclick="openPaper(\'' + un.k + '\');cpdMatchUnit()" style="border-color:' + un.col + ';color:' + un.tx + ';background:color-mix(in srgb,' + un.col + ' 24%,#fff)">🎯 Take the quiz</button></div></div>' : '';
+    const left = un ? '<div class="ft-unit" style="background:' + un.bg + ';border-color:' + un.col + ';color:' + un.tx + '"><div class="ft-top"><span class="ft-e">' + un.e + '</span><span class="ft-n">' + cpdEsc(un.n) + '</span></div><div class="ft-btns"><button class="ft-learn" onclick="openPaper(\'' + un.k + '\')" style="border-color:' + un.col + ';color:' + un.tx + '">📖 Learn</button><button class="ft-quiz" onclick="openPaper(\'' + un.k + '\');cpdMatchUnit()" style="border-color:' + un.col + ';color:' + un.tx + ';background:color-mix(in srgb,' + un.col + ' 24%,#fff)">🎯 Take the quiz</button></div></div>' : '';
     const right = '<button class="ft-lg" onclick="cpdOpenLeague()"><span class="ft-h">🏆 League table</span>' + (L.length ? L.map(t => '<span class="ft-r' + (t.name === me ? ' me' : '') + '"><i>' + t.rank + '</i><em>' + cpdEsc(t.name) + '</em><b>' + t.avg + '%</b></span>').join('') : '<span class="ft-none">No scores yet. Finish a quiz to start the table.</span>') + '</button>';
     const hasL = L.length > 0;
     f.style.display = (un || hasL) ? '' : 'none';
@@ -6653,7 +6668,7 @@ function cpdQuizBlock() {
   let q = document.getElementById('hub-quiz');
   if (!q) { q = document.createElement('div'); q.id = 'hub-quiz'; fc.parentNode.insertBefore(q, fc); }
   const open = CPD_ALL || u.n === CPD_FOCUS;
-  q.innerHTML = open ? '<button class="qz-big" onclick="cpdMatchUnit()" style="background:color-mix(in srgb,' + u.col + ' 18%,#fff);border:1.5px solid ' + u.col + ';color:' + u.tx + '"><span class="qz-t">🎯 Take the quiz</span><small>10 questions. Your score counts towards the league table.</small></button>'
+  q.innerHTML = open ? '<button class="qz-big" onclick="cpdMatchUnit()" style="background:color-mix(in srgb,' + u.col + ' 18%,#fff);border:1.5px solid ' + u.col + ';color:' + u.tx + '"><span class="qz-t">🎯 Take the quiz</span></button>'
     : '';
 }
 (function () {
@@ -6732,6 +6747,8 @@ fdUpdateProgress = function () {
     const rows = kw.map(function (k, i) { return k && k.length ? '<div class="fq-h"><span class="fq-n">' + (i + 1) + '</span>' + k.map(function (w) { return '<b>' + cpdEsc(w) + '</b>'; }).join('<i>·</i>') + '</div>' : ''; }).join('');
     if (rows) h += '<div class="fq-hs"><div class="fq-hl">So that…</div>' + rows + '</div>';
     q.innerHTML = h;
+    let bw = document.getElementById('fd-back-we'); if (!bw) { bw = document.createElement('div'); bw.id = 'fd-back-we'; const tb = document.getElementById('fd-tag-back'); tb.parentNode.insertBefore(bw, tb.nextSibling); }
+    bw.innerHTML = '<div class="fq-lbl">What is the why?</div><div class="fq-we">' + cpdEsc(c.front) + '</div>';
     document.querySelectorAll('#fd-points li').forEach(function (li, i) { li.innerHTML = boldHints(c['p' + (i + 1)] || '', kw[i] || []); });
   };
   const st = document.createElement('style');
@@ -6750,6 +6767,21 @@ fdUpdateProgress = function () {
     '.hub-start-row .hub-start{font-size:.9rem!important}';
   document.head.appendChild(st);
 })();
+(function () {
+  const st = document.createElement('style');
+  st.textContent = '#fd-back-we{margin:.2rem 0 .8rem;padding-bottom:.7rem;border-bottom:1px solid var(--border2)}#fd-back-we .fq-we{font-size:1.05rem}' +
+    '.app{max-width:36rem!important}#cpd-feat,.qz-big,.fd-scene,#fd-btn-row{max-width:none!important}';
+  document.head.appendChild(st);
+})();
+(function(){const st=document.createElement('style');st.textContent='.cq-so{font-weight:500!important;font-size:.98rem!important;margin-bottom:.45rem!important;padding-left:.6rem;border-left:3px solid #6d5ce8}';document.head.appendChild(st);})();
+(function(){const st=document.createElement('style');st.textContent=
+'.cq-lbl{font-size:.8rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#4a3fc0;margin:0 0 .4rem}' +
+'.cq-sob{background:#eeeafd;border:1.5px solid #cfc8f7;border-radius:14px;padding:.8rem .95rem;margin-bottom:1.1rem}' +
+'.cq-sob .cq-so{font-size:1.08rem!important;font-weight:600!important;line-height:1.5;color:#1f1a5c;border-left:0!important;padding-left:0!important;margin:0 0 .6rem!important}.cq-sob .cq-so:last-child{margin-bottom:0!important}' +
+'.cq-sob .cq-so+.cq-so{border-top:1px solid #cfc8f7!important;padding-top:.6rem!important}' +
+'.cq-ask{font-size:1.2rem;font-weight:800;line-height:1.3;color:var(--text);margin:0 0 .8rem}' +
+'#cpd-who{margin:0!important;padding:.3rem .6rem!important;font-size:.82rem!important;max-width:calc(100% - 150px);overflow:hidden;white-space:nowrap}#cpd-who b{overflow:hidden;text-overflow:ellipsis}@media(max-width:480px){#cpd-who .who-ch{display:none}}';
+document.head.appendChild(st);})();
 
 </script>
 </body>
