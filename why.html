@@ -1342,9 +1342,9 @@ select.sel-p3{background:#EAE9FC;color:#2B267E;border-color:#4F46E5}
         </div>
       </div>
 
-      <div class="fd-btn-row" id="fd-btn-row" style="display:none">
-        <button class="fd-btn fd-miss" onclick="fdAnswer(false)">❌ Missed</button>
-        <button class="fd-btn fd-got"  onclick="fdAnswer(true)">✅ Got it</button>
+      <div class="fd-btn-row" id="fd-btn-row" style="display:none;grid-template-columns:1fr">
+        
+        <button class="fd-btn fd-next" onclick="fdAnswer(true)">Next card →</button>
       </div>
     </div>
 
@@ -3008,7 +3008,7 @@ Promise.all([
   g.chapters.forEach(ch => ch.cards.forEach(c => {
     const u = U[c.unit]; if (!u) return;
     no[u.k] = (no[u.k] || 0) + 1;
-    const o = {paper: u.k, unit: u.label, no: no[u.k], pn: u.k, front: 'We ' + low(c.we), k: 0, hints: [], sub: c.sub || c.unit};
+    const o = {paper: u.k, unit: u.label, no: no[u.k], pn: u.k, front: 'We ' + low(c.we), k: 0, hints: [], kw: c.kw || [], sub: c.sub || c.unit};
     c.so.forEach((l, i) => { o['p' + (i + 1)] = sent(l); });
     FD.push(o);
     KC.push({paper: u.k, unit: u.label, heading: 'We ' + low(c.we), summary: c.sub || c.unit, facts: c.so.map(sent), hints: []});
@@ -4247,7 +4247,7 @@ function hubRender2(p) {
   document.getElementById('hub-fc').style.borderLeftColor = col;
   document.getElementById('hub-fc').style.setProperty('--c', col);
   document.getElementById('hub-fc').innerHTML = '<h3>⚡ Flashcards</h3>' +
-    '<div class="sub" style="margin:.2rem 0 .7rem">' + allCards.filter(c => mast[fdKey(c)]).length + ' of ' + allCards.length + ' cards mastered</div>' +
+    '<div class="sub" style="margin:.2rem 0 .7rem">' + allCards.length + ' cards</div>' +
     '<button class="hub-start" style="background:' + col + '" onclick="cpdRead()">📖 Read the why</button><div class="hub-start-row"><button class="hub-start" style="background:' + col + '" onclick="hubGo(\'flip\')">🃏 Flip and learn</button>' +
     '<button class="hub-start" style="background:' + col + ';position:relative" onclick="cpdMatchUnit()">🎯 Quiz yourself</button></div>' +
     '<div style="display:flex;gap:10px;flex-wrap:wrap">' + (pins ? '<button class="hub-link" onclick="goToPinnedReview()">📌 Review ' + pins + ' pinned (all papers)</button>' : '') + '<button class="hub-link" onclick="hubPrint()">🖨️ Print cards as PDF</button></div>';
@@ -6624,7 +6624,7 @@ async function cpdFeat() {
   if (!f) { f = document.createElement('div'); f.id = 'cpd-feat'; grid.parentNode.insertBefore(f, grid); }
   const draw = () => {
     const un = UNITS.filter(x => x.n === CPD_FOCUS)[0], L = cpdBoard().slice(0, 5), me = (cpdUser() || {}).team;
-    const left = un ? '<div class="ft-unit" style="background:' + un.bg + ';border-color:' + un.col + ';color:' + un.tx + '"><span class="ft-e">' + un.e + '</span><span class="ft-n">' + cpdEsc(un.n) + '</span><button class="ft-quiz" onclick="openPaper(\'' + un.k + '\');cpdMatchUnit()">🎯 Take the quiz</button><button class="ft-go" onclick="openPaper(\'' + un.k + '\')" style="color:' + un.tx + '">Open unit →</button></div>' : '';
+    const left = un ? '<div class="ft-unit" style="background:' + un.bg + ';border-color:' + un.col + ';color:' + un.tx + '"><div class="ft-top"><span class="ft-e">' + un.e + '</span><span class="ft-n">' + cpdEsc(un.n) + '</span></div><div class="ft-btns"><button class="ft-learn" onclick="openPaper(\'' + un.k + '\');cpdRead()" style="border-color:' + un.col + ';color:' + un.tx + '">📖 Learn</button><button class="ft-quiz" onclick="openPaper(\'' + un.k + '\');cpdMatchUnit()" style="border-color:' + un.col + ';color:' + un.tx + ';background:color-mix(in srgb,' + un.col + ' 24%,#fff)">🎯 Take the quiz</button></div></div>' : '';
     const right = '<button class="ft-lg" onclick="cpdOpenLeague()"><span class="ft-h">🏆 League table</span>' + (L.length ? L.map(t => '<span class="ft-r' + (t.name === me ? ' me' : '') + '"><i>' + t.rank + '</i><em>' + cpdEsc(t.name) + '</em><b>' + t.avg + '%</b></span>').join('') : '<span class="ft-none">No scores yet. Finish a quiz to start the table.</span>') + '</button>';
     const hasL = L.length > 0;
     f.style.display = (un || hasL) ? '' : 'none';
@@ -6652,7 +6652,7 @@ function cpdQuizBlock() {
   let q = document.getElementById('hub-quiz');
   if (!q) { q = document.createElement('div'); q.id = 'hub-quiz'; fc.parentNode.insertBefore(q, fc); }
   const open = u.n === CPD_FOCUS;
-  q.innerHTML = open ? '<button class="qz-big" onclick="cpdMatchUnit()"><span class="qz-t">🎯 Take the quiz</span><small>10 questions. Your score counts towards the league table.</small></button>'
+  q.innerHTML = open ? '<button class="qz-big" onclick="cpdMatchUnit()" style="background:color-mix(in srgb,' + u.col + ' 18%,#fff);border:1.5px solid ' + u.col + ';color:' + u.tx + '"><span class="qz-t">🎯 Take the quiz</span><small>10 questions. Your score counts towards the league table.</small></button>'
     : '<div class="qz-big lock"><span class="qz-t">🔒 Take the quiz</span><small>Opens when this is the featured unit of the week.</small></div>';
 }
 (function () {
@@ -6674,6 +6674,70 @@ function cpdQuizBlock() {
   document.head.appendChild(st);
   UNITS.forEach(u => { const pe = document.querySelector('.paper-btn.pb-' + u.k + ' .pe'); if (pe) pe.style.background = u.bg; });
   try { cpdRings(); } catch (x) {}
+})();
+(function () {
+  const st = document.createElement('style');
+  st.textContent = '#cpd-feat{max-width:560px}.ft-top{display:flex;align-items:center;gap:.6rem}.ft-unit{gap:.6rem!important}.ft-unit .ft-e{font-size:1.6rem}.ft-unit .ft-n{font-size:1rem}.ft-btns{display:flex;gap:8px}.ft-btns button{flex:1;padding:.5rem .3rem;border:1.5px solid;border-radius:10px;background:transparent;font:inherit;font-weight:700;font-size:.82rem;cursor:pointer;margin:0}' +
+    '.qz-big{max-width:560px;padding:.7rem .8rem!important;gap:.1rem!important;border-radius:12px!important}.qz-big .qz-t{font-size:1rem!important;font-weight:700!important}.qz-big small{font-size:.74rem!important}.ft-unit .ft-quiz{margin-top:0!important}';
+  document.head.appendChild(st);
+})();
+/* Flashcards: browse only, no marking */
+fdAnswer = function () {
+  if (fdBusy) return;
+  fdBusy = true;
+  fdGot++;
+  const inner = document.getElementById('fd-card-inner');
+  const reduced = window.matchMedia && matchMedia('(prefers-reduced-motion:reduce)').matches;
+  inner.classList.add('slide-out-left');
+  setTimeout(function () {
+    if (currentMode !== 'flashcard') { fdBusy = false; return; }
+    inner.classList.remove('slide-out-left', 'flipped');
+    inner.classList.add('from-right');
+    fdNext();
+    requestAnimationFrame(function () { requestAnimationFrame(function () {
+      inner.classList.remove('from-right'); inner.classList.add('slide-in');
+      setTimeout(function () { inner.classList.remove('slide-in'); }, 250);
+    }); });
+    fdBusy = false;
+  }, reduced ? 0 : 200);
+};
+fdShowSummary = function () { fdFinish(); };
+fdUpdateProgress = function () {
+  const bar = document.getElementById('fd-bar');
+  const n = Math.min(fdGot + 1, fdTotal);
+  bar.style.width = (fdTotal ? Math.round(n / fdTotal * 100) : 0) + '%';
+  bar.style.background = '#6d5ce8';
+  document.getElementById('fd-prog-text').textContent = 'Card ' + n + ' of ' + fdTotal;
+  document.getElementById('fd-prog-count').textContent = '';
+};
+(function () {
+  const st = document.createElement('style');
+  st.textContent = '.fd-scene{max-width:560px;margin-left:auto;margin-right:auto}.fd-front,.fd-back{border-radius:18px!important;box-shadow:0 6px 22px rgba(60,50,120,.10)!important;border:1px solid var(--border2)!important;padding:1.4rem 1.3rem!important}' +
+    '.fd-question{font-size:1.25rem!important;line-height:1.45!important;font-weight:700!important}.fd-points li{font-size:1.02rem!important;line-height:1.55!important}' +
+    '.fd-tap-hint{margin-top:1.1rem!important;font-size:.82rem!important;color:var(--muted)!important}' +
+    '#fd-btn-row{max-width:560px;margin-left:auto!important;margin-right:auto!important}#fd-btn-row .fd-next{background:#eeeafd;color:#3b2fa0;border:1.5px solid #6d5ce8;border-radius:12px;padding:.75rem;font-weight:700;font-size:.95rem;cursor:pointer}' +
+    '#fd-prog-count,.fd-stamp{display:none!important}';
+  document.head.appendChild(st);
+})();
+/* Flashcard front: What is the why? + key-word hints; bold keys on the back */
+(function () {
+  const _fn = fdNext;
+  fdNext = function () {
+    _fn.apply(this, arguments);
+    const c = fdCurrent; if (!c) return;
+    const kw = c.kw || [];
+    const q = document.getElementById('fd-question');
+    let h = '<div class="fq-lbl">What is the why?</div><div class="fq-we">' + cpdEsc(c.front) + '</div>';
+    const rows = kw.map(function (k, i) { return k && k.length ? '<div class="fq-h"><span class="fq-n">' + (i + 1) + '</span>' + k.map(function (w) { return '<b>' + cpdEsc(w) + '</b>'; }).join('<i>·</i>') + '</div>' : ''; }).join('');
+    if (rows) h += '<div class="fq-hs"><div class="fq-hl">So that…</div>' + rows + '</div>';
+    q.innerHTML = h;
+    document.querySelectorAll('#fd-points li').forEach(function (li, i) { li.innerHTML = boldHints(c['p' + (i + 1)] || '', kw[i] || []); });
+  };
+  const st = document.createElement('style');
+  st.textContent = '.fd-question{font-weight:400!important;font-size:1rem!important}.fq-lbl{font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:#6d5ce8;font-weight:700;margin-bottom:.35rem}' +
+    '.fq-we{font-size:1.2rem;font-weight:700;line-height:1.4;color:var(--text)}.fq-hs{margin-top:1rem;padding-top:.8rem;border-top:1px solid var(--border2)}.fq-hl{font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:.4rem}' +
+    '.fq-h{display:flex;flex-wrap:wrap;align-items:center;gap:.35rem;margin:.3rem 0;font-size:.95rem}.fq-h b{background:#eeeafd;color:#3b2fa0;border-radius:8px;padding:.1rem .5rem;font-weight:700}.fq-h i{color:var(--muted);font-style:normal}.fq-n{width:1.3rem;height:1.3rem;border-radius:50%;background:#6d5ce8;color:#fff;font-size:.72rem;font-weight:700;display:inline-flex;align-items:center;justify-content:center}';
+  document.head.appendChild(st);
 })();
 
 </script>
