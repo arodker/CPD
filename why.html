@@ -6541,6 +6541,9 @@ function cpdQuizBlock() {
   const u = UNITS.filter(x => x.k === currentPaper)[0], fc = document.getElementById('hub-fc'); if (!u || !fc) return;
   let q = document.getElementById('hub-quiz');
   if (!q) { q = document.createElement('div'); q.id = 'hub-quiz'; fc.parentNode.insertBefore(q, fc); }
+  let uh = document.getElementById('cpd-unit-h');
+  if (!uh) { uh = document.createElement('h2'); uh.id = 'cpd-unit-h'; q.parentNode.insertBefore(uh, q); }
+  uh.innerHTML = '<span>' + u.e + '</span> ' + cpdEsc(u.n);
   const open = CPD_ALL || u.n === CPD_FOCUS;
   q.innerHTML = open ? '<button class="qz-big" onclick="cpdMatchUnit()" style="background:color-mix(in srgb,' + u.col + ' 18%,#fff);border:1.5px solid ' + u.col + ';color:' + u.tx + '"><span class="qz-t">🎯 Take the quiz</span></button>'
     : '';
@@ -6675,6 +6678,7 @@ function cpdBoldOnce(html, kws) {
   (kws || []).forEach(k => { const re = new RegExp('(^|[^A-Za-z>])(' + k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')(?![A-Za-z])', 'i'); out = out.replace(re, '$1<strong>$2</strong>'); });
   return out;
 }
+(function(){const st=document.createElement('style');st.textContent='html{font-size:14px}#cpd-unit-h{display:block!important;font-size:1.25rem;font-weight:800;margin:.5rem 0 .7rem;line-height:1.25;color:var(--text)}#cpd-unit-h span{margin-right:.2rem}.tb-btn,#set-btn,#search-btn{font-size:.9rem}';document.head.appendChild(st);})();
 
 </script>
 </body>
