@@ -4248,8 +4248,8 @@ function hubRender2(p) {
   document.getElementById('hub-fc').style.setProperty('--c', col);
   document.getElementById('hub-fc').innerHTML = '<h3>⚡ Flashcards</h3>' +
     '<div class="sub" style="margin:.2rem 0 .7rem">' + allCards.filter(c => mast[fdKey(c)]).length + ' of ' + allCards.length + ' cards mastered</div>' +
-    '<div class="hub-start-row"><button class="hub-start" style="background:' + col + '" onclick="hubGo(\'flip\')">📖 Flip and learn</button>' +
-    '<button class="hub-start" style="background:' + col + ';position:relative" onclick="cpdMatchUnit()">🎯 Match the reason</button></div>' +
+    '<button class="hub-start" style="background:' + col + '" onclick="cpdRead()">📖 Read the why</button><div class="hub-start-row"><button class="hub-start" style="background:' + col + '" onclick="hubGo(\'flip\')">🃏 Flip and learn</button>' +
+    '<button class="hub-start" style="background:' + col + ';position:relative" onclick="cpdMatchUnit()">🎯 Quiz yourself</button></div>' +
     '<div style="display:flex;gap:10px;flex-wrap:wrap">' + (pins ? '<button class="hub-link" onclick="goToPinnedReview()">📌 Review ' + pins + ' pinned (all papers)</button>' : '') + '<button class="hub-link" onclick="hubPrint()">🖨️ Print cards as PDF</button></div>';
 }
 let hubSel = {paper:'', all:true, set:[]};
@@ -6383,7 +6383,7 @@ function cpdAsk(force) {
     const n = document.getElementById('cpd-nm').value.trim().split(/\s+/)[0], t = document.getElementById('cpd-tm').value;
     if (n && n.toUpperCase() === 'RODKERADMIN') { o.remove(); cpdAdmin(); return; }
     if (!n || !t) { document.getElementById('cpd-er').style.display = 'block'; return; }
-    localStorage.setItem('cpd_user', JSON.stringify({name: n, team: t})); o.remove(); try { setMenuRender(); } catch (e) {}
+    localStorage.setItem('cpd_user', JSON.stringify({name: n, team: t})); o.remove(); try { setMenuRender(); } catch (e) {} try { cpdWho(); cpdFeat(); } catch (e) {}
   };
   document.getElementById('cpd-go').onclick = go;
   document.getElementById('cpd-nm').onkeydown = e => { if (e.key === 'Enter') go(); };
@@ -6472,11 +6472,12 @@ function cpdMatchItems(cards, n) {
 }
 function cpdMatchUnit() {
   const u = UNITS.filter(x => x.k === currentPaper)[0]; if (!u) return;
+  if (u.n !== CPD_FOCUS) return;
   const cards = cpdCards().filter(x => x.c.unit === u.n);
-  cpdQuiz(u.e + ' ' + u.n + ': match the reason', cpdMatchItems(cards, 10), () => showScreen('s-hub'), cpdMatchUnit, 'Match: ' + u.n);
+  cpdQuiz(u.e + ' ' + u.n + ': take the quiz', cpdMatchItems(cards, 10), () => showScreen('s-hub'), cpdMatchUnit, 'Match: ' + u.n);
 }
 function cpdMatchMixed() {
-  cpdQuiz('Match the reason: mixed', cpdMatchItems(cpdCards(), 10), () => showScreen('s-pick'), cpdMatchMixed, 'Match: mixed');
+  cpdQuiz('Take the quiz: mixed', cpdMatchItems(cpdCards(), 10), () => showScreen('s-pick'), cpdMatchMixed, 'Match: mixed');
 }
 function cpdFindCard(ref) { const ch = GUIDE.chapters.filter(x => x.id === ref.chapter)[0]; const c = ch && ch.cards.filter(x => x.we === ref.we)[0]; return c || {we: ref.we, so: []}; }
 function cpdScenRun(cid) {
@@ -6527,8 +6528,8 @@ function cpdRenderLeague() {
 /* ---------- wiring ---------- */
 (function () {
   const st = document.createElement('style');
-  st.textContent = '#home-badges,#pg-badges,.pg-badges,#parent-btn,#xp-card,#xp-pop,#bdg-toast,#xp-levelup,#fd-hints-drill-wrap{display:none!important}.paper-grid{gap:8px}.paper-btn{padding:.7rem .7rem;min-height:4.3rem;font-size:.85rem;display:flex;flex-direction:column;justify-content:flex-start;border-width:1.5px;border-radius:10px}.paper-btn .plabel{display:none}#s-pick .paper-btn .pbw{display:block;position:absolute;right:.4rem;top:.45rem;transform:none;width:2rem}#s-pick .paper-btn .pbw .fd-wheel{width:2rem;height:2rem}.paper-btn .pbw text{font-size:12px}.paper-btn::after{display:none}.paper-btn .pe{font-size:1.3rem;line-height:1.2;margin-bottom:.2rem}.paper-btn .pn{display:block}.pgrp.multi{border-top:1px solid var(--border);padding-top:.7rem;margin-top:.5rem}.pgrp-div{grid-column:1/-1;border-top:1px solid var(--border);margin:.3rem 0 .1rem}.pgrp{color:#16294F}' +
-    '.cpd-now{position:absolute;top:-8px;right:8px;font-size:.62rem;font-weight:800;letter-spacing:.03em;text-transform:uppercase;padding:2px 8px;border-radius:9px}.cpd-now.on{background:#16294F;color:#fff}.cpd-now.soon{background:#fff;color:#16294F;border:1px solid #16294F}' +
+  st.textContent = '#home-badges,.paper-badge,.fd-tag,.search-result-meta,.search-result-where,#pg-badges,.pg-badges,#parent-btn,#xp-card,#xp-pop,#bdg-toast,#xp-levelup,#fd-hints-drill-wrap{display:none!important}.paper-grid{gap:6px}.paper-btn{min-width:0;box-sizing:border-box;width:100%;overflow:hidden;padding:.4rem 1.75rem .4rem .45rem;min-height:2.4rem;font-size:.74rem;line-height:1.2;display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:.3rem;border-width:1.5px;border-radius:9px;text-align:left}.paper-btn .plabel{display:none}#s-pick .paper-btn .pbw{display:block;position:absolute;right:.3rem;top:50%;transform:translateY(-50%);width:1.3rem}#s-pick .paper-btn .pbw .fd-wheel{width:1.3rem;height:1.3rem}.paper-btn .pbw text{font-size:0}.paper-btn::after{display:none}.paper-btn .pe{font-size:1.05rem;line-height:1;flex:none}.paper-btn .pn{display:block;flex:1;min-width:0}.pgrp.multi{border-top:1px solid var(--border);padding-top:.7rem;margin-top:.5rem}.pgrp-div{grid-column:1/-1;border-top:1px solid var(--border);margin:.3rem 0 .1rem}.pgrp{color:#16294F}' +
+    '.cpd-now{display:none!important;position:absolute;top:-8px;right:8px;font-size:.62rem;font-weight:800;letter-spacing:.03em;text-transform:uppercase;padding:2px 8px;border-radius:9px}.cpd-now.on{background:#16294F;color:#fff}.cpd-now.soon{background:#fff;color:#16294F;border:1px solid #16294F}' +
     '.cq-top{display:flex;justify-content:space-between;font-size:.8rem;color:var(--muted);margin-bottom:.3rem}.cq-bar{height:5px;background:var(--subtle);border-radius:3px;margin-bottom:.9rem}.cq-bar i{display:block;height:5px;background:#16294F;border-radius:3px}' +
     '.cq-q{font-size:1.05rem;font-weight:700;margin-bottom:.8rem;line-height:1.4}.cq-opt{display:block;width:100%;text-align:left;background:var(--surface);color:var(--text);border:1.5px solid var(--border2);border-radius:12px;padding:.75rem .9rem;margin-bottom:.5rem;font:inherit;font-size:.95rem;line-height:1.4}' +
     '.cq-opt.ok{background:#E6F4EC;border-color:#1F7A4D;color:#14532D}.cq-opt.no{background:#FBEAE9;border-color:#B3261E;color:#7A1912}' +
@@ -6540,6 +6541,7 @@ function cpdRenderLeague() {
   const mk = (id, title, inner) => { const d = document.createElement('div'); d.className = 'screen'; d.id = id; d.innerHTML = '<div class="mode-header"><button class="back-btn" onclick="showScreen(\'s-pick\')">🏠 Home</button></div>' + (title ? '<h1 style="font-size:1.4rem;margin:.4rem 0 .6rem">' + title + '</h1>' : '') + inner; document.getElementById('s-pick').parentNode.insertBefore(d, document.getElementById('s-hub')); };
   mk('s-league', '🏆 League table', '<div id="lg-body"></div>');
   mk('s-cq', '', '<div id="cq-body" style="margin-top:.6rem"></div>');
+  mk('s-read', '', '<div id="rd-body" style="margin-top:.4rem"></div>');
   const hr = document.querySelector('#s-pick .home-row');
   const sw = document.getElementById('set-wrap');
   [['🏆', 'League table', 'cpdOpenLeague()'], ['🔍', 'Search', 'openSearch()']].forEach(x => { const t = document.createElement('button'); t.className = 'tb-btn'; t.textContent = x[0]; t.title = x[1]; t.setAttribute('aria-label', x[1]); t.setAttribute('onclick', x[2]); t.style.marginRight = '.4rem'; sw.parentNode.insertBefore(t, sw); });
@@ -6561,13 +6563,14 @@ function cpdRings() {
     if (m) m.setAttribute('stroke-dasharray', '0 ' + circ);
     if (f) f.setAttribute('r', '0');
     if (t) { t.textContent = best < 0 ? '' : Math.round(best * 100) + '%'; t.setAttribute('font-size', '11'); }
+    const tile = document.querySelector('.paper-btn.pb-' + u.k); if (tile) { tile.querySelectorAll('.cpd-sc').forEach(x => x.remove()); if (best >= 0) { const s = document.createElement('span'); s.className = 'cpd-sc'; s.textContent = Math.round(best * 100) + '%'; tile.appendChild(s); } }
   });
 }
 renderFdWheels = function () { cpdRingsBase(); cpdRings(); };
 renderFdWheels();
 
 /* ---------- this week's focus: unlocked with a staff code ---------- */
-function cpdSetFocus(t) { CPD_FOCUS = t || ''; try { localStorage.setItem('cpd_focus', CPD_FOCUS); } catch (x) {} cpdMarkNow(); }
+function cpdSetFocus(t) { CPD_FOCUS = t || ''; try { localStorage.setItem('cpd_focus', CPD_FOCUS); } catch (x) {} cpdMarkNow(); try { cpdFeat(); } catch (x) {} }
 async function cpdFocusPull() {
   if (!CPD_LIVE) return;
   try { const r = await fetch(CPD.endpoint + '?focus=1'); const j = await r.json(); if (j && typeof j.focus === 'string') cpdSetFocus(j.focus); } catch (x) {}
@@ -6595,6 +6598,83 @@ function cpdAdmin() {
 const cpdMenuBase = setMenuRender;
 setMenuRender = function () { cpdMenuBase(); const m = document.getElementById('set-menu'); if (m) m.insertAdjacentHTML('beforeend', '<div class="set-sep"></div><button class="set-row" role="menuitem" onclick="setMenuClose();cpdAsk(true)"><span>👤 Change name</span></button>'); };
 cpdFocusPull(); cpdMarkNow();
+
+/* ---------- read the why ---------- */
+function cpdRead() {
+  const u = UNITS.filter(x => x.k === currentPaper)[0]; if (!u) return;
+  const cards = cpdCards().filter(x => x.c.unit === u.n);
+  let h = '<button class="back-btn" onclick="showScreen(\'s-hub\')" style="margin-bottom:.6rem">← ' + cpdEsc(u.n) + '</button><h1 style="font-size:1.4rem;margin:.2rem 0 .2rem">' + u.e + ' ' + cpdEsc(u.n) + '</h1><div class="cq-sub" style="margin-bottom:.6rem">Read the why</div>';
+  cards.forEach(x => {
+    h += '<div class="cq-card" style="margin-top:.6rem;border-left:4px solid ' + u.col + '"><div style="font-weight:700;line-height:1.4">' + cpdEsc(cpdWe(x.c.we)) + '</div>' + (x.c.so.length ? '<div class="cq-h">So that</div>' + cpdSoList(x.c) : '') + '</div>';
+  });
+  document.getElementById('rd-body').innerHTML = h; showScreen('s-read'); window.scrollTo(0, 0);
+}
+/* ---------- name and department at the top, featured unit and league ---------- */
+function cpdWho() {
+  const t = document.querySelector('#s-pick h1'); if (!t) return;
+  let w = document.getElementById('cpd-who');
+  if (!w) { w = document.createElement('button'); w.id = 'cpd-who'; w.onclick = () => cpdAsk(true); const host = t.parentNode; host.parentNode.insertBefore(w, host.nextSibling); }
+  const u = cpdUser(); w.style.display = u ? 'inline-flex' : 'none';
+  if (u) w.innerHTML = '<span style="font-size:1.1rem">👤</span><b>' + cpdEsc(u.name) + '</b><span style="color:var(--muted)">' + cpdEsc(u.team) + '</span><span style="color:var(--muted);font-size:.75rem">Change</span>';
+}
+let CPD_LOADED = 0;
+async function cpdFeat() {
+  const grid = document.querySelector('#s-pick .paper-grid'); if (!grid) return;
+  let f = document.getElementById('cpd-feat');
+  if (!f) { f = document.createElement('div'); f.id = 'cpd-feat'; grid.parentNode.insertBefore(f, grid); }
+  const draw = () => {
+    const un = UNITS.filter(x => x.n === CPD_FOCUS)[0], L = cpdBoard().slice(0, 5), me = (cpdUser() || {}).team;
+    const left = un ? '<div class="ft-unit" style="background:' + un.bg + ';border-color:' + un.col + ';color:' + un.tx + '"><span class="ft-e">' + un.e + '</span><span class="ft-n">' + cpdEsc(un.n) + '</span><button class="ft-quiz" onclick="openPaper(\'' + un.k + '\');cpdMatchUnit()">🎯 Take the quiz</button><button class="ft-go" onclick="openPaper(\'' + un.k + '\')" style="color:' + un.tx + '">Open unit →</button></div>' : '';
+    const right = '<button class="ft-lg" onclick="cpdOpenLeague()"><span class="ft-h">🏆 League table</span>' + (L.length ? L.map(t => '<span class="ft-r' + (t.name === me ? ' me' : '') + '"><i>' + t.rank + '</i><em>' + cpdEsc(t.name) + '</em><b>' + t.avg + '%</b></span>').join('') : '<span class="ft-none">No scores yet. Finish a quiz to start the table.</span>') + '</button>';
+    const hasL = L.length > 0;
+    f.style.display = (un || hasL) ? '' : 'none';
+    f.innerHTML = un ? '<div class="ft-title">This week\'s featured unit</div><div class="ft-grid"' + (hasL ? '' : ' style="grid-template-columns:1fr"') + '>' + left + (hasL ? right : '') + '</div>' : (hasL ? '<div class="ft-grid" style="grid-template-columns:1fr">' + right + '</div>' : '');
+  };
+  draw();
+  if (Date.now() - CPD_LOADED > 60000) { CPD_LOADED = Date.now(); await cpdLoad(); draw(); }
+}
+(function () {
+  const st = document.createElement('style');
+  st.textContent = '#cpd-who{align-items:center;gap:.45rem;margin:.1rem 0 .7rem;padding:.35rem .7rem;border:1.5px solid var(--border2);border-radius:20px;background:var(--surface);color:var(--text);font:inherit;font-size:.85rem;cursor:pointer}' +
+    '#cpd-feat{margin:0 0 1rem}.ft-title{font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:#16294F;margin:0 0 .4rem 2px}' +
+    '.ft-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.ft-unit{display:flex;flex-direction:column;justify-content:center;gap:.25rem;text-align:left;border:2px solid;border-radius:14px;padding:.8rem;font:inherit;cursor:pointer;min-width:0}.ft-unit.none{border-color:var(--border2);background:var(--subtle);color:var(--muted);cursor:default}' +
+    '.ft-e{font-size:2rem;line-height:1}.ft-n{font-weight:800;font-size:1rem;line-height:1.2}.ft-go{font-size:.75rem;font-weight:700;opacity:.85}' +
+    '.ft-lg{display:flex;flex-direction:column;gap:.2rem;text-align:left;border:1.5px solid var(--border2);border-radius:14px;padding:.6rem .7rem;background:var(--surface);color:var(--text);font:inherit;cursor:pointer;min-width:0}.ft-h{font-weight:800;font-size:.8rem;margin-bottom:.15rem}' +
+    '.ft-r{display:flex;align-items:center;gap:.35rem;font-size:.72rem;padding:1px 3px;border-radius:5px}.ft-r i{font-style:normal;width:.9rem;color:var(--muted)}.ft-r em{font-style:normal;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.ft-r.me{background:var(--subtle);font-weight:700}.ft-none{font-size:.72rem;color:var(--muted);line-height:1.3}';
+  document.head.appendChild(st);
+  const sb = showScreen; showScreen = function (id) { sb(id); if (id === 's-pick') { try { cpdWho(); cpdFeat(); } catch (x) {} } };
+  setTimeout(() => { try { cpdWho(); cpdFeat(); } catch (x) {} }, 400);
+})();
+
+/* ---------- take the quiz: prominent, unlocked only for the featured unit ---------- */
+function cpdQuizBlock() {
+  const u = UNITS.filter(x => x.k === currentPaper)[0], fc = document.getElementById('hub-fc'); if (!u || !fc) return;
+  let q = document.getElementById('hub-quiz');
+  if (!q) { q = document.createElement('div'); q.id = 'hub-quiz'; fc.parentNode.insertBefore(q, fc); }
+  const open = u.n === CPD_FOCUS;
+  q.innerHTML = open ? '<button class="qz-big" onclick="cpdMatchUnit()"><span class="qz-t">🎯 Take the quiz</span><small>10 questions. Your score counts towards the league table.</small></button>'
+    : '<div class="qz-big lock"><span class="qz-t">🔒 Take the quiz</span><small>Opens when this is the featured unit of the week.</small></div>';
+}
+(function () {
+  const st = document.createElement('style');
+  st.textContent = '.hub-start-row .hub-start:nth-child(2){display:none}.hub-start-row .hub-start{flex:1}' +
+    '.qz-big{display:flex;flex-direction:column;align-items:center;gap:.2rem;width:100%;box-sizing:border-box;margin:0 0 .8rem;padding:1.05rem .8rem;border:none;border-radius:14px;background:#16294F;color:#fff;font:inherit;cursor:pointer}.qz-big .qz-t{font-size:1.2rem;font-weight:800}.qz-big small{font-size:.78rem;opacity:.85}' +
+    '.qz-big.lock{background:var(--subtle);color:var(--muted);border:1.5px dashed var(--border2);cursor:default}' +
+    '.ft-unit .ft-quiz{margin-top:.35rem;padding:.5rem .4rem;border:none;border-radius:10px;background:#16294F;color:#fff;font:inherit;font-weight:800;font-size:.85rem;cursor:pointer}.ft-unit .ft-go{background:none;border:none;padding:0;font:inherit;font-size:.75rem;font-weight:700;text-align:left;cursor:pointer}';
+  document.head.appendChild(st);
+  const hb = hubRender2; hubRender2 = function (p) { hb(p); try { cpdQuizBlock(); } catch (x) {} };
+})();
+
+/* ---------- tidy unit tiles ---------- */
+(function () {
+  const st = document.createElement('style');
+  st.textContent = '#s-pick .paper-grid{gap:8px}#s-pick .paper-btn{height:3.6rem;min-height:3.6rem;padding:0 .6rem;gap:.55rem;font-size:.8rem;font-weight:600;background:var(--card,#fff)!important;color:var(--text)!important;border:1px solid var(--border2)!important;border-radius:12px;box-shadow:none;align-items:center}' +
+    '#s-pick .paper-btn .pbw{display:none!important}#s-pick .paper-btn .pe{flex:none;width:2rem;height:2rem;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;margin:0}#s-pick .paper-btn .pn{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;line-height:1.2}' +
+    '#s-pick .paper-btn .cpd-sc{flex:none;font-size:.68rem;font-weight:700;padding:2px 7px;border-radius:10px;background:#E6F4EC;color:#14532D}';
+  document.head.appendChild(st);
+  UNITS.forEach(u => { const pe = document.querySelector('.paper-btn.pb-' + u.k + ' .pe'); if (pe) pe.style.background = u.bg; });
+  try { cpdRings(); } catch (x) {}
+})();
 
 </script>
 </body>
