@@ -4248,7 +4248,7 @@ function hubRender2(p) {
   document.getElementById('hub-fc').style.setProperty('--c', col);
   document.getElementById('hub-fc').innerHTML = '<h3>⚡ Flashcards</h3>' +
     '<div class="sub" style="margin:.2rem 0 .7rem">' + allCards.length + ' cards</div>' +
-    '<button class="hub-start" style="background:' + col + '" onclick="cpdRead()">📖 Read the why</button><div class="hub-start-row"><button class="hub-start" style="background:' + col + '" onclick="hubGo(\'flip\')">🃏 Flip and learn</button>' +
+    '<div class="hub-start-row"><button class="hub-start" style="background:' + col + '" onclick="cpdRead()">📖 Read the why</button><button class="hub-start" style="background:' + col + '" onclick="hubGo(\'flip\')">🃏 Flip and learn</button>' +
     '<button class="hub-start" style="background:' + col + ';position:relative" onclick="cpdMatchUnit()">🎯 Quiz yourself</button></div>' +
     '<div style="display:flex;gap:10px;flex-wrap:wrap">' + (pins ? '<button class="hub-link" onclick="goToPinnedReview()">📌 Review ' + pins + ' pinned (all papers)</button>' : '') + '<button class="hub-link" onclick="hubPrint()">🖨️ Print cards as PDF</button></div>';
 }
@@ -6381,7 +6381,7 @@ function cpdAsk(force) {
   document.body.appendChild(o);
   const go = function () {
     const n = document.getElementById('cpd-nm').value.trim().split(/\s+/)[0], t = document.getElementById('cpd-tm').value;
-    if (n && n.toUpperCase() === 'RODKERADMIN') { o.remove(); cpdAdmin(); return; }
+    if (n && n.toUpperCase() === 'ADMINUNLOCK') { o.remove(); cpdAdmin(); return; }
     if (!n || !t) { document.getElementById('cpd-er').style.display = 'block'; return; }
     localStorage.setItem('cpd_user', JSON.stringify({name: n, team: t})); o.remove(); try { setMenuRender(); } catch (e) {} try { cpdWho(); cpdFeat(); } catch (e) {}
   };
@@ -6398,6 +6398,7 @@ function cpdRecord(set, score, total) {
 }
 /* ---------- schedule highlight (nothing is locked) ---------- */
 const cpdToday = () => { const d = new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); };
+let CPD_ALL = false; try { if (/[?&#]unlock(=|&|$)/i.test(location.search + location.hash)) sessionStorage.setItem('cpd_all', '1'); CPD_ALL = sessionStorage.getItem('cpd_all') === '1'; } catch (x) {}
 let CPD_FOCUS = ''; try { CPD_FOCUS = localStorage.getItem('cpd_focus') || ''; } catch (x) {}
 function cpdSchedule() {
   const us = (typeof GUIDE !== "undefined" && GUIDE && GUIDE.units) || [];
@@ -6472,7 +6473,7 @@ function cpdMatchItems(cards, n) {
 }
 function cpdMatchUnit() {
   const u = UNITS.filter(x => x.k === currentPaper)[0]; if (!u) return;
-  if (u.n !== CPD_FOCUS) return;
+  if (!CPD_ALL && u.n !== CPD_FOCUS) return;
   const cards = cpdCards().filter(x => x.c.unit === u.n);
   cpdQuiz(u.e + ' ' + u.n + ': take the quiz', cpdMatchItems(cards, 10), () => showScreen('s-hub'), cpdMatchUnit, 'Match: ' + u.n);
 }
@@ -6563,7 +6564,7 @@ function cpdRings() {
     if (m) m.setAttribute('stroke-dasharray', '0 ' + circ);
     if (f) f.setAttribute('r', '0');
     if (t) { t.textContent = best < 0 ? '' : Math.round(best * 100) + '%'; t.setAttribute('font-size', '11'); }
-    const tile = document.querySelector('.paper-btn.pb-' + u.k); if (tile) { tile.querySelectorAll('.cpd-sc').forEach(x => x.remove()); if (best >= 0) { const s = document.createElement('span'); s.className = 'cpd-sc'; s.textContent = Math.round(best * 100) + '%'; tile.appendChild(s); } }
+    const tile = document.querySelector('.paper-btn.pb-' + u.k); if (tile) { tile.querySelectorAll('.cpd-sc').forEach(x => x.remove()); if (best >= 0) { const s = document.createElement('span'); s.className = 'cpd-sc'; s.textContent = Math.round(best * 100) + '%'; tile.appendChild(s); } tile.querySelectorAll('.cpd-lock').forEach(x => x.remove()); tile.classList.toggle('cpd-open', CPD_ALL || u.n === CPD_FOCUS); if (CPD_ALL || u.n === CPD_FOCUS) { const l = document.createElement('span'); l.className = 'cpd-lock'; l.textContent = 'Quiz open'; tile.appendChild(l); } }
   });
 }
 renderFdWheels = function () { cpdRingsBase(); cpdRings(); };
@@ -6577,7 +6578,7 @@ async function cpdFocusPull() {
 }
 function cpdAdmin() {
   try { setMenuClose(); } catch (x) {}
-  const code = 'RODKERADMIN', us = GUIDE.units || [];
+  const code = 'ADMINUNLOCK', us = GUIDE.units || [];
   const o = document.createElement('div'); o.style.cssText = 'position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;padding:16px';
   o.innerHTML = '<div style="background:var(--card,#fff);color:var(--text,#222);border-radius:16px;padding:1.2rem;max-width:340px;width:100%"><div style="font-weight:800;font-size:1.05rem;margin-bottom:.6rem">This week\'s focus</div><label style="font-size:.85rem">Focus unit</label><select id="ad-u" style="width:100%;box-sizing:border-box;margin:.4rem 0;padding:.6rem;border:1px solid var(--border,#ccc);border-radius:10px;font-size:1rem"><option value="">No focus</option>' + us.map(u => '<option value="' + cpdEsc(u.title) + '"' + (u.title === CPD_FOCUS ? ' selected' : '') + '>' + cpdEsc(u.emoji + ' ' + u.title) + '</option>').join('') + '</select><div class="cq-note" style="font-size:.75rem">' + (CPD_LIVE ? 'Staff will see this on their next visit.' : 'Saved on this device only until the Google Sheet is connected.') + '</div><div style="display:flex;gap:8px;margin-top:.6rem"><button id="ad-x" class="arc-btn sec" style="flex:1">Close</button><button id="ad-ok" class="arc-btn" style="flex:1">Save</button></div><div style="border-top:1px solid var(--border,#ddd);margin-top:1rem;padding-top:.8rem"><div style="font-weight:700;font-size:.85rem;margin-bottom:.5rem">Other tools</div><button id="ad-lg" class="arc-btn sec" style="width:100%;margin-bottom:6px">Reset league table</button><button id="ad-me" class="arc-btn sec" style="width:100%">Clear scores on this device</button><div id="ad-m" class="cq-note" style="font-size:.78rem;margin-top:.5rem;min-height:1em"></div></div></div>';
   document.body.appendChild(o);
@@ -6651,13 +6652,13 @@ function cpdQuizBlock() {
   const u = UNITS.filter(x => x.k === currentPaper)[0], fc = document.getElementById('hub-fc'); if (!u || !fc) return;
   let q = document.getElementById('hub-quiz');
   if (!q) { q = document.createElement('div'); q.id = 'hub-quiz'; fc.parentNode.insertBefore(q, fc); }
-  const open = u.n === CPD_FOCUS;
+  const open = CPD_ALL || u.n === CPD_FOCUS;
   q.innerHTML = open ? '<button class="qz-big" onclick="cpdMatchUnit()" style="background:color-mix(in srgb,' + u.col + ' 18%,#fff);border:1.5px solid ' + u.col + ';color:' + u.tx + '"><span class="qz-t">🎯 Take the quiz</span><small>10 questions. Your score counts towards the league table.</small></button>'
-    : '<div class="qz-big lock"><span class="qz-t">🔒 Take the quiz</span><small>Opens when this is the featured unit of the week.</small></div>';
+    : '';
 }
 (function () {
   const st = document.createElement('style');
-  st.textContent = '.hub-start-row .hub-start:nth-child(2){display:none}.hub-start-row .hub-start{flex:1}' +
+  st.textContent = '.hub-start-row .hub-start:nth-child(3){display:none}.hub-start-row .hub-start{flex:1}' +
     '.qz-big{display:flex;flex-direction:column;align-items:center;gap:.2rem;width:100%;box-sizing:border-box;margin:0 0 .8rem;padding:1.05rem .8rem;border:none;border-radius:14px;background:#16294F;color:#fff;font:inherit;cursor:pointer}.qz-big .qz-t{font-size:1.2rem;font-weight:800}.qz-big small{font-size:.78rem;opacity:.85}' +
     '.qz-big.lock{background:var(--subtle);color:var(--muted);border:1.5px dashed var(--border2);cursor:default}' +
     '.ft-unit .ft-quiz{margin-top:.35rem;padding:.5rem .4rem;border:none;border-radius:10px;background:#16294F;color:#fff;font:inherit;font-weight:800;font-size:.85rem;cursor:pointer}.ft-unit .ft-go{background:none;border:none;padding:0;font:inherit;font-size:.75rem;font-weight:700;text-align:left;cursor:pointer}';
@@ -6737,6 +6738,16 @@ fdUpdateProgress = function () {
   st.textContent = '.fd-question{font-weight:400!important;font-size:1rem!important}.fq-lbl{font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:#6d5ce8;font-weight:700;margin-bottom:.35rem}' +
     '.fq-we{font-size:1.2rem;font-weight:700;line-height:1.4;color:var(--text)}.fq-hs{margin-top:1rem;padding-top:.8rem;border-top:1px solid var(--border2)}.fq-hl{font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:.4rem}' +
     '.fq-h{display:flex;flex-wrap:wrap;align-items:center;gap:.35rem;margin:.3rem 0;font-size:.95rem}.fq-h b{background:#eeeafd;color:#3b2fa0;border-radius:8px;padding:.1rem .5rem;font-weight:700}.fq-h i{color:var(--muted);font-style:normal}.fq-n{width:1.3rem;height:1.3rem;border-radius:50%;background:#6d5ce8;color:#fff;font-size:.72rem;font-weight:700;display:inline-flex;align-items:center;justify-content:center}';
+  document.head.appendChild(st);
+})();
+(function () {
+  const st = document.createElement('style');
+  st.textContent = '#s-pick .paper-btn{position:relative}.cpd-lock{position:absolute;top:5px;right:6px;font-size:.58rem;font-weight:800;letter-spacing:.03em;text-transform:uppercase;padding:1px 6px;border-radius:8px;background:#E6F4EC;color:#14532D;line-height:1.4}' +
+    '' +
+    '#cpd-feat{max-width:420px}.ft-unit{padding:.55rem .65rem!important;border-radius:12px!important;gap:.45rem!important}.ft-unit .ft-e{font-size:1.25rem}.ft-unit .ft-n{font-size:.92rem}' +
+    '.ft-btns button{padding:.4rem .3rem!important;font-size:.78rem!important;border-radius:9px!important}.ft-btns .ft-learn{background:#fff!important;border:1.5px solid #cfd2d8!important;color:#374151!important}.ft-btns .ft-quiz{background:#16a34a!important;border:1.5px solid #16a34a!important;color:#fff!important}' +
+    '.qz-big{background:#16a34a!important;border-color:#16a34a!important;color:#fff!important}.qz-big small{color:#e8f8ee!important}.qz-big.lock{background:#f1f2f4!important;border:1.5px solid #d6d8dd!important;color:#6b7280!important}.qz-big.lock small{color:#6b7280!important}' +
+    '.hub-start-row .hub-start{font-size:.9rem!important}';
   document.head.appendChild(st);
 })();
 
