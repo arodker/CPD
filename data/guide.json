@@ -34,25 +34,29 @@
      ],
      "kw": [
       [
-       "qualifications",
-       "employment",
-       "earnings"
+       "cultural capital",
+       "sustained employment",
+       "higher lifetime earnings"
       ],
       [
-       "disadvantage",
-       "mobility",
-       "opportunity"
+       "term effects",
+       "significant drivers",
+       "social mobility"
       ],
       [
        "literacy",
-       "independence",
+       "critical thinking skills",
        "participation"
       ],
       [
-       "foundations",
-       "healthier",
-       "agency"
+       "young person",
+       "academic foundations",
+       "increased agency"
       ]
+     ],
+     "kwe": [
+      "student’s academic achievement",
+      "educational outcomes"
      ]
     },
     {
@@ -81,9 +85,13 @@
      ],
      "kw": [
       [
-       "strive",
+       "belief",
        "highest grades"
       ]
+     ],
+     "kwe": [
+      "aspirational targets",
+      "starting points"
      ]
     },
     {
@@ -116,15 +124,18 @@
        "curriculum"
       ],
       [
-       "cognitive",
-       "remember",
-       "knowledge"
+       "cognitive load",
+       "remember"
       ],
       [
-       "knowledge-webs",
        "complexity",
-       "sticks’"
+       "knowledge ‘sticks",
+       "existing knowledge"
       ]
+     ],
+     "kwe": [
+      "core knowledge",
+      "knowledge organisers"
      ]
     },
     {
@@ -160,13 +171,17 @@
        "believe"
       ],
       [
-       "knowledge",
+       "knowledge gaps",
        "persist"
       ],
       [
-       "resilience",
-       "growth mindset"
+       "develop",
+       "students’ resilience and growth mindset"
       ]
+     ],
+     "kwe": [
+      "retest students",
+      "KO tests"
      ]
     },
     {
@@ -197,23 +212,25 @@
      "kw": [
       [
        "success",
-       "effort",
-       "celebrated"
+       "effort"
       ],
       [
-       "resilience",
-       "revision skills"
+       "resilience and revision skills",
+       "developed"
       ],
       [
        "teachers",
-       "progress",
-       "concerns"
+       "parents",
+       "progress"
       ],
       [
        "intervene",
-       "impact",
        "required"
       ]
+     ],
+     "kwe": [
+      "learned",
+      "year"
      ]
     },
     {
@@ -244,9 +261,13 @@
      ],
      "kw": [
       [
-       "least",
-       "chronological"
+       "line",
+       "chronological age"
       ]
+     ],
+     "kwe": [
+      "reading",
+      "test"
      ]
     },
     {
@@ -276,10 +297,14 @@
      ],
      "kw": [
       [
+       "lesson pace",
        "pitch",
-       "content",
-       "ambitious"
+       "curriculum content"
       ]
+     ],
+     "kwe": [
+      "stream",
+      "Years"
      ]
     },
     {
@@ -310,13 +335,17 @@
      "kw": [
       [
        "subject groupings",
-       "complex"
+       "content"
       ],
       [
+       "lesson pace",
        "pitch",
-       "content",
-       "ambitious"
+       "curriculum content"
       ]
+     ],
+     "kwe": [
+      "Years",
+      "Year"
      ]
     },
     {
@@ -346,20 +375,25 @@
      ],
      "kw": [
       [
-       "groupings",
-       "initial",
-       "anomalies"
+       "initial KS2",
+       "SATs data anomalies",
+       "Year"
       ],
       [
+       "shared curriculum",
        "expert",
-       "regardless",
-       "group"
+       "teaching group"
       ],
       [
        "changes",
        "blocks",
        "change"
       ]
+     ],
+     "kwe": [
+      "reviewed",
+      "assessment data",
+      "teacher feedback"
      ]
     },
     {
@@ -390,9 +424,11 @@
      "kw": [
       [
        "choice",
-       "breadth",
-       "possible"
+       "breadth"
       ]
+     ],
+     "kwe": [
+      "year Key Stage 3 curriculum"
      ]
     },
     {
@@ -422,19 +458,23 @@
      ],
      "kw": [
       [
-       "opportunities",
+       "personal",
        "personal growth"
       ],
       [
-       "reflects",
        "qualities",
+       "values",
        "adulthood"
       ],
       [
        "character",
        "competencies",
-       "long-term"
+       "term success"
       ]
+     ],
+     "kwe": [
+      "term wellbeing",
+      "success"
      ]
     },
     {
@@ -466,28 +506,33 @@
      ],
      "kw": [
       [
-       "empathy",
-       "deeper awareness"
+       "cultural understanding",
+       "deeper awareness",
+       "world"
       ],
       [
        "histories",
-       "societies",
-       "influence"
+       "ideas",
+       "societies"
       ],
       [
-       "think",
        "complexities",
-       "human"
+       "human experience"
       ],
       [
-       "humanity’s",
-       "deeper",
-       "themselves"
+       "humanity’s past",
+       "deeper understanding",
+       "world"
       ],
       [
-       "qualities",
-       "reflection creativity"
+       "human qualities",
+       "critical thought",
+       "changing modern world"
       ]
+     ],
+     "kwe": [
+      "prioritise subject disciplines",
+      "history"
      ]
     },
     {
@@ -517,35 +562,37 @@
      ],
      "kw": [
       [
-       "high-quality",
-       "secures",
-       "variability"
+       "core knowledge",
+       "variability",
+       "provision"
       ],
       [
-       "points",
-       "delivered",
-       "teach"
+       "key learning points",
+       "delivered"
       ],
       [
        "expectations",
-       "equity",
-       "grouping"
+       "equity"
       ],
       [
-       "deliver",
-       "precision",
-       "consolidate"
+       "teachers",
+       "clarity",
+       "precision"
       ],
       [
-       "revision",
-       "place",
+       "revision resources",
+       "independent study",
        "absence"
       ],
       [
-       "responsive",
-       "classes",
-       "additional"
+       "responsive teaching",
+       "content",
+       "classes"
       ]
+     ],
+     "kwe": [
+      "bespoke precision curriculum booklets",
+      "expert teachers"
      ]
     },
     {
@@ -576,13 +623,18 @@
      ],
      "kw": [
       [
-       "creative subjects",
-       "creativity"
+       "preferred creative subjects",
+       "creativity",
+       "arts"
       ],
       [
-       "subject ahead",
-       "options"
+       "subject",
+       "GCSE options"
       ]
+     ],
+     "kwe": [
+      "Creative Electives",
+      "drama"
      ]
     },
     {
@@ -613,10 +665,14 @@
      ],
      "kw": [
       [
-       "catching",
        "peers",
-       "knowledge"
+       "closing knowledge gaps",
+       "GCSE"
       ]
+     ],
+     "kwe": [
+      "extra hour",
+      "maths"
      ]
     },
     {
@@ -649,20 +705,25 @@
      ],
      "kw": [
       [
-       "linguistic",
-       "communication",
-       "thrive"
+       "cultural understanding",
+       "communication skills",
+       "interconnected world"
       ],
       [
-       "comparable",
+       "scope",
        "aspiration",
-       "private"
+       "private sector"
       ],
       [
-       "acquire",
        "qualifications",
+       "doors",
        "employment"
       ]
+     ],
+     "kwe": [
+      "ensure",
+      "modern foreign language",
+      "end"
      ]
     },
     {
@@ -695,18 +756,23 @@
      "kw": [
       [
        "curriculum opportunities",
-       "selective"
+       "selective or fee-paying schools"
       ],
       [
        "enrichment",
-       "languages",
-       "fundamental"
+       "equity",
+       "languages"
       ],
       [
        "English",
-       "celebrate",
-       "tongue"
+       "Language",
+       "mother tongue"
       ]
+     ],
+     "kwe": [
+      "provide",
+      "Latin",
+      "Turkish etc"
      ]
     },
     {
@@ -752,8 +818,13 @@
       ],
       [
        "public funds",
-       "spent"
+       "wasted"
       ]
+     ],
+     "kwe": [
+      "expect",
+      "participate",
+      "curriculum"
      ]
     },
     {
@@ -786,29 +857,33 @@
      ],
      "kw": [
       [
-       "historical",
+       "cultural and historical understanding",
        "moral perspective"
       ],
       [
-       "spiritual",
-       "development",
-       "identity"
+       "identity",
+       "ethical issues",
+       "diverse society"
       ],
       [
-       "choose",
        "History",
        "Geography"
       ],
       [
-       "write",
        "length",
-       "opportunities"
+       "reading and writing ability",
+       "future wellbeing"
       ],
       [
        "evidence",
-       "perspectives",
-       "judgements"
+       "different perspectives",
+       "reasoned judgements"
       ]
+     ],
+     "kwe": [
+      "require",
+      "History",
+      "Religious Studies"
      ]
     }
    ]
@@ -853,24 +928,29 @@
      ],
      "kw": [
       [
-       "ambitious",
-       "foundations",
+       "broad and ambitious curriculum",
+       "academic foundations",
        "disciplines"
       ],
       [
-       "floor",
-       "safeguard",
-       "opportunities"
+       "academic floor",
+       "future opportunities"
       ],
       [
+       "disadvantaged students",
        "access",
        "academic opportunities"
       ],
       [
-       "analytical",
-       "appreciation",
-       "cultures"
+       "diverse range",
+       "academic thought",
+       "appreciation"
       ]
+     ],
+     "kwe": [
+      "require",
+      "English Baccalaureate suite",
+      "subjects"
      ]
     },
     {
@@ -906,24 +986,29 @@
      ],
      "kw": [
       [
-       "timetables",
-       "co-curricular",
-       "stress"
+       "space",
+       "student timetables",
+       "exam stress"
       ],
       [
+       "sake",
        "curiosity",
-       "assessment",
        "certification"
       ],
       [
-       "Scholar programme",
-       "life-long"
+       "Bourne Scholar programme",
+       "life-long habits",
+       "increased wellbeing"
       ],
       [
-       "leave",
        "GCSEs",
-       "successful"
+       "line",
+       "successful schools"
       ]
+     ],
+     "kwe": [
+      "offer",
+      "KS4 option"
      ]
     },
     {
@@ -963,6 +1048,10 @@
        "personal growth",
        "chance"
       ]
+     ],
+     "kwe": [
+      "embed",
+      "personal development offer"
      ]
     },
     {
@@ -999,18 +1088,23 @@
      ],
      "kw": [
       [
-       "identity values",
+       "shared sense",
+       "identity",
        "purpose"
       ],
       [
-       "messages",
-       "aspiration",
-       "understood"
+       "key messages",
+       "safeguarding",
+       "aspiration"
       ],
       [
-       "celebrate",
+       "structured opportunities",
+       "success",
        "model excellence"
       ]
+     ],
+     "kwe": [
+      "school assemblies"
      ]
     },
     {
@@ -1046,19 +1140,24 @@
      ],
      "kw": [
       [
-       "familiar",
-       "routines organisation"
+       "familiar trusted adult",
+       "developing routines",
+       "organisation"
       ],
       [
-       "messages",
-       "attendance",
-       "development"
+       "key messages",
+       "safeguarding",
+       "personal development"
       ],
       [
-       "concerns",
-       "prevent",
+       "gaps",
+       "learning",
        "engagement"
       ]
+     ],
+     "kwe": [
+      "provide",
+      "daily tutor time"
      ]
     },
     {
@@ -1094,9 +1193,13 @@
      ],
      "kw": [
       [
-       "high-quality bespoke",
+       "quality, bespoke programme",
        "specialists"
       ]
+     ],
+     "kwe": [
+      "drop-down days",
+      "Personal Development"
      ]
     },
     {
@@ -1131,17 +1234,25 @@
      ],
      "kw": [
       [
-       "encounter ideas",
-       "disciplines"
+       "ideas",
+       "disciplines",
+       "curriculum"
       ],
       [
        "powerful knowledge",
+       "line",
        "society"
       ],
       [
-       "discuss",
-       "debate ideas"
+       "dedicated space",
+       "ideas",
+       "curriculum"
       ]
+     ],
+     "kwe": [
+      "timetable",
+      "wide-range",
+      "Ancient Worlds"
      ]
     },
     {
@@ -1176,19 +1287,22 @@
      ],
      "kw": [
       [
-       "co-curricular",
+       "-curricular access",
        "luxury",
        "entitlement"
       ],
       [
        "hobby",
-       "interest beyond"
+       "interest",
+       "curriculum"
       ],
       [
-       "opportunity",
-       "outside",
-       "comfort"
+       "comfort zone"
       ]
+     ],
+     "kwe": [
+      "formalise",
+      "Friday afternoons"
      ]
     },
     {
@@ -1227,28 +1341,32 @@
      "kw": [
       [
        "robust awareness",
-       "events"
+       "events",
+       "ideas"
       ],
       [
        "evidence",
-       "perspectives",
-       "judgements"
+       "different perspectives",
+       "reasoned judgements"
       ],
       [
-       "spiritual",
-       "development",
-       "identity"
+       "identity",
+       "ethical issues",
+       "diverse society"
       ],
       [
-       "importance",
-       "intolerance",
-       "witness"
+       "injustice",
+       "intolerance"
       ],
       [
-       "write",
        "length",
-       "opportunities"
+       "reading and writing ability",
+       "future wellbeing"
       ]
+     ],
+     "kwe": [
+      "Religious Studies",
+      "History"
      ]
     },
     {
@@ -1282,14 +1400,20 @@
      ],
      "kw": [
       [
-       "knowledge",
-       "study skills"
+       "knowledge and developing habits",
+       "study skills",
+       "future"
       ],
       [
-       "barriers",
        "inequality",
-       "equitable"
+       "limited space",
+       "purposeful independent study"
       ]
+     ],
+     "kwe": [
+      "provide",
+      "homework",
+      "self-quizzing"
      ]
     },
     {
@@ -1327,14 +1451,19 @@
      "kw": [
       [
        "independence",
-       "resilience",
-       "responsibility"
+       "study habits",
+       "resilience"
       ],
       [
-       "Privilege",
-       "eligible",
-       "completion"
+       "Prep Privilege",
+       "work completion",
+       "different rates"
       ]
+     ],
+     "kwe": [
+      "reduce",
+      "Prep",
+      "deadlines"
      ]
     },
     {
@@ -1370,10 +1499,15 @@
      ],
      "kw": [
       [
-       "confidence",
+       "voice",
        "decisions",
-       "model"
+       "role model"
       ]
+     ],
+     "kwe": [
+      "provide",
+      "student leadership",
+      "Student Council"
      ]
     },
     {
@@ -1408,9 +1542,13 @@
      "kw": [
       [
        "value",
-       "larger",
-       "themselves"
+       "larger"
       ]
+     ],
+     "kwe": [
+      "celebrate",
+      "year group attendance",
+      "punctuality"
      ]
     }
    ]
@@ -1458,22 +1596,30 @@
      ],
      "kw": [
       [
-       "behaviour effort",
+       "behaviour",
+       "effort",
        "character"
       ],
       [
-       "build pride",
+       "success",
+       "pride",
        "achievement"
       ],
       [
-       "excellence kindness",
-       "aspirational"
+       "culture",
+       "excellence",
+       "kindness"
       ],
       [
-       "contribute",
-       "community",
-       "professional"
+       "expectations",
+       "wider school community",
+       "future academic and professional life"
       ]
+     ],
+     "kwe": [
+      "celebrate",
+      "subject awards",
+      "pastoral awards"
      ]
     },
     {
@@ -1512,9 +1658,13 @@
      "kw": [
       [
        "relationships",
-       "inclusive",
-       "environment"
+       "calm, inclusive and effective learning environment"
       ]
+     ],
+     "kwe": [
+      "support",
+      "relationships",
+      "professional development programme"
      ]
     },
     {
@@ -1555,15 +1705,19 @@
      ],
      "kw": [
       [
-       "respect",
-       "members",
-       "community"
+       "culture",
+       "respect"
       ],
       [
-       "interpersonal",
-       "awareness",
-       "prepare"
+       "interpersonal skills",
+       "social awareness",
+       "adults"
       ]
+     ],
+     "kwe": [
+      "expect",
+      "courtesy",
+      "politeness"
      ]
     },
     {
@@ -1606,8 +1760,8 @@
      "kw": [
       [
        "unity",
-       "Mossbourne",
-       "amongst"
+       "shared sense",
+       "proud member"
       ],
       [
        "attitudes",
@@ -1615,19 +1769,25 @@
        "readiness"
       ],
       [
-       "transition",
+       "transition time",
        "engagement",
        "outset"
       ],
       [
+       "key values",
        "repetition",
-       "internalise behaviours"
+       "personal development"
       ],
       [
        "classrooms",
        "fairness",
        "predictability"
       ]
+     ],
+     "kwe": [
+      "shared",
+      "enquiring mind",
+      "calm disposition"
      ]
     },
     {
@@ -1666,30 +1826,34 @@
      "kw": [
       [
        "accounted",
-       "points"
+       "key points"
       ],
       [
-       "experience",
-       "prompt start"
+       "calm and prompt start",
+       "success"
       ],
       [
-       "checks",
-       "equipment",
-       "planner"
+       "essential checks",
+       "uniform",
+       "equipment"
       ],
       [
-       "movement around",
+       "movement",
        "congestion"
       ],
       [
-       "immediate",
-       "attendance punctuality"
+       "immediate concerns",
+       "punctuality",
+       "student wellbeing"
       ],
       [
-       "ready",
        "routines",
        "expectations"
       ]
+     ],
+     "kwe": [
+      "playground",
+      "key transition points"
      ]
     },
     {
@@ -1729,20 +1893,23 @@
      ],
      "kw": [
       [
-       "impacts",
-       "right",
-       "occur"
+       "behaviour",
+       "calm, safe and focused learning environment"
       ],
       [
        "boundaries",
-       "predictable",
-       "secure"
+       "expectations"
       ],
       [
-       "internalise",
-       "professionals",
-       "medicine"
+       "engineering",
+       "field",
+       "choosing"
       ]
+     ],
+     "kwe": [
+      "sweat",
+      "small stuff",
+      "minor behaviours"
      ]
     },
     {
@@ -1777,18 +1944,17 @@
      ],
      "kw": [
       [
-       "experience",
-       "predictable",
-       "understand"
+       "predictable expectations",
+       "succeed"
       ],
       [
-       "sense",
+       "shared sense",
        "fairness",
        "justice"
       ],
       [
        "uncertainty",
-       "additional",
+       "SEND",
        "structure"
       ],
       [
@@ -1796,6 +1962,11 @@
        "trauma",
        "instability"
       ]
+     ],
+     "kwe": [
+      "apply",
+      "behaviour expectations",
+      "sanctions"
      ]
     },
     {
@@ -1833,19 +2004,24 @@
      ],
      "kw": [
       [
-       "interpret different",
+       "different expectations",
+       "teachers",
        "contexts"
       ],
       [
        "attention",
-       "rather",
        "inconsistency"
       ],
       [
        "confidence",
        "systems",
-       "trust"
+       "adults"
       ]
+     ],
+     "kwe": [
+      "respond",
+      "behaviour",
+      "uniform and non-negotiable way"
      ]
     },
     {
@@ -1884,18 +2060,22 @@
      ],
      "kw": [
       [
-       "protected",
-       "causing disruption"
+       "learning time",
+       "disruption"
       ],
       [
        "acceptable level",
        "disruption"
       ],
       [
+       "culture",
        "respect",
-       "self-regulation",
-       "classrooms"
+       "self-regulation"
       ]
+     ],
+     "kwe": [
+      "challenge",
+      "sanction"
      ]
     },
     {
@@ -1934,20 +2114,24 @@
      ],
      "kw": [
       [
+       "urgency",
        "severity",
-       "situation",
-       "authority"
+       "adult authority"
       ],
       [
-       "purposeful",
-       "environments",
-       "interests"
+       "expectations",
+       "adults",
+       "best interests"
       ],
       [
-       "experience",
-       "predictable",
-       "dignity"
+       "dignity",
+       "relationships",
+       "behaviour"
       ]
+     ],
+     "kwe": [
+      "volume",
+      "tone"
      ]
     },
     {
@@ -1987,6 +2171,7 @@
      "kw": [
       [
        "decision-makers",
+       "situations",
        "developmental readiness"
       ],
       [
@@ -1994,6 +2179,11 @@
        "confusion",
        "inconsistency"
       ]
+     ],
+     "kwe": [
+      "maintain",
+      "adult authority",
+      "tone"
      ]
     },
     {
@@ -2035,7 +2225,7 @@
      ],
      "kw": [
       [
-       "structures",
+       "predictable and secure structures",
        "excessive autonomy"
       ],
       [
@@ -2045,19 +2235,23 @@
       ],
       [
        "taught",
-       "respond",
        "independence"
       ],
       [
-       "flourish",
-       "informality",
-       "understands"
+       "warmth",
+       "humour",
+       "informality"
       ],
       [
-       "navigate",
+       "voice",
        "university",
        "workplace"
       ]
+     ],
+     "kwe": [
+      "avoid",
+      "approaches",
+      "negotiation"
      ]
     },
     {
@@ -2095,9 +2289,15 @@
      ],
      "kw": [
       [
+       "voice",
        "emotional regulation",
-       "interests"
+       "best interests"
       ]
+     ],
+     "kwe": [
+      "involved",
+      "behaviour incidents",
+      "factual account"
      ]
     },
     {
@@ -2135,38 +2335,44 @@
      ],
      "kw": [
       [
-       "day-to-day",
-       "achievement",
-       "improvement"
+       "achievement marks",
+       "recognising areas",
+       "detentions"
       ],
       [
-       "conversations",
-       "correct",
+       "child",
+       "patterns",
        "conduct"
       ],
       [
        "engagement",
        "homework",
-       "independent"
+       "prep"
       ],
       [
        "tangible record",
-       "achievements"
+       "achievements",
+       "sanctions"
       ],
       [
        "system",
-       "equal",
-       "technology"
+       "technology",
+       "digital devices"
       ],
       [
-       "organisation accountability",
+       "organisation",
+       "accountability",
        "information"
       ],
       [
-       "universal",
-       "equipment",
+       "lockers",
+       "daily planning",
        "preparation"
       ]
+     ],
+     "kwe": [
+      "school planner",
+      "primary tool"
      ]
     },
     {
@@ -2208,17 +2414,22 @@
      "kw": [
       [
        "maximised",
-       "disruption",
-       "minimised"
+       "disruption"
       ],
       [
-       "resilience concentration",
-       "personal"
+       "resilience",
+       "concentration",
+       "academic and personal success"
       ],
       [
-       "achievement builds",
-       "fosters"
+       "achievement",
+       "confidence",
+       "lasting love"
       ]
+     ],
+     "kwe": [
+      "expect",
+      "attentive"
      ]
     },
     {
@@ -2257,28 +2468,31 @@
      ],
      "kw": [
       [
-       "diverted",
-       "discussions",
-       "ready"
+       "learning time",
+       "prolonged discussions"
       ],
       [
-       "patience self-regulation",
-       "disagree"
+       "patience",
+       "self-regulation"
       ],
       [
-       "concern",
        "reflection",
-       "skills"
+       "timing"
       ],
       [
-       "environments",
        "instructions",
-       "emotions"
+       "managing emotions",
+       "addressing issues"
       ],
       [
-       "environment remains",
+       "orderly",
        "predictable"
       ]
+     ],
+     "kwe": [
+      "require",
+      "instructions",
+      "argument"
      ]
     },
     {
@@ -2321,20 +2535,24 @@
        "respectful communication"
       ],
       [
-       "challenge",
+       "prolonged challenge",
        "escalation",
        "dialogue"
       ],
       [
        "disagreement",
-       "maturity",
-       "readiness"
+       "difficulty",
+       "maturity"
       ],
       [
-       "respectful",
-       "members",
-       "community"
+       "calm, respectful and orderly school culture",
+       "valued"
       ]
+     ],
+     "kwe": [
+      "treat",
+      "defiance",
+      "sarcasm"
      ]
     },
     {
@@ -2374,9 +2592,8 @@
      ],
      "kw": [
       [
-       "feels",
        "included",
-       "community"
+       "respected"
       ],
       [
        "boundaries",
@@ -2384,14 +2601,18 @@
       ],
       [
        "words",
-       "empathy",
-       "responsibility"
+       "actions",
+       "respect"
       ],
       [
-       "uphold",
        "difference",
+       "fear",
        "intimidation"
       ]
+     ],
+     "kwe": [
+      "forms",
+      "bullying"
      ]
     },
     {
@@ -2433,22 +2654,26 @@
      "kw": [
       [
        "pride",
-       "environment",
-       "spaces"
+       "role",
+       "shared spaces"
       ],
       [
-       "clean",
-       "respectful",
-       "members"
+       "respectful"
       ],
       [
-       "co-curricular",
+       "resources",
+       "teaching",
        "avoidable damage"
       ],
       [
-       "responsibility",
-       "extend beyond"
+       "care",
+       "responsibility"
       ]
+     ],
+     "kwe": [
+      "treat",
+      "chewing gum",
+      "littering"
      ]
     },
     {
@@ -2488,15 +2713,19 @@
      ],
      "kw": [
       [
-       "discourage",
-       "pleasant",
+       "pleasant environment",
        "pests"
       ],
       [
-       "mealtimes",
+       "structured mealtimes",
        "friends",
-       "lifestyles"
+       "healthy lifestyles"
       ]
+     ],
+     "kwe": [
+      "allow",
+      "designated eating zones",
+      "eating"
      ]
     },
     {
@@ -2538,9 +2767,8 @@
      ],
      "kw": [
       [
-       "healthy",
-       "sugary",
-       "beverages"
+       "healthy habits",
+       "sugary or caffeinated beverages"
       ],
       [
        "damage",
@@ -2548,10 +2776,15 @@
        "stains"
       ],
       [
-       "refillable",
-       "bottles",
-       "encourage"
+       "refillable water bottles",
+       "costs",
+       "responsible choices"
       ]
+     ],
+     "kwe": [
+      "allow",
+      "fizzy or caffeinated drinks",
+      "caffeinated"
      ]
     },
     {
@@ -2592,8 +2825,8 @@
      ],
      "kw": [
       [
-       "constant",
-       "unnecessary movement"
+       "learning",
+       "constant and unnecessary movement"
       ],
       [
        "expectations",
@@ -2601,12 +2834,18 @@
       ],
       [
        "authority",
-       "professional control"
+       "professional control",
+       "classroom"
       ],
       [
-       "remain focused",
-       "engaged"
+       "focused",
+       "learning"
       ]
+     ],
+     "kwe": [
+      "require",
+      "staff permission",
+      "seat"
      ]
     },
     {
@@ -2644,22 +2883,29 @@
      ],
      "kw": [
       [
-       "begin",
        "disruption",
        "maximised"
       ],
       [
-       "organisation independence",
-       "preparation"
+       "organisation",
+       "preparation",
+       "adult life"
       ],
       [
        "minor lapses",
+       "standards",
        "escalation"
       ],
       [
-       "fairness engagement",
+       "supporting fairness",
+       "engagement",
        "readiness"
       ]
+     ],
+     "kwe": [
+      "require",
+      "set",
+      "essential equipment"
      ]
     },
     {
@@ -2698,22 +2944,28 @@
      "kw": [
       [
        "exposure",
-       "incidents",
+       "potential incidents",
        "exploitation"
       ],
       [
        "child",
-       "responsibility oversight"
+       "end",
+       "oversight"
       ],
       [
        "routines",
-       "responsibility",
-       "management"
+       "responsibility and time management",
+       "home"
       ],
       [
-       "minimise",
-       "witness incidents"
+       "witness incidents",
+       "poor behaviour"
       ]
+     ],
+     "kwe": [
+      "expect",
+      "detour",
+      "shops"
      ]
     },
     {
@@ -2753,19 +3005,24 @@
      ],
      "kw": [
       [
-       "vulnerable",
-       "pressure",
-       "local"
+       "theft",
+       "peer pressure",
+       "local area"
       ],
       [
-       "carrying valuables",
+       "safeguarding risks",
+       "valuables",
        "journey"
       ],
       [
-       "valuables",
-       "responsible",
-       "throughout"
+       "poor behaviour",
+       "money",
+       "valuables"
       ]
+     ],
+     "kwe": [
+      "allow",
+      "money"
      ]
     },
     {
@@ -2804,15 +3061,20 @@
      ],
      "kw": [
       [
-       "available",
+       "visible, trusted adults",
        "reassurance",
        "intervention"
       ],
       [
        "links",
-       "community",
-       "responsibility"
+       "shared responsibility",
+       "student safety"
       ]
+     ],
+     "kwe": [
+      "deploy",
+      "duty",
+      "local community"
      ]
     },
     {
@@ -2853,13 +3115,13 @@
      ],
      "kw": [
       [
-       "unambiguous",
-       "protect",
-       "touch"
+       "unambiguous boundaries",
+       "unwanted or misinterpreted touch",
+       "personal space"
       ],
       [
-       "eliminate",
-       "areas",
+       "grey areas",
+       "behaviour",
        "misunderstood"
       ],
       [
@@ -2868,15 +3130,19 @@
        "confrontation"
       ],
       [
-       "secure",
        "confident",
-       "boundaries"
+       "personal boundaries"
       ],
       [
-       "respectful",
-       "prepares",
-       "workplaces"
+       "conduct",
+       "wider society",
+       "future workplaces"
       ]
+     ],
+     "kwe": [
+      "allow",
+      "physical",
+      "physical contact"
      ]
     },
     {
@@ -2917,17 +3183,22 @@
       [
        "visibility",
        "supervision",
-       "proactive"
+       "safeguarding"
       ],
       [
-       "conflict exclusion",
-       "organisation"
+       "conflict",
+       "exclusion",
+       "structured social organisation"
       ],
       [
-       "participate",
        "conversation",
-       "development"
+       "oracy development",
+       "voices"
       ]
+     ],
+     "kwe": [
+      "playground groups",
+      "prescribed number"
      ]
     },
     {
@@ -2964,22 +3235,27 @@
      ],
      "kw": [
       [
-       "environment",
-       "opportunities",
-       "disruption"
+       "disruption",
+       "poor behaviour"
       ],
       [
        "expectations",
-       "experience",
-       "transitions"
+       "calm and structured transitions"
       ],
       [
-       "predictable low-stimulation movement"
+       "SEND",
+       "predictable, low-stimulation movement"
       ],
       [
-       "purposeful atmosphere",
-       "reflects"
+       "calm and purposeful atmosphere",
+       "standards",
+       "behaviour"
       ]
+     ],
+     "kwe": [
+      "require",
+      "silent and orderly movement",
+      "inside corridors"
      ]
     },
     {
@@ -3014,18 +3290,22 @@
      ],
      "kw": [
       [
-       "supervised",
+       "unsupervised",
        "unsupervised spaces"
       ],
       [
-       "protected",
-       "disruption",
-       "minimised"
+       "learning time",
+       "disruption"
       ],
       [
        "self-regulation",
        "responsibility"
       ]
+     ],
+     "kwe": [
+      "expect",
+      "toilet",
+      "genuine need"
      ]
     },
     {
@@ -3058,23 +3338,29 @@
      ],
      "kw": [
       [
-       "normalised",
+       "lost learning time",
        "curriculum content"
       ],
       [
        "equitable access",
-       "catch-up"
+       "gaps",
+       "catch"
       ],
       [
-       "prevent",
+       "core knowledge",
        "fairness",
        "outcomes"
       ],
       [
-       "reasonable",
-       "requirements",
-       "development"
+       "reasonable adjustments",
+       "line",
+       "avoidable learning gaps"
       ]
+     ],
+     "kwe": [
+      "require",
+      "toilet",
+      "break"
      ]
     },
     {
@@ -3109,14 +3395,18 @@
      "kw": [
       [
        "adjustments",
-       "medical",
-       "fairness"
+       "fairness",
+       "safeguarding"
       ],
       [
        "disruption",
-       "avoidable",
-       "prevented"
+       "avoidable gaps"
       ]
+     ],
+     "kwe": [
+      "require",
+      "issuing",
+      "continuation"
      ]
     },
     {
@@ -3150,17 +3440,23 @@
      ],
      "kw": [
       [
-       "potential welfare",
-       "concerns"
+       "potential",
+       "potential welfare"
       ],
       [
        "avoiding",
-       "experiencing difficulties"
+       "difficulties"
       ],
       [
-       "intervene",
-       "patterns emerge"
+       "parents",
+       "carers",
+       "patterns"
       ]
+     ],
+     "kwe": [
+      "monitor",
+      "toilet use",
+      "planner"
      ]
     },
     {
@@ -3199,34 +3495,39 @@
      ],
      "kw": [
       [
-       "inappropriate",
+       "online harm",
        "misuse",
        "images"
       ],
       [
        "notifications",
        "temptation",
-       "check"
+       "devices"
       ],
       [
        "interactions",
-       "confidence",
-       "relationships"
+       "wellbeing",
+       "peer relationships"
       ],
       [
-       "purposeful",
+       "learning environment",
        "digital interruption"
       ],
       [
-       "attention",
+       "sustained attention",
        "self-discipline",
-       "employment"
+       "future employment"
       ],
       [
        "position",
-       "alone",
+       "managing",
        "framework"
       ]
+     ],
+     "kwe": [
+      "allow",
+      "smart watches",
+      "pagers"
      ]
     },
     {
@@ -3261,29 +3562,34 @@
      ],
      "kw": [
       [
-       "vulnerable",
-       "attention",
-       "community"
+       "theft",
+       "unwanted attention"
       ],
       [
-       "reliance",
        "surroundings",
-       "transport"
+       "roads",
+       "public transport"
       ],
       [
+       "confidence",
        "independence",
-       "real-world situations"
+       "adults"
       ],
       [
-       "interaction",
-       "conversation",
-       "distraction"
+       "genuine interaction",
+       "presence",
+       "constant digital distraction"
       ],
       [
        "parents",
        "carers",
-       "confident"
+       "home"
       ]
+     ],
+     "kwe": [
+      "extend",
+      "mobile phone/device expectations",
+      "journeys"
      ]
     },
     {
@@ -3322,29 +3628,35 @@
      ],
      "kw": [
       [
-       "consequence",
-       "reinforces",
-       "mobile"
+       "meaningful consequence",
+       "expectations",
+       "mobile phone use"
       ],
       [
        "reliance",
-       "face-to-face interaction"
+       "devices",
+       "face"
       ],
       [
        "boundaries",
-       "regardless",
+       "timing",
        "circumstance"
       ],
       [
-       "experience",
+       "devices",
        "independence",
        "self-regulation"
       ],
       [
-       "receive",
        "message",
+       "home",
        "likelihood"
       ]
+     ],
+     "kwe": [
+      "confiscate",
+      "fixed period",
+      "school holidays"
      ]
     },
     {
@@ -3382,19 +3694,24 @@
      ],
      "kw": [
       [
-       "consequences",
+       "actions",
        "accountability",
        "self-discipline"
       ],
       [
-       "reflection",
-       "follow-up conversations"
+       "relationships",
+       "teachers",
+       "structured reflection"
       ],
       [
        "resilience",
        "setbacks",
        "correction"
       ]
+     ],
+     "kwe": [
+      "detentions",
+      "response"
      ]
     },
     {
@@ -3433,19 +3750,22 @@
      ],
      "kw": [
       [
-       "proportionate",
+       "consequences",
        "fairness",
        "justice"
       ],
       [
-       "low-level",
-       "serious concerns"
+       "low-level issues",
+       "escalating"
       ],
       [
-       "opportunity",
        "adjust",
        "stage"
       ]
+     ],
+     "kwe": [
+      "detentions",
+      "varying lengths"
      ]
     },
     {
@@ -3483,18 +3803,22 @@
      ],
      "kw": [
       [
-       "choices",
-       "serious consequences"
+       "repeated poor choices",
+       "consequences"
       ],
       [
        "patterns",
-       "behaviour",
-       "entrenched"
+       "behaviour"
       ],
       [
        "intervene",
-       "serious sanctions"
+       "sanctions"
       ]
+     ],
+     "kwe": [
+      "increase",
+      "length",
+      "detentions"
      ]
     },
     {
@@ -3536,25 +3860,30 @@
        "consequences"
       ],
       [
-       "short",
-       "interventions",
-       "fresh"
+       "routine interventions",
+       "fresh start",
+       "behaviour"
       ],
       [
-       "advance",
+       "longer detentions",
        "plans",
        "transparency"
       ],
       [
-       "equity",
        "planner",
-       "information"
+       "accessible information",
+       "school decisions"
       ],
       [
-       "guidance",
-       "advance",
-       "whereabouts"
+       "DfE guidance",
+       "advance notice",
+       "child’s whereabouts"
       ]
+     ],
+     "kwe": [
+      "communicate",
+      "systems",
+      "detentions"
      ]
     },
     {
@@ -3592,23 +3921,28 @@
      ],
      "kw": [
       [
-       "response",
-       "falls",
-       "below"
+       "significant response",
+       "behaviour",
+       "expectations"
       ],
       [
-       "understand",
+       "families",
        "seriousness",
        "incident"
       ],
       [
-       "opportunity",
-       "reflection reset"
+       "reflection",
+       "expectations"
       ],
       [
        "suspensions",
-       "permanent exclusions"
+       "permanent exclusions",
+       "standards"
       ]
+     ],
+     "kwe": [
+      "extended",
+      "persistent or serious incidents"
      ]
     },
     {
@@ -3648,29 +3982,33 @@
      "kw": [
       [
        "expectations",
-       "regardless",
        "circumstance"
       ],
       [
-       "prioritise",
-       "commitments",
-       "skill"
+       "managing commitments",
+       "essential life skill",
+       "adulthood"
       ],
       [
-       "avoid",
        "variability",
-       "undermine"
+       "shared sense",
+       "justice"
       ],
       [
-       "detentions",
-       "advance",
+       "longer detentions",
+       "parents/carers",
        "arrangements"
       ],
       [
        "adaptability",
        "commitments",
-       "responsibilities"
+       "adult life"
       ]
+     ],
+     "kwe": [
+      "exempt",
+      "external commitments",
+      "seasonal factors"
      ]
     },
     {
@@ -3708,21 +4046,26 @@
       [
        "punctuality",
        "attendance",
-       "fundamental"
+       "success"
       ],
       [
-       "curriculum coverage",
-       "maintained"
+       "learning time",
+       "curriculum coverage"
       ],
       [
        "reliability",
-       "professionalism",
-       "workplaces"
+       "future workplaces",
+       "careers"
       ],
       [
-       "economic disadvantage",
-       "affect"
+       "curriculum",
+       "catch",
+       "gaps"
       ]
+     ],
+     "kwe": [
+      "issue detentions",
+      "unauthorised absence"
      ]
     },
     {
@@ -3755,7 +4098,8 @@
      ],
      "kw": [
       [
-       "coverage",
+       "knowledge gaps",
+       "curriculum coverage",
        "individual circumstances"
       ],
       [
@@ -3763,6 +4107,10 @@
        "absence",
        "barrier"
       ]
+     ],
+     "kwe": [
+      "catch",
+      "school hours"
      ]
     },
     {
@@ -3800,13 +4148,18 @@
      ],
      "kw": [
       [
-       "organisation independence",
+       "organisation",
+       "independence",
        "readiness"
       ],
       [
-       "protected",
+       "learning time",
        "avoidable disruption"
       ]
+     ],
+     "kwe": [
+      "issue detentions",
+      "missing or incomplete equipment"
      ]
     },
     {
@@ -3844,19 +4197,21 @@
      ],
      "kw": [
       [
-       "independent",
-       "academic",
-       "professional"
+       "independent study habits",
+       "future academic and professional success"
       ],
       [
-       "consolidated",
-       "beyond",
+       "learning",
        "classroom"
       ],
       [
        "expectations",
-       "maintained"
+       "gaps"
       ]
+     ],
+     "kwe": [
+      "sanction poor-quality or incomplete homework",
+      "incomplete"
      ]
     },
     {
@@ -3894,30 +4249,37 @@
      "kw": [
       [
        "wider class",
-       "interruption"
+       "interruption",
+       "loss"
       ],
       [
-       "significant disruption",
-       "immediate"
+       "repeated or significant disruption",
+       "immediate consequences"
       ],
       [
-       "continue",
-       "teacher",
-       "environment"
+       "curriculum content",
+       "supervised setting",
+       "classroom teacher"
       ],
       [
-       "longer-term",
+       "student’s progress",
+       "likelihood",
        "behavioural escalation"
       ],
       [
        "successful frame",
-       "limit"
+       "mind",
+       "continued disruption"
       ],
       [
        "suspensions",
-       "still",
        "standards"
       ]
+     ],
+     "kwe": [
+      "remove",
+      "persistent or serious disruption",
+      "infringements"
      ]
     },
     {
@@ -3953,20 +4315,24 @@
      ],
      "kw": [
       [
-       "prioritise",
-       "long-term",
-       "interests"
+       "term best interests",
+       "communication",
+       "structured and purposeful way"
       ],
       [
-       "re-establishes",
-       "importance",
-       "partnership"
+       "reset point",
+       "partnership",
+       "student’s progress"
       ],
       [
-       "responsibility",
-       "agreement",
-       "foundation"
+       "shared responsibility",
+       "student’s success",
+       "vital foundation"
       ]
+     ],
+     "kwe": [
+      "circulation",
+      "engagement"
      ]
     },
     {
@@ -4005,19 +4371,25 @@
      ],
      "kw": [
       [
-       "expectations",
+       "school expectations",
        "standards",
        "exception"
       ],
       [
        "boundaries",
-       "expectations",
-       "meaningful"
+       "student body",
+       "expectations"
       ],
       [
-       "environment",
-       "order pride"
+       "calm, professional environment",
+       "shared standards",
+       "pride"
       ]
+     ],
+     "kwe": [
+      "remove",
+      "circulation",
+      "uniform or appearance code breaches"
      ]
     },
     {
@@ -4053,17 +4425,22 @@
      "kw": [
       [
        "peers",
+       "work",
        "classroom teacher"
       ],
       [
-       "remain",
        "visible",
        "guided"
       ],
       [
-       "given",
-       "re-engage"
+       "engage",
+       "learning"
       ]
+     ],
+     "kwe": [
+      "require",
+      "removed students",
+      "work"
      ]
     },
     {
@@ -4105,18 +4482,22 @@
      ],
      "kw": [
       [
-       "regulate",
-       "complete",
-       "reintegration"
+       "behaviour",
+       "missed work",
+       "successful reintegration"
       ],
       [
        "meaningful reflection",
        "actions"
       ],
       [
-       "rebuild self-control",
+       "self-control",
        "readiness"
       ]
+     ],
+     "kwe": [
+      "removal",
+      "reset"
      ]
     },
     {
@@ -4155,19 +4536,21 @@
      "kw": [
       [
        "relationships",
-       "teachers",
-       "repaired"
+       "teachers"
       ],
       [
-       "understand",
-       "impact",
-       "others"
+       "behaviour",
+       "learning"
       ],
       [
        "reset",
-       "returning",
        "classroom"
       ]
+     ],
+     "kwe": [
+      "require",
+      "restorative conversations",
+      "reintegration"
      ]
     },
     {
@@ -4205,17 +4588,16 @@
      ],
      "kw": [
       [
-       "together",
-       "changing",
+       "home and school work",
        "behaviour"
       ],
       [
-       "message",
-       "consequences",
-       "environments"
+       "shared, consistent message",
+       "expectations",
+       "consequences"
       ],
       [
-       "point",
+       "reset point",
        "seriousness",
        "improvement"
       ],
@@ -4224,6 +4606,11 @@
        "isolation",
        "development"
       ]
+     ],
+     "kwe": [
+      "expect",
+      "parental meeting",
+      "removal"
      ]
     },
     {
@@ -4261,19 +4648,20 @@
      "kw": [
       [
        "seriousness",
-       "actions",
-       "community"
+       "actions"
       ],
       [
        "standards",
-       "maintained",
-       "environment"
+       "safe, calm and orderly learning environment"
       ],
       [
-       "given",
-       "opportunity",
-       "mainstream"
+       "structured opportunity",
+       "mainstream learning"
       ]
+     ],
+     "kwe": [
+      "suspensions",
+      "sanction"
      ]
     },
     {
@@ -4308,14 +4696,19 @@
      ],
      "kw": [
       [
-       "organisers",
-       "unrealistic administrative"
+       "knowledge organisers",
+       "curriculum booklets",
+       "unrealistic administrative burden"
       ],
       [
-       "collate",
-       "timeframes",
-       "timetables"
+       "multiple subjects",
+       "tight timeframes",
+       "busy timetables"
       ]
+     ],
+     "kwe": [
+      "existing curriculum resources",
+      "shorter suspensions"
      ]
     },
     {
@@ -4350,19 +4743,25 @@
      ],
      "kw": [
       [
-       "continue",
-       "meaningful",
+       "learning",
+       "meaningful and coordinated way",
        "subjects"
       ],
       [
-       "despite",
-       "administrative",
+       "materials",
+       "multiple teachers",
        "continuity"
       ],
       [
-       "carers",
+       "parents/carers",
+       "learning",
        "exclusion period"
       ]
+     ],
+     "kwe": [
+      "provide",
+      "structured work",
+      "longer suspensions"
      ]
     },
     {
@@ -4397,18 +4796,25 @@
      ],
      "kw": [
       [
-       "expectations moving forward"
+       "shared understanding",
+       "home",
+       "expectations"
       ],
       [
+       "behaviour",
        "partnership",
-       "consistency",
-       "environments"
+       "consistency"
       ],
       [
-       "return",
        "clarity",
-       "accountability"
+       "accountability",
+       "future success"
       ]
+     ],
+     "kwe": [
+      "expect",
+      "formal reintegration meeting",
+      "parents/carers"
      ]
     },
     {
@@ -4451,13 +4857,19 @@
       ],
       [
        "expectations",
-       "environment",
+       "structured environment",
        "reintegration"
       ],
       [
        "readiness",
-       "immediate recurrence"
+       "immediate recurrence",
+       "poor behaviour"
       ]
+     ],
+     "kwe": [
+      "place",
+      "mainstream lessons",
+      "break periods"
      ]
     }
    ]
@@ -4509,33 +4921,38 @@
      "kw": [
       [
        "equality",
-       "differences",
-       "cohesion"
+       "visible differences",
+       "social cohesion"
       ],
       [
-       "identity",
-       "sense",
-       "community"
+       "shared identity",
+       "belonging"
       ],
       [
        "cliques",
-       "self-confidence",
-       "certain"
+       "negative groups",
+       "certain trends"
       ],
       [
-       "organisation",
-       "habitual",
-       "aspects"
+       "aspects",
+       "education",
+       "study skills"
       ],
       [
-       "appearance",
        "comparison",
+       "potential bullying issues",
        "appearance"
       ],
       [
        "professional environments",
-       "presentation"
+       "presentation",
+       "standards"
       ]
+     ],
+     "kwe": [
+      "expect",
+      "journey",
+      "school events"
      ]
     },
     {
@@ -4575,15 +4992,19 @@
      ],
      "kw": [
       [
-       "choose",
        "uniform",
-       "identity"
+       "identity",
+       "wellbeing"
       ],
       [
        "inclusion",
-       "system",
-       "confident"
+       "structured system"
       ]
+     ],
+     "kwe": [
+      "offer",
+      "uniform options",
+      "gender"
      ]
     },
     {
@@ -4633,14 +5054,19 @@
        "expectations"
       ],
       [
-       "equality simplicity",
+       "equality",
+       "simplicity",
        "professionalism"
       ],
       [
        "situations",
-       "expectations",
-       "unclear"
+       "expectations"
       ]
+     ],
+     "kwe": [
+      "require",
+      "elements",
+      "Uniform"
      ]
     },
     {
@@ -4689,15 +5115,19 @@
        "upheld"
       ],
       [
-       "meaningful",
-       "taken",
-       "community"
+       "standards",
+       "visible"
       ],
       [
        "responsibility",
        "self-discipline",
-       "beyond"
+       "success"
       ]
+     ],
+     "kwe": [
+      "apply",
+      "uniform breaches",
+      "normal circulation"
      ]
     },
     {
@@ -4741,12 +5171,17 @@
       [
        "inclusion",
        "respect",
-       "individual"
+       "individual needs"
       ],
       [
        "adjustments",
-       "maintaining consistency"
+       "consistency"
       ]
+     ],
+     "kwe": [
+      "allow",
+      "protected characteristics",
+      "sincere religious observance"
      ]
     },
     {
@@ -4788,14 +5223,19 @@
      ],
      "kw": [
       [
-       "display brands",
+       "pressure",
+       "brands",
        "trends"
       ],
       [
        "consistency",
-       "clarity",
-       "maintained"
+       "clarity"
       ]
+     ],
+     "kwe": [
+      "require",
+      "thermals",
+      "vests"
      ]
     },
     {
@@ -4837,17 +5277,21 @@
      ],
      "kw": [
       [
-       "dressed",
        "formal",
-       "environment"
+       "formal learning environment"
       ],
       [
        "expectations"
       ],
       [
-       "prepare",
+       "standards",
        "professional settings"
       ]
+     ],
+     "kwe": [
+      "allow",
+      "trainers",
+      "PE"
      ]
     },
     {
@@ -4890,11 +5334,10 @@
      "kw": [
       [
        "confidence",
-       "conform",
-       "appearance"
+       "pressure",
+       "appearance trends"
       ],
       [
-       "opportunities",
        "comparison",
        "bullying"
       ],
@@ -4903,6 +5346,11 @@
        "character",
        "appearance"
       ]
+     ],
+     "kwe": [
+      "allow",
+      "artificial eyelashes",
+      "eyebrows"
      ]
     },
     {
@@ -4947,20 +5395,22 @@
      ],
      "kw": [
       [
-       "uniform",
-       "simple",
-       "equitable"
+       "uniform expectations",
+       "simple"
       ],
       [
-       "opportunities",
        "comparison",
        "bullying"
       ],
       [
        "safety",
-       "practicality",
-       "maintained"
+       "practicality"
       ]
+     ],
+     "kwe": [
+      "allow",
+      "nail varnish",
+      "artificial nails"
      ]
     },
     {
@@ -5005,13 +5455,18 @@
        "safeguarding"
       ],
       [
-       "expectations remain"
+       "expectations"
       ],
       [
        "success",
        "possibility",
        "markings"
       ]
+     ],
+     "kwe": [
+      "allow",
+      "skin",
+      "visible tattoos"
      ]
     },
     {
@@ -5053,25 +5508,33 @@
      ],
      "kw": [
       [
-       "follow",
+       "pressure",
+       "trends",
        "particular styles"
       ],
       [
-       "comparison judgement",
-       "appearance"
+       "comparison",
+       "judgement",
+       "bullying"
       ],
       [
-       "character effort",
-       "conduct"
+       "culture",
+       "character",
+       "effort"
       ],
       [
-       "social equity",
+       "greater social equity",
+       "expectations",
        "disadvantage"
       ],
       [
        "safeguarding",
        "visibility"
       ]
+     ],
+     "kwe": [
+      "expectations",
+      "hair"
      ]
     },
     {
@@ -5118,8 +5581,7 @@
      "kw": [
       [
        "safety",
-       "maintained",
-       "practical"
+       "practical lessons"
       ],
       [
        "uniformity",
@@ -5127,20 +5589,24 @@
        "inequality"
       ],
       [
-       "vulnerable",
-       "attention",
-       "community"
+       "theft",
+       "unwanted attention"
       ],
       [
-       "examination",
-       "non-compliance",
-       "examinations"
+       "smart watches",
+       "-",
+       "public examinations"
       ],
       [
-       "watches",
+       "smart watches",
        "substitutes",
-       "phones"
+       "mobile phones"
       ]
+     ],
+     "kwe": [
+      "require",
+      "jewellery",
+      "single pair"
      ]
     },
     {
@@ -5191,9 +5657,13 @@
       ],
       [
        "safeguarding",
-       "communication",
-       "maintained"
+       "communication"
       ]
+     ],
+     "kwe": [
+      "allow",
+      "academy headscarf",
+      "visibility"
      ]
     }
    ]
@@ -5241,24 +5711,29 @@
      ],
      "kw": [
       [
-       "day-to-day",
+       "parents",
        "successes",
        "sanctions"
       ],
       [
-       "conversations",
-       "reflection improvement"
+       "structured conversations",
+       "improvement",
+       "routines"
       ],
       [
-       "inclusive",
-       "accessible",
+       "families",
+       "digital devices",
        "technology"
       ],
       [
-       "organisation",
+       "developing organisation",
        "responsibility",
-       "written"
+       "written communication"
       ]
+     ],
+     "kwe": [
+      "school planner",
+      "primary method"
      ]
     },
     {
@@ -5299,25 +5774,29 @@
      ],
      "kw": [
       [
-       "channels",
-       "informal",
-       "routes"
+       "urgent issues",
+       "designated channels",
+       "informal or fragmented communication routes"
       ],
       [
-       "misunderstood",
-       "exchanges",
+       "intent",
+       "written exchanges",
        "miscommunication"
       ],
       [
-       "communication",
-       "impact",
+       "staff and parents/carers",
+       "untimely or emotionally charged communication",
        "context"
       ],
       [
-       "queries",
-       "attention",
-       "front"
+       "care",
+       "individual queries",
+       "attention"
       ]
+     ],
+     "kwe": [
+      "email",
+      "direct method"
      ]
     },
     {
@@ -5356,17 +5835,20 @@
      "kw": [
       [
        "urgent messages",
-       "member"
+       "directed"
       ],
       [
        "communication",
-       "priority",
-       "manner"
+       "priority concerns",
+       "timely manner"
       ],
       [
-       "focus",
-       "teaching"
+       "teaching and student support"
       ]
+     ],
+     "kwe": [
+      "reception",
+      "point"
      ]
     },
     {
@@ -5406,20 +5888,25 @@
      ],
      "kw": [
       [
-       "flexible",
-       "accessible",
-       "communicate"
+       "busy families",
+       "flexible and accessible way",
+       "phone"
       ],
       [
-       "non-urgent",
-       "manageable",
-       "response"
+       "non-urgent queries",
+       "consistency",
+       "fairness"
       ],
       [
-       "disrupt",
+       "teaching",
        "processes",
-       "workload"
+       "staff workload"
       ]
+     ],
+     "kwe": [
+      "provide",
+      "dedicated non-urgent email inbox",
+      "parents"
      ]
     },
     {
@@ -5460,20 +5947,24 @@
      ],
      "kw": [
       [
-       "coherent",
-       "frequent",
-       "communications"
+       "families",
+       "regular, coherent updates",
+       "progress"
       ],
       [
-       "engage",
-       "information",
-       "convenient"
+       "parents",
+       "carers",
+       "information"
       ],
       [
-       "communication",
        "fairness",
-       "clarity"
+       "clarity",
+       "families"
       ]
+     ],
+     "kwe": [
+      "online platform",
+      "letters"
      ]
     },
     {
@@ -5515,19 +6006,25 @@
      ],
      "kw": [
       [
-       "child’s",
+       "child’s progress",
        "strengths",
        "steps"
       ],
       [
-       "relationships",
+       "school relationships",
        "consistency",
        "expectations"
       ],
       [
-       "progress",
-       "attendance priorities"
+       "timely and shared understanding",
+       "academic progress",
+       "behaviour and attendance priorities"
       ]
+     ],
+     "kwe": [
+      "expect",
+      "attendance meetings",
+      "behaviour meetings"
      ]
     }
    ]
@@ -5569,15 +6066,18 @@
      ],
      "kw": [
       [
-       "welfare",
-       "monitored",
-       "concerns"
+       "student welfare",
+       "monitored"
       ],
       [
        "continuity",
-       "maintained",
        "possible"
       ]
+     ],
+     "kwe": [
+      "expect",
+      "absence",
+      "parents/carers"
      ]
     },
     {
@@ -5619,10 +6119,14 @@
        "understood"
       ],
       [
-       "safeguarded",
        "monitoring",
        "communication"
       ]
+     ],
+     "kwe": [
+      "require",
+      "explanations",
+      "absence"
      ]
     },
     {
@@ -5661,14 +6165,19 @@
      ],
      "kw": [
       [
-       "minimised",
-       "aligned",
+       "learning gaps",
        "peers"
       ],
       [
        "responsibility",
+       "learning",
        "progress"
       ]
+     ],
+     "kwe": [
+      "require",
+      "missed work",
+      "absence"
      ]
     },
     {
@@ -5706,11 +6215,16 @@
      ],
      "kw": [
       [
+       "learning time",
        "protected"
       ],
       [
        "treated"
       ]
+     ],
+     "kwe": [
+      "holidays",
+      "term time"
      ]
     },
     {
@@ -5749,18 +6263,23 @@
      ],
      "kw": [
       [
-       "begins",
-       "disrupted"
+       "learning",
+       "begins"
       ],
       [
        "punctuality",
        "responsibility",
-       "prepare"
+       "adult life"
       ],
       [
        "account",
-       "safeguarding"
+       "site"
       ]
+     ],
+     "kwe": [
+      "expect",
+      "site",
+      "gates"
      ]
     },
     {
@@ -5800,12 +6319,16 @@
      "kw": [
       [
        "attendance",
-       "recorded",
        "monitored"
       ],
       [
        "accounted"
       ]
+     ],
+     "kwe": [
+      "require",
+      "Reception",
+      "Head"
      ]
     },
     {
@@ -5841,13 +6364,18 @@
      ],
      "kw": [
       [
-       "receive"
+       "receive",
+       "care"
       ],
       [
-       "aware",
        "wellbeing",
        "respond"
       ]
+     ],
+     "kwe": [
+      "require",
+      "illness",
+      "injury"
      ]
     },
     {
@@ -5884,14 +6412,17 @@
      ],
      "kw": [
       [
-       "remain",
-       "accounted",
-       "during"
+       "accounted"
       ],
       [
        "medical needs",
-       "controlled"
+       "structured and controlled way"
       ]
+     ],
+     "kwe": [
+      "require",
+      "permission",
+      "visits"
      ]
     },
     {
@@ -5930,8 +6461,12 @@
       [],
       [
        "parents",
-       "decisions regarding"
+       "decisions"
       ]
+     ],
+     "kwe": [
+      "contact parents",
+      "carers"
      ]
     },
     {
@@ -5969,14 +6504,19 @@
      ],
      "kw": [
       [
-       "health needs",
+       "student health needs",
        "managed"
       ],
       [
        "position",
        "medication",
-       "authorisation"
+       "proper authorisation"
       ]
+     ],
+     "kwe": [
+      "require",
+      "written parental consent",
+      "procedures"
      ]
     },
     {
@@ -6019,15 +6559,19 @@
        "safeguarding"
       ],
       [
-       "aware",
-       "authorise",
-       "absence"
+       "parents",
+       "carers"
       ],
       [
        "records",
-       "maintained",
-       "movement"
+       "student movement",
+       "site"
       ]
+     ],
+     "kwe": [
+      "require",
+      "absence requests",
+      "Head"
      ]
     },
     {
@@ -6064,18 +6608,18 @@
      ],
      "kw": [
       [
-       "close",
-       "strengthen",
-       "improve"
+       "targeted academic support",
+       "gaps",
+       "outcomes"
       ],
       [
-       "additional",
-       "places",
-       "taken"
+       "teaching time",
+       "public resources",
+       "staffing"
       ],
       [
        "commitment",
-       "responsibility towards"
+       "responsibility"
       ],
       [
        "structure",
@@ -6084,8 +6628,14 @@
       ],
       [
        "stressful periods",
+       "structured revision",
        "overwhelm"
       ]
+     ],
+     "kwe": [
+      "require",
+      "attendance",
+      "school interventions"
      ]
     },
     {
@@ -6127,14 +6677,18 @@
        "attendance"
       ],
       [
-       "transparent",
-       "accessible",
+       "expectations",
        "families"
       ],
       [
-       "communication remains",
+       "communication",
        "reliable"
       ]
+     ],
+     "kwe": [
+      "provide",
+      "formal written notice",
+      "compulsory sessions"
      ]
     },
     {
@@ -6173,8 +6727,7 @@
      ],
      "kw": [
       [
-       "remain",
-       "keeping",
+       "learning time",
        "peers"
       ],
       [
@@ -6182,6 +6735,11 @@
        "focus",
        "progress"
       ]
+     ],
+     "kwe": [
+      "require",
+      "sessions",
+      "illness"
      ]
     },
     {
@@ -6224,12 +6782,17 @@
       ],
       [
        "accountable",
-       "completing missed"
+       "missed learning"
       ],
       [
        "communication",
-       "proactive"
+       "home"
       ]
+     ],
+     "kwe": [
+      "require",
+      "planned absence",
+      "sessions"
      ]
     },
     {
@@ -6267,22 +6830,25 @@
      ],
      "kw": [
       [
-       "importance",
-       "additional",
-       "place"
+       "attending",
+       "benefit"
       ],
       [
-       "allocated resources",
-       "respected"
+       "allocated",
+       "allocated resources"
       ],
       [
-       "expectations remain"
+       "expectations"
       ],
       [
        "accountable",
-       "still",
-       "complete"
+       "missed learning"
       ]
+     ],
+     "kwe": [
+      "apply",
+      "addition",
+      "sessions"
      ]
     }
    ]
@@ -6321,9 +6887,13 @@
      "kw": [
       [
        "responsive",
-       "reactive",
-       "crisis-driven"
+       "driven"
       ]
+     ],
+     "kwe": [
+      "identify",
+      "SEND student",
+      "graduated approach"
      ]
     },
     {
@@ -6353,13 +6923,18 @@
      "kw": [
       [
        "confidence",
-       "self-belief",
-       "advocate"
+       "self-belief"
       ],
       [
-       "interests drive",
+       "families",
+       "child’s best interests",
        "decision"
       ]
+     ],
+     "kwe": [
+      "champion",
+      "student’s strengths",
+      "centre"
      ]
     },
     {
@@ -6389,9 +6964,14 @@
      ],
      "kw": [
       [
-       "reason",
-       "narrow opportunity"
+       "low expectations",
+       "SEND",
+       "reason"
       ]
+     ],
+     "kwe": [
+      "expectations",
+      "SEND"
      ]
     },
     {
@@ -6419,10 +6999,15 @@
      ],
      "kw": [
       [
-       "foremost",
+       "classroom",
        "dependency",
        "intervention"
       ]
+     ],
+     "kwe": [
+      "invest",
+      "quality, inclusive teaching",
+      "foundation"
      ]
     },
     {
@@ -6452,10 +7037,15 @@
      ],
      "kw": [
       [
-       "expert",
+       "expert support",
        "teacher",
-       "specialist"
+       "specialist staff"
       ]
+     ],
+     "kwe": [
+      "train",
+      "teachers",
+      "inclusive teaching strategies"
      ]
     },
     {
@@ -6487,9 +7077,14 @@
      "kw": [
       [
        "ambiguity",
-       "unpredictability",
-       "everywhere"
+       "grey areas",
+       "rules"
       ]
+     ],
+     "kwe": [
+      "maintain",
+      "routines",
+      "classroom"
      ]
     },
     {
@@ -6518,10 +7113,15 @@
      ],
      "kw": [
       [
-       "cognitive",
-       "otherwise",
-       "unknown"
+       "cognitive load",
+       "mental energy",
+       "unknown or managing anxiety"
       ]
+     ],
+     "kwe": [
+      "build",
+      "predictable structures",
+      "calm environments"
      ]
     },
     {
@@ -6552,9 +7152,15 @@
      ],
      "kw": [
       [
-       "practical",
-       "emotional capabilities"
+       "practical and emotional capabilities",
+       "adult life",
+       "increasing confidence"
       ]
+     ],
+     "kwe": [
+      "teach",
+      "independence",
+      "self-regulation and life skills"
      ]
     },
     {
@@ -6584,14 +7190,20 @@
      ],
      "kw": [
       [
-       "evidence",
-       "demonstrable",
-       "attainment"
+       "approaches",
+       "robust evidence",
+       "demonstrable impact"
       ],
       [
-       "diagnostic",
-       "evidence suggests"
+       "diagnostic label",
+       "specific barriers",
+       "meaningful outcomes"
       ]
+     ],
+     "kwe": [
+      "considered",
+      "sensory tools",
+      "ear defenders"
      ]
     },
     {
@@ -6625,29 +7237,33 @@
      "kw": [
       [
        "strategies",
-       "interventions",
+       "underlying difficulty",
        "improvements"
       ],
       [
-       "instruction",
-       "interventions",
-       "comprehension"
+       "explicit instruction",
+       "structured phonics",
+       "underlying barriers"
       ],
       [
-       "features",
-       "transfer",
-       "standard"
+       "surface features",
+       "classroom",
+       "standard printed materials"
       ],
       [
        "self-belief",
-       "assessments",
-       "adaptations"
+       "standardised formats",
+       "assessments"
       ],
       [
-       "adaptive",
-       "practices",
+       "school resources",
+       "reading",
        "comprehension"
       ]
+     ],
+     "kwe": [
+      "coloured overlays",
+      "tinted lenses"
      ]
     },
     {
@@ -6676,9 +7292,15 @@
      ],
      "kw": [
       [
-       "relational",
-       "specialist expertise"
+       "relational consistency",
+       "specialist expertise",
+       "foundations"
       ]
+     ],
+     "kwe": [
+      "provide",
+      "small group classes",
+      "complex SEND students"
      ]
     },
     {
@@ -6709,10 +7331,13 @@
      ],
      "kw": [
       [
-       "movement",
        "regression",
        "stagnation"
       ]
+     ],
+     "kwe": [
+      "track",
+      "shared data and review evidence"
      ]
     },
     {
@@ -6745,27 +7370,33 @@
      ],
      "kw": [
       [
-       "build independence",
-       "reliant"
+       "independence",
+       "adult"
       ],
       [
-       "dependent",
-       "instead",
-       "self-regulation"
+       "single adult",
+       "self-regulation",
+       "resilience"
       ],
       [
        "confidence",
-       "presence",
-       "beside"
+       "self",
+       "presence"
       ],
       [
-       "self-initiate",
+       "encouraged",
        "adult prompts"
       ],
       [
-       "recommendations",
-       "Education Endowment"
+       "lead",
+       "line",
+       "Education Endowment Fund"
       ]
+     ],
+     "kwe": [
+      "teaching",
+      "child",
+      "extra adult help"
      ]
     },
     {
@@ -6796,9 +7427,14 @@
      "kw": [
       [
        "dependency",
-       "independence",
-       "central"
+       "goal",
+       "student’s journey"
       ]
+     ],
+     "kwe": [
+      "reduce",
+      "confidence",
+      "capability"
      ]
     },
     {
@@ -6829,10 +7465,15 @@
      ],
      "kw": [
       [
-       "opportunity",
-       "discover",
-       "strengths"
+       "strengths",
+       "relationships",
+       "academic curriculum"
       ]
+     ],
+     "kwe": [
+      "ensure",
+      "SEND students",
+      "broad, ambitious co-curricular and enrichment offer"
      ]
     }
    ]
