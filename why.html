@@ -192,7 +192,6 @@ html{font-size:clamp(16px,.9vw + 7px,24px)}
 }
 body{font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;transition:background .2s,color .2s}
 button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid var(--text);outline-offset:2px}
-#mode-knowledge li{max-width:75ch}
 .app{max-width:45rem;margin:0 auto;padding:1.5rem 1rem 4rem}
 h1{font-family:Arial,Helvetica,sans-serif;font-size:1.55rem;font-weight:600;margin-bottom:.2rem}
 .subtitle{font-size:.82rem;color:var(--muted);margin-bottom:1.75rem}
@@ -404,10 +403,6 @@ select.sel-p3{background:#EAE9FC;color:#2B267E;border-color:#4F46E5}
   :root.dark #rq-one-a { color:#6EE7B7 !important; }
   :root.dark .btn-sm[onclick*="rqOneAnswer(true)"] { background:#1a3d2e !important; color:#6EE7B7 !important; border-color:#6EE7B7 !important; }
 /* KC mode readability */
-#mode-knowledge .card-heading { font-size:1.05rem; margin-bottom:.75rem; line-height:1.4; text-decoration:underline; text-underline-offset:3px; }
-#mode-knowledge ul { margin:.25rem 0 0; padding-left:1.1rem; }
-#mode-knowledge li { font-size:.88rem; line-height:1.75; margin-bottom:.35rem; }
-#mode-knowledge .kc-summary { font-size:.88rem; font-style:italic; color:var(--muted); margin-bottom:.9rem; line-height:1.6; }
 
 @keyframes cd-pop { 0%{transform:scale(.7);opacity:0} 40%{transform:scale(1.15)} 70%{transform:scale(.95)} 100%{transform:scale(1);opacity:1} }
 #d-countdown-num { animation:cd-pop .35s ease forwards; }
@@ -450,12 +445,6 @@ select.sel-p3{background:#EAE9FC;color:#2B267E;border-color:#4F46E5}
   body { background:#fff !important; color:#000 !important; }
   .app { max-width:100%; padding:.5rem; }
   /* KB: show current card with hints and facts revealed */
-  #mode-knowledge .card { break-inside:avoid; border:1px solid #ccc; margin-bottom:.75rem; box-shadow:none; }
-  #mode-knowledge .reveal { display:block !important; }
-  #mode-knowledge .card-heading { font-size:1.1rem; font-weight:700; }
-  #mode-knowledge .reveal li { font-size:.85rem; }
-  #mode-knowledge .stripe { display:none; }
-  #mode-knowledge .inner { padding-left:0; }
   /* Exam: show question card with indicative content revealed */
   #mode-exam .card { break-inside:avoid; border:1px solid #ccc; margin-bottom:.75rem; box-shadow:none; }
   #mode-exam .reveal { display:block !important; }
@@ -1203,19 +1192,7 @@ select.sel-p3{background:#EAE9FC;color:#2B267E;border-color:#4F46E5}
     </div>
   </div>
 
-  <!-- KNOWLEDGE -->
-  <div id="mode-knowledge" style="display:none">
-    <div class="filter-row" style="margin-bottom:.75rem">
-      <select id="k-unit" onchange="onUnitChange()"><option value="">— select a unit —</option><option value="all">All units</option></select>
-      <select id="k-card" onchange="jumpToCard()"><option value="">— select a topic —</option></select>
-    </div>
-    <div id="k-out" style="margin-bottom:.75rem"></div>
-    <div style="display:flex;gap:8px;margin-bottom:.75rem">
-      <button class="btn-sm" onclick="stepCard(-1)" style="flex:1;padding:9px;font-size:.85rem;font-weight:600;text-align:center">← Prev</button>
-      <button class="btn-sm" onclick="stepCard(1)" style="flex:1;padding:9px;font-size:.85rem;font-weight:600;text-align:center">Next →</button>
-    </div>
-    <span id="k-card-num" style="display:none"></span>
-  </div>
+  <div id="mode-knowledge" style="display:none"><select id="k-unit"></select><select id="k-card"></select><div id="k-out"></div><span id="k-card-num"></span></div>
 
   <!-- DATES -->
   <div id="mode-dates" style="display:none">
@@ -1886,68 +1863,16 @@ function paperTagClass(p) {
 // ═══════════════════════════════════════════
 // KNOWLEDGE RECALL
 // ═══════════════════════════════════════════
-let kPool = [];
-let kIdx = 0;
+let kPool = [], kIdx = 0;
+function buildKPool(){} function updateNavUI(){} function renderKCard(){} function onUnitChange(){} function stepCard(){} function jumpToCard(){}
 
-function buildKPool() {
-  const unit = document.getElementById('k-unit').value;
-  const cardSel = document.getElementById('k-card');
-  if (!unit) {
-    kPool = [];
-    if (cardSel) cardSel.innerHTML = '<option value="">— select a topic —</option>';
-    return;
-  }
-  let all = KC.filter(c => c.paper === currentPaper && (unit !== 'all' || inScope(c)));
-  const units = P[currentPaper].units;
-  all.sort((a, b) => {
-    const ui = units.indexOf(a.unit);
-    const vi = units.indexOf(b.unit);
-    if (ui !== vi) return ui - vi;
-    return KC.indexOf(a) - KC.indexOf(b);
-  });
-  if (unit !== 'all') all = all.filter(c => c.unit === unit);
-  const unitCounts = {};
-  // All cards for dropdown (including flagged)
-  const allEntries = all.map(c => {
-    const uIdx = units.indexOf(c.unit) + 1;
-    unitCounts[uIdx] = (unitCounts[uIdx] || 0) + 1;
-    return { card: c, num: `${uIdx}.${unitCounts[uIdx]}` };
-  });
-  kPool = allEntries;
-  if (cardSel) {
-    cardSel.innerHTML = '<option value="">— select a topic —</option>' +
-      allEntries.map((entry, i) =>
-        `<option value="dd-${i}">${entry.num} – ${entry.card.heading}</option>`
-      ).join('');
-    cardSel._allEntries = allEntries;
-  }
-}
 
-function onUnitChange() {
-  buildKPool();
-  kIdx = 0;
-  document.getElementById('k-out').innerHTML = '<div style="font-size:.85rem;color:var(--muted);padding:.75rem 0">Select a topic from the dropdown above to begin.</div>';
-  // Reset topic dropdown to placeholder
-  const cardSel = document.getElementById('k-card');
-  if (cardSel) cardSel.value = '';
-}
 
-function updateNavUI() {
-  const cardSel = document.getElementById('k-card');
-  if (cardSel && kPool.length) {
-    const current = kPool[kIdx];
-    const allEntries = cardSel._allEntries || [];
-    const ddIdx = allEntries.findIndex(e => e.card.paper === current.card.paper && e.card.heading === current.card.heading);
-    if (ddIdx !== -1) cardSel.value = 'dd-' + ddIdx;
-  }
-}
 
-function stepCard(dir) {
-  if (!kPool.length) return;
-  kIdx = (kIdx + dir + kPool.length) % kPool.length;
-  renderKCard(kPool[kIdx]);
-  updateNavUI();
-}
+
+
+
+
 
 function updateCardSelect() {} // kept for compatibility
 
@@ -1962,59 +1887,10 @@ function boldHints(text, hints) {
   return out;
 }
 
-function geoCartographer(card) {
-  try {
-    const k = 'cpd_kc_seen', seen = JSON.parse(localStorage.getItem(k) || '{}');
-    seen[card.paper + '|' + card.heading] = 1;
-    localStorage.setItem(k, JSON.stringify(seen));
-    const mine = KC.filter(c => c.paper === card.paper);
-    if (mine.length && mine.every(c => seen[c.paper + '|' + c.heading]) && typeof bdgAward === 'function') bdgAward('cart');
-  } catch (e) {}
-}
-function renderKCard(entry, isInterleaved) {
-  const card = entry.card;
-  const num = entry.num;
-  const factsHtml = '<ul>' + card.facts.map(f =>
-    `<li>${boldHints(f, card.hints)}</li>`
-  ).join('') + '</ul>';
-  document.getElementById('k-out').innerHTML = `
-    <div class="card" data-paper="${card.paper}">
-      <div class="stripe s-${card.paper}"></div>
-      <div class="inner">
-        <div class="meta">
-          <span class="tag t-grey">Paper ${(card.pn||"").replace("p","")}</span>
-          <span class="tag t-grey">${num}</span>
-          <span class="tag t-${card.paper}">${card.unit}</span>
-        </div>
-        <div class="card-heading">${card.heading}</div>
-        ${card.summary ? `<p class="kc-summary">${card.summary}</p>` : ''}
-        ${factsHtml}
-      </div>
-    </div>`;
-}
 
-function jumpToCard() {
-  const val = document.getElementById('k-card').value;
-  if (!val || val === '') return;
-  const cardSel = document.getElementById('k-card');
-  const allEntries = cardSel._allEntries;
-  if (val.startsWith('dd-') && allEntries) {
-    const i = parseInt(val.replace('dd-', ''));
-    if (isNaN(i)) return;
-    const entry = allEntries[i];
-    if (!entry) return;
-    // Find in kPool or render directly (for flagged cards)
-    const poolIdx = kPool.findIndex(e => e.card.paper === entry.card.paper && e.card.heading === entry.card.heading);
-    if (poolIdx !== -1) {
-      kIdx = poolIdx;
-      renderKCard(kPool[kIdx]);
-    } else {
-      // Flagged card - render directly without affecting kIdx
-      renderKCard(entry);
-    }
-    updateNavUI();
-  }
-}
+
+
+
 // ═══════════════════════════════════════════
 // RAPID FIRE DATA
 // ═══════════════════════════════════════════
@@ -6546,7 +6422,7 @@ function cpdRenderLeague() {
   st.textContent = '#home-badges,.paper-badge,.fd-tag,.search-result-meta,.search-result-where,#pg-badges,.pg-badges,#parent-btn,#xp-card,#xp-pop,#bdg-toast,#xp-levelup,#fd-hints-drill-wrap{display:none!important}.paper-grid{gap:6px}.paper-btn{min-width:0;box-sizing:border-box;width:100%;overflow:hidden;padding:.4rem 1.75rem .4rem .45rem;min-height:2.4rem;font-size:.74rem;line-height:1.2;display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:.3rem;border-width:1.5px;border-radius:9px;text-align:left}.paper-btn .plabel{display:none}#s-pick .paper-btn .pbw{display:block;position:absolute;right:.3rem;top:50%;transform:translateY(-50%);width:1.3rem}#s-pick .paper-btn .pbw .fd-wheel{width:1.3rem;height:1.3rem}.paper-btn .pbw text{font-size:0}.paper-btn::after{display:none}.paper-btn .pe{font-size:1.05rem;line-height:1;flex:none}.paper-btn .pn{display:block;flex:1;min-width:0}.pgrp.multi{border-top:1px solid var(--border);padding-top:.7rem;margin-top:.5rem}.pgrp-div{grid-column:1/-1;border-top:1px solid var(--border);margin:.3rem 0 .1rem}.pgrp{color:#16294F}' +
     '.cpd-now{display:none!important;position:absolute;top:-8px;right:8px;font-size:.62rem;font-weight:800;letter-spacing:.03em;text-transform:uppercase;padding:2px 8px;border-radius:9px}.cpd-now.on{background:#16294F;color:#fff}.cpd-now.soon{background:#fff;color:#16294F;border:1px solid #16294F}' +
     '.cq-top{display:flex;justify-content:space-between;font-size:.8rem;color:var(--muted);margin-bottom:.3rem}.cq-bar{height:5px;background:var(--subtle);border-radius:3px;margin-bottom:.9rem}.cq-bar i{display:block;height:5px;background:#16294F;border-radius:3px}' +
-    '.cq-q{font-size:1.05rem;font-weight:700;margin-bottom:.8rem;line-height:1.4}.cq-opt{display:block;width:100%;text-align:left;background:var(--surface);color:var(--text);border:1.5px solid var(--border2);border-radius:12px;padding:.75rem .9rem;margin-bottom:.5rem;font:inherit;font-size:.95rem;line-height:1.4}' +
+    '.cq-q{font-size:.95rem;font-weight:700;margin-bottom:.8rem;line-height:1.4}.cq-opt{display:block;width:100%;text-align:left;background:var(--surface);color:var(--text);border:1.5px solid var(--border2);border-radius:12px;padding:.75rem .9rem;margin-bottom:.5rem;font:inherit;font-size:.95rem;line-height:1.4}' +
     '.cq-opt.ok{background:#E6F4EC;border-color:#1F7A4D;color:#14532D}.cq-opt.no{background:#FBEAE9;border-color:#B3261E;color:#7A1912}' +
     '.cq-fb,.cq-card{background:var(--surface);border:1.5px solid var(--border2);border-radius:14px;padding:.8rem 1rem;margin-top:.6rem}.cq-v{font-weight:700}.cq-v.ok{color:#1F7A4D}.cq-v.no{color:#B3261E}' +
     '.cq-h{font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin:.6rem 0 .15rem}.cq-end{text-align:center;padding:.4rem 0}.cq-sub{font-size:.85rem;color:var(--muted)}.cq-score{font-size:2.4rem;font-weight:800}' +
@@ -6781,6 +6657,19 @@ fdUpdateProgress = function () {
 '.cq-sob .cq-so+.cq-so{border-top:1px solid #cfc8f7!important;padding-top:.6rem!important}' +
 '.cq-ask{font-size:1.2rem;font-weight:800;line-height:1.3;color:var(--text);margin:0 0 .8rem}' +
 '#cpd-who{margin:0!important;padding:.3rem .6rem!important;font-size:.82rem!important;max-width:calc(100% - 150px);overflow:hidden;white-space:nowrap}#cpd-who b{overflow:hidden;text-overflow:ellipsis}@media(max-width:480px){#cpd-who .who-ch{display:none}}';
+document.head.appendChild(st);})();
+goToSearchResult = function (paper, heading) {
+  closeSearch();
+  pickPaper(paper);
+  cpdRead();
+  const norm = s => String(s).replace(/\s+/g, ' ').trim().toLowerCase();
+  const hit = Array.from(document.querySelectorAll('#rd-body .cq-card')).filter(c => norm(c.firstElementChild.textContent) === norm(heading))[0];
+  if (hit) { hit.classList.add('hl'); setTimeout(() => hit.scrollIntoView({block: 'center', behavior: 'smooth'}), 60); setTimeout(() => hit.classList.remove('hl'), 2600); }
+};
+(function () { const st = document.createElement('style'); st.textContent = '#rd-body .cq-card{transition:box-shadow .3s}#rd-body .cq-card.hl{box-shadow:0 0 0 3px #6d5ce8}'; document.head.appendChild(st); })();
+(function(){const st=document.createElement('style');st.textContent=
+'.cq-sob .cq-so{font-size:.95rem!important;font-weight:600!important;line-height:1.45}.cq-ask{font-size:1rem!important;font-weight:700!important;margin:0 0 .6rem!important}.cq-lbl{font-size:.72rem!important}' +
+'.cq-opt{font-size:.9rem!important;line-height:1.4!important;padding:.65rem .8rem!important}.cq-top{font-size:.78rem!important}.cq-fb,.cq-card{font-size:.9rem}.cq-v{font-size:.92rem}.cq-score{font-size:2rem!important}.cq-fb div,#rd-body .cq-card li{font-size:.9rem}#rd-body .cq-card>div:first-child{font-size:.95rem}';
 document.head.appendChild(st);})();
 
 </script>
