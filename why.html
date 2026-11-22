@@ -6227,6 +6227,8 @@ window.hsInstall=function(){
 /* ===== The Why: staff additions (sign-in, match the reason, scenarios, department tracker) ===== */
 const CPD = {
   endpoint: 'https://script.google.com/macros/s/AKfycbwIZDJsyVcJ-MY5EmA5TzB-f8IEPLqFHU06T4ZS-ptk8v7T-LQXupcqxo-4YkKkHxEk/exec',                       // Apps Script web app address (see README). Empty = demo mode on this device only
+  noDept: ['Riverside', 'Parkside', 'Herd Lane'],
+  academies: ['Community', 'Victoria Park', 'Fobbing', 'Port Side', 'Parkside', 'Riverside', 'Herd Lane'],
   teams: ['English','Maths','Science','MFL','Humanities','Art & Tech','Performing Arts','PE','CSD','Support Staff','TAs'],
   days: 14                            // length of the recent window on the tracker
 };
@@ -6242,23 +6244,27 @@ try { localStorage.setItem('cpd_nudge', '1'); } catch (e) {}
 /* ---------- identity: first name and department, asked once ---------- */
 function cpdUser() { try { return JSON.parse(localStorage.getItem('cpd_user') || 'null'); } catch (e) { return null; } }
 function cpdAsk(force) {
-  if (cpdUser() && !force) return;
-  const u = cpdUser() || {name: '', team: ''};
+  if (cpdUser() && cpdUser().academy && !force) return;
+  const u = cpdUser() || {name: '', team: '', academy: ''};
   const o = document.createElement('div'); o.id = 'cpd-ask';
   o.style.cssText = 'position:fixed;inset:0;z-index:9000;background:rgba(10,20,40,.6);display:flex;align-items:center;justify-content:center;padding:18px';
   const fld = 'width:100%;box-sizing:border-box;padding:.7rem;font-size:1rem;border:1.5px solid var(--border2,#ccc);border-radius:10px;background:var(--surface,#fff);color:var(--text,#222)';
-  o.innerHTML = '<div style="background:var(--surface,#fff);color:var(--text,#222);border-radius:16px;max-width:360px;width:100%;padding:20px"><h2 style="margin:0 0 6px;font-size:1.2rem">Welcome</h2><p style="margin:0 0 12px;font-size:.88rem;color:var(--muted,#666)">Your first name and department are used for the department tracker. Nothing else is collected.</p>' +
+  o.innerHTML = '<div style="background:var(--surface,#fff);color:var(--text,#222);border-radius:16px;max-width:360px;width:100%;padding:20px"><h2 style="margin:0 0 6px;font-size:1.2rem">Welcome</h2><p style="margin:0 0 12px;font-size:.88rem;color:var(--muted,#666)">Your first name, academy and department are used for the department tracker. Nothing else is collected.</p>' +
     '<input id="cpd-nm" placeholder="First name" autocomplete="given-name" maxlength="30" value="' + cpdEsc(u.name) + '" style="' + fld + ';margin-bottom:8px">' +
+    '<select id="cpd-ac" style="' + fld + ';margin-bottom:8px"><option value="">Choose your academy</option>' + CPD.academies.map(t => '<option' + (t === u.academy ? ' selected' : '') + '>' + cpdEsc(t) + '</option>').join('') + '</select>' +
     '<select id="cpd-tm" style="' + fld + '"><option value="">Choose your department</option>' + CPD.teams.map(t => '<option' + (t === u.team ? ' selected' : '') + '>' + cpdEsc(t) + '</option>').join('') + '</select>' +
-    '<div id="cpd-er" style="display:none;color:#B3261E;font-size:.85rem;margin-top:8px">Enter your first name and choose a department</div>' +
+    '<div id="cpd-er" style="display:none;color:#B3261E;font-size:.85rem;margin-top:8px">Enter your first name and choose your academy and department</div>' +
     '<button id="cpd-go" class="arc-btn" style="margin-top:12px;width:100%">Continue</button></div>';
   document.body.appendChild(o);
   const go = function () {
-    const n = document.getElementById('cpd-nm').value.trim().split(/\s+/)[0], t = document.getElementById('cpd-tm').value;
+    let t; const n = document.getElementById('cpd-nm').value.trim().split(/\s+/)[0]; t = document.getElementById('cpd-tm').value; const ac = document.getElementById('cpd-ac').value;
     if (n && n.toUpperCase() === 'ADMINUNLOCK') { o.remove(); cpdAdmin(); return; }
-    if (!n || !t) { document.getElementById('cpd-er').style.display = 'block'; return; }
-    localStorage.setItem('cpd_user', JSON.stringify({name: n, team: t})); o.remove(); try { setMenuRender(); } catch (e) {} try { cpdWho(); cpdFeat(); } catch (e) {}
+    if (CPD.noDept.indexOf(ac) > -1) t = ac;
+    if (!n || !t || !ac) { document.getElementById('cpd-er').style.display = 'block'; return; }
+    localStorage.setItem('cpd_user', JSON.stringify({name: n, team: t, academy: ac})); o.remove(); try { setMenuRender(); } catch (e) {} try { cpdWho(); cpdFeat(); } catch (e) {}
   };
+  const sync = function () { const a = document.getElementById('cpd-ac').value; document.getElementById('cpd-tm').style.display = CPD.noDept.indexOf(a) > -1 ? 'none' : ''; };
+  document.getElementById('cpd-ac').onchange = sync; sync();
   document.getElementById('cpd-go').onclick = go;
   document.getElementById('cpd-nm').onkeydown = e => { if (e.key === 'Enter') go(); };
 }
@@ -6268,7 +6274,7 @@ function cpdRecord(set, score, total) {
   if (!total) return;
   const u = cpdUser(), ts = new Date().toISOString();
   try { const L = cpdLogLoad(); L.push({ts, set, score, total}); localStorage.setItem('cpd_log', JSON.stringify(L.slice(-200))); } catch (e) {}
-  if (u && CPD_LIVE) fetch(CPD.endpoint, {method: 'POST', body: JSON.stringify({type: 'score', name: u.name, team: u.team, set, score, total, ts}), keepalive: true}).catch(() => {});
+  if (u && CPD_LIVE) fetch(CPD.endpoint, {method: 'POST', body: JSON.stringify({type: 'score', name: u.name, team: u.team, academy: u.academy || '', set, score, total, ts}), keepalive: true}).catch(() => {});
 }
 /* ---------- schedule highlight (nothing is locked) ---------- */
 const cpdToday = () => { const d = new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); };
@@ -6325,10 +6331,11 @@ function cpdQuiz(title, items, back, again, rec) {
   };
   const end = function () {
     if (rec) cpdRecord(rec, right, items.length);
-    let h = '<div class="cq-end"><div class="cq-sub">Set complete</div><div class="cq-score">' + right + ' of ' + items.length + '</div></div>';
-    if (miss.length) { h += '<div class="cq-h" style="margin:.8rem 0 .3rem">Worth another look</div>'; miss.forEach(it => { h += '<div class="cq-fb" style="margin-bottom:.6rem"><div style="font-weight:600">' + cpdEsc(it.q) + '</div><div class="cq-h">What we do</div><div>' + cpdEsc(cpdWe(it.card.we)) + '</div>' + (it.card.so.length ? '<div class="cq-h">So that</div>' + cpdSoList(it.card) : '') + '</div>'; }); }
+    let h = '<div class="cq-end"><div class="cq-sub">' + (right === items.length && items.length ? 'Full marks' : 'Set complete') + '</div><div class="cq-score">' + right + ' of ' + items.length + '</div></div>';
+    if (miss.length) { h += '<div class="cq-h" style="margin:.8rem 0 .3rem">Worth another look</div>'; miss.forEach(it => { h += '<div class="cq-fb" style="margin-bottom:.6rem"><div class="cq-h" style="margin-top:0">What we do</div><div style="font-weight:600">' + cpdEsc(cpdWe(it.card.we)) + '</div>' + (it.card.so.length ? '<div class="cq-h">So that</div>' + cpdSoList(it.card) : '') + '</div>'; }); }
     h += '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:.6rem">' + (miss.length ? '<button class="arc-btn" id="cq-rt" style="flex:1">Retry missed</button>' : '') + '<button class="arc-btn sec" id="cq-ag" style="flex:1">New set</button><button class="arc-btn sec" id="cq-bk" style="flex:1">Back</button></div>';
     body.innerHTML = h;
+    if (rec && items.length && right === items.length) { try { fdFireConfetti(); } catch (x) {} }
     if (miss.length) document.getElementById('cq-rt').onclick = () => cpdQuiz(title + ' (retry)', cpdShuf(miss), back, again, null);
     document.getElementById('cq-ag').onclick = again; document.getElementById('cq-bk').onclick = back;
   };
@@ -6505,7 +6512,7 @@ function cpdWho() {
   let w = document.getElementById('cpd-who');
   if (!w) { w = document.createElement('button'); w.id = 'cpd-who'; w.onclick = () => cpdAsk(true); host.insertBefore(w, host.firstChild); host.style.display = 'flex'; host.style.alignItems = 'center'; host.style.gap = '8px'; }
   const u = cpdUser(); w.style.display = u ? 'inline-flex' : 'none';
-  if (u) w.innerHTML = '<span style="font-size:1rem">👤</span><b>' + cpdEsc(u.name) + '</b><span style="color:var(--muted)">' + cpdEsc(u.team) + '</span><span class="who-ch" style="color:var(--muted);font-size:.72rem">Change</span>';
+  if (u) w.innerHTML = '<span style="font-size:1rem">👤</span><b>' + cpdEsc(u.name) + '</b><span style="color:var(--muted)">' + cpdEsc(u.team) + (u.academy && u.academy !== u.team ? ', ' + cpdEsc(u.academy) : '') + '</span><span class="who-ch" style="color:var(--muted);font-size:.72rem">Change</span>';
 }
 let CPD_LOADED = 0;
 async function cpdFeat() {
@@ -6678,7 +6685,8 @@ function cpdBoldOnce(html, kws) {
   (kws || []).forEach(k => { const re = new RegExp('(^|[^A-Za-z>])(' + k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')(?![A-Za-z])', 'i'); out = out.replace(re, '$1<strong>$2</strong>'); });
   return out;
 }
-(function(){const st=document.createElement('style');st.textContent='html{font-size:14px}#cpd-unit-h{display:block!important;font-size:1.25rem;font-weight:800;margin:.5rem 0 .7rem;line-height:1.25;color:var(--text)}#cpd-unit-h span{margin-right:.2rem}.tb-btn,#set-btn,#search-btn{font-size:.9rem}';document.head.appendChild(st);})();
+(function(){const st=document.createElement('style');st.textContent='#cpd-unit-h{display:block!important;font-size:1.25rem;font-weight:800;margin:.5rem 0 .7rem;line-height:1.25;color:var(--text)}#cpd-unit-h span{margin-right:.2rem}';document.head.appendChild(st);})();
+(function(){const st=document.createElement('style');st.textContent='.cq-fb .cq-h,#rd-body .cq-card .cq-h{font-size:.68rem!important;font-weight:700}';document.head.appendChild(st);})();
 
 </script>
 </body>
